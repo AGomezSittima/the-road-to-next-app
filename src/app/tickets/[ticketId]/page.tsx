@@ -1,4 +1,8 @@
+import { Placeholder } from "@/components/placeholder";
+import { Button } from "@/components/ui/button";
 import { initialTickets } from "@/data";
+import { ticketsPath } from "@/path";
+import Link from "next/link";
 
 type TicketPageProps = {
   params: {
@@ -11,7 +15,17 @@ const TicketPage = async ({ params }: TicketPageProps) => {
 
   const ticket = initialTickets.find((ticket) => ticket.id === ticketId);
 
-  if (!ticket) return <div>Ticket not found</div>;
+  if (!ticket)
+    return (
+      <Placeholder
+        label="Ticket not found"
+        button={
+          <Button asChild variant="outline">
+            <Link href={ticketsPath()}>Go to Tickets</Link>
+          </Button>
+        }
+      />
+    );
 
   return (
     <div>

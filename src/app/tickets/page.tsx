@@ -1,6 +1,5 @@
-import { initialTickets } from "@/data";
-
 import { Heading } from "@/components/heading";
+import { initialTickets } from "@/data";
 import { TicketItem } from "@/features/ticket/components/ticket-item";
 
 const TicketsPage = () => {

@@ -1,10 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Link from "next/link";
-import { homePath, ticketsPath } from "@/path";
-import { buttonVariants } from "@/components/ui/button";
-import { LucideKanban } from "lucide-react";
 import { Header } from "@/components/header";
 
 const inter = Inter({

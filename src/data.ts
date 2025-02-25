@@ -16,5 +16,5 @@ export const initialTickets = [
     title: "Ticket 3",
     content: "This is the third ticket",
     status: "IN_PROGRESS" as const,
-  }
+  },
 ];

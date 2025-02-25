@@ -12,9 +12,8 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.config({
     extends: ["next/core-web-vitals", "next/typescript", "prettier"],
-    plugins: ["simple-import-sort", "unused-imports"],
+    plugins: ["simple-import-sort"],
     rules: {
-      "unused-imports/no-unused-imports": "error",
       "simple-import-sort/imports": [
         "error",
         { groups: [["^\\u0000", "^@?\\w", "^[^.]"]] },

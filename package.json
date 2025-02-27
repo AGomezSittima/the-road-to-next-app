@@ -10,7 +10,8 @@
     "lint-fix": "next lint --dir src --fix",
     "type": "tsc --noEmit",
     "postinstall": "prisma generate",
-    "prisma-seed": "tsx prisma/seed.ts"
+    "prisma-seed": "tsx prisma/seed.ts",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@prisma/client": "6.4.1",

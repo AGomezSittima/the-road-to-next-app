@@ -1,6 +1,7 @@
-import { FlatCompat } from "@eslint/eslintrc";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+
+import { FlatCompat } from "@eslint/eslintrc";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,7 +17,7 @@ const eslintConfig = [
     rules: {
       "simple-import-sort/imports": [
         "error",
-        { groups: [["^\\u0000", "^\\w", "^@", "^[^.]"]] },
+        { groups: [["^\\u0000", "^\\w", "^[^@.]"], ["^@"]] },
       ],
       "simple-import-sort/exports": "error",
       "import/no-duplicates": "error",

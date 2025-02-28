@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+
 import { CardCompact } from "@/components/card-compact";
 import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";

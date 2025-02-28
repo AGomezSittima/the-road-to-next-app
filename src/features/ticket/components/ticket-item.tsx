@@ -1,4 +1,3 @@
-import { Ticket } from "@prisma/client";
 import {
   LucidePencil,
   LucideSquareArrowOutUpRight,
@@ -9,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { ticketEditPath, ticketPath } from "@/path";
+import { Ticket } from "@prisma/client";
 
 import { deleteTicket } from "../actions/delete-ticket";
 import { TICKET_ICONS } from "../constants";

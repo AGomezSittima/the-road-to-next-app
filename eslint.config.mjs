@@ -16,7 +16,7 @@ const eslintConfig = [
     rules: {
       "simple-import-sort/imports": [
         "error",
-        { groups: [["^\\u0000", "^@?\\w", "^[^.]"]] },
+        { groups: [["^\\u0000", "^\\w", "^@", "^[^.]"]] },
       ],
       "simple-import-sort/exports": "error",
       "import/no-duplicates": "error",

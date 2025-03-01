@@ -4,13 +4,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { ticketsPath } from "@/lib/path";
+import { prisma } from "@/lib/prisma";
 import {
   ActionState,
   fromErrorToActionState,
   toActionState,
-} from "@/components/form/to-action-state";
-import { prisma } from "@/lib/prisma";
-import { ticketsPath } from "@/path";
+} from "@/lib/to-action-state";
 
 const upsertTicketSchema = z.object({
   title: z.string().min(1).max(191),

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { ActionState } from "../to-action-state";
+import { ActionState } from "@/lib/to-action-state";
 
 type OnArgs = {
   actionState: ActionState;

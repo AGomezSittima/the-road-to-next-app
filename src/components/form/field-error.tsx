@@ -1,4 +1,4 @@
-import { ActionState } from "./to-action-state";
+import { ActionState } from "../../lib/to-action-state";
 
 type FieldErrorProps = {
   actionState: ActionState;

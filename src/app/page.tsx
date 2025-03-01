@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Heading } from "@/components/heading";
-import { ticketsPath } from "@/lib/path";
+import { ticketsPath } from "@/utils/path";
 
 const HomePage = () => {
   return (

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 import { deleteCookieByKey, getCookieByKey } from "@/actions/cookies";
-import { appConfig } from "@/lib/app-config";
+import { appConfig } from "@/utils/app-config";
 
 const RedirectToast = () => {
   // pathname shouldn't be needed since this will be used in a template

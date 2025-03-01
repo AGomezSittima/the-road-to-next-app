@@ -1,10 +1,9 @@
 "use client";
 
 import { useActionState, useId } from "react";
-import { toast } from "sonner";
 
 import { FieldError } from "@/components/form/field-error";
-import { useActionFeedback } from "@/components/form/hooks/use-action-feedback";
+import { Form } from "@/components/form/form";
 import { SubmitButton } from "@/components/form/submit-button";
 import { EMPTY_ACTION_STATE } from "@/components/form/to-action-state";
 import { Input } from "@/components/ui/input";
@@ -32,17 +31,8 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
   const titleFieldId = useId();
   const contentFieldId = useId();
 
-  useActionFeedback(actionState, {
-    onSuccess: ({ actionState }) => {
-      if (actionState.message) toast.success(actionState.message);
-    },
-    onError: ({ actionState }) => {
-      if (actionState.message) toast.error(actionState.message);
-    },
-  });
-
   return (
-    <form action={action} className="flex flex-col gap-y-2">
+    <Form action={action} actionState={actionState}>
       <Label htmlFor={titleFieldId}>Title</Label>
       <Input
         type="text"
@@ -67,7 +57,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
       <FieldError actionState={actionState} name={FormFields.Content} />
 
       <SubmitButton label={ticket ? "Edit" : "Create"} isPending={isPending} />
-    </form>
+    </Form>
   );
 };
 

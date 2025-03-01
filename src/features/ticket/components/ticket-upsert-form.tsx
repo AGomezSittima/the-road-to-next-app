@@ -3,6 +3,7 @@
 import { useActionState, useId } from "react";
 
 import { FieldError } from "@/components/form/field-error";
+import { useActionFeedback } from "@/components/form/hooks/use-action-feedback";
 import { SubmitButton } from "@/components/form/submit-button";
 import { EMPTY_ACTION_STATE } from "@/components/form/to-action-state";
 import { Input } from "@/components/ui/input";
@@ -30,6 +31,15 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
   const titleFieldId = useId();
   const contentFieldId = useId();
 
+  useActionFeedback(actionState, {
+    onSuccess: ({ actionState }) => {
+      console.log(actionState.message);
+    },
+    onError: ({ actionState }) => {
+      console.log(actionState.message);
+    },
+  });
+
   return (
     <form action={action} className="flex flex-col gap-y-2">
       <Label htmlFor={titleFieldId}>Title</Label>
@@ -56,7 +66,6 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
       <FieldError actionState={actionState} name={FormFields.Content} />
 
       <SubmitButton label={ticket ? "Edit" : "Create"} isPending={isPending} />
-      {actionState.message}
     </form>
   );
 };

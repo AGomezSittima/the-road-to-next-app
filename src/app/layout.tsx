@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { Toaster } from "sonner";
 
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
@@ -30,6 +31,8 @@ export default function RootLayout({
           <main className="flex min-h-screen flex-1 flex-col overflow-y-auto overflow-x-hidden bg-secondary/20 px-8 py-24">
             {children}
           </main>
+
+          <Toaster expand />
         </ThemeProvider>
       </body>
     </html>

@@ -1,8 +1,11 @@
 "use client";
 
-import { useActionState, useId } from "react";
+import { useActionState, useId, useRef } from "react";
 
-import { DatePicker } from "@/components/date-picker";
+import {
+  DatePicker,
+  ImperativeHandleFromDatePicker,
+} from "@/components/date-picker";
 import { FieldError } from "@/components/form/field-error";
 import { Form } from "@/components/form/form";
 import { SubmitButton } from "@/components/form/submit-button";
@@ -37,8 +40,15 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
   const deadlineFieldId = useId();
   const bountyFieldId = useId();
 
+  const datePickerImperativeHandlerRef =
+    useRef<ImperativeHandleFromDatePicker>(null);
+
+  const handleSuccess = () => {
+    datePickerImperativeHandlerRef.current?.reset();
+  };
+
   return (
-    <Form action={action} actionState={actionState}>
+    <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
       <Label htmlFor={titleFieldId}>Title</Label>
       <Input
         id={titleFieldId}
@@ -65,15 +75,6 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
       <div className="mb-1 flex gap-x-2">
         <div className="w-1/2">
           <Label htmlFor={deadlineFieldId}>Deadline</Label>
-          {/* <Input
-            id={deadlineFieldId}
-            name={FormFields.Deadline}
-            type="date"
-            defaultValue={
-              (actionState.payload?.get(FormFields.Deadline) as string) ??
-              ticket?.deadline
-            }
-          /> */}
           <DatePicker
             id={deadlineFieldId}
             name={FormFields.Deadline}
@@ -81,6 +82,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
               (actionState.payload?.get(FormFields.Deadline) as string) ??
               ticket?.deadline
             }
+            imperativeHandleRef={datePickerImperativeHandlerRef}
           />
           <FieldError actionState={actionState} name={FormFields.Deadline} />
         </div>
@@ -97,7 +99,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
               (ticket?.bounty ? fromCent(ticket.bounty) : "")
             }
           />
-          <FieldError actionState={actionState} name={FormFields.Deadline} />
+          <FieldError actionState={actionState} name={FormFields.Bounty} />
         </div>
       </div>
 

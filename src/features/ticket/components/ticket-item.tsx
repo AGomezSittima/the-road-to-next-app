@@ -1,4 +1,5 @@
 import {
+  LucideMoreVertical,
   LucidePencil,
   LucideSquareArrowOutUpRight,
   LucideTrash,
@@ -20,6 +21,7 @@ import { Ticket } from "@prisma/client";
 
 import { deleteTicket } from "../actions/delete-ticket";
 import { TICKET_ICONS } from "../constants";
+import { TicketOptionsMenu } from "./ticket-options-menu";
 
 type TicketItemProps = {
   ticket: Ticket;
@@ -52,6 +54,17 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
         <LucideTrash className="h-4 w-4" />
       </Button>
     </form>
+  );
+
+  const optionsMenu = (
+    <TicketOptionsMenu
+      ticket={ticket}
+      trigger={
+        <Button variant="outline" size="icon">
+          <LucideMoreVertical className="h-4 w-4" />
+        </Button>
+      }
+    />
   );
 
   return (
@@ -89,6 +102,7 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
           <>
             {editButton}
             {deleteButton}
+            {optionsMenu}
           </>
         ) : (
           <>

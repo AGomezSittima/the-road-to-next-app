@@ -2,7 +2,6 @@ import {
   LucideMoreVertical,
   LucidePencil,
   LucideSquareArrowOutUpRight,
-  LucideTrash,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -19,7 +18,6 @@ import { toCurrencyFromCent } from "@/utils/currency";
 import { ticketEditPath, ticketPath } from "@/utils/path";
 import { Ticket } from "@prisma/client";
 
-import { deleteTicket } from "../actions/delete-ticket";
 import { TICKET_ICONS } from "../constants";
 import { TicketOptionsMenu } from "./ticket-options-menu";
 
@@ -45,15 +43,6 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
         <LucidePencil className="h-4 w-4" />
       </Link>
     </Button>
-  );
-
-  const deleteButton = (
-    <form action={deleteTicket.bind(null, ticket.id)}>
-      <Button variant="outline" size="icon" type="submit">
-        <span className="sr-only">Delete ticket {ticket.title}</span>
-        <LucideTrash className="h-4 w-4" />
-      </Button>
-    </form>
   );
 
   const optionsMenu = (
@@ -101,7 +90,6 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
         {isDetail ? (
           <>
             {editButton}
-            {deleteButton}
             {optionsMenu}
           </>
         ) : (

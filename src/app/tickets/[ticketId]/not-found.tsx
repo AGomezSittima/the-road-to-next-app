@@ -8,11 +8,11 @@ export default function NotFound() {
   return (
     <Placeholder
       label="Ticket not found"
-      button={
-        <Button asChild variant="outline">
+      renderButton={(className) => (
+        <Button asChild variant="outline" className={className}>
           <Link href={ticketsPath()}>Go to Tickets</Link>
         </Button>
-      }
+      )}
     />
   );
 }

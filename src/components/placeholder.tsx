@@ -23,9 +23,9 @@ const Placeholder = ({
 }: PlaceholderProps) => {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-y-2 self-center">
-      {renderIcon("h-16 w-16")}
+      {renderIcon?.("h-16 w-16")}
       <h2 className="text-center text-lg font-semibold">{label}</h2>
-      {renderButton("h-10")}
+      {renderButton?.("h-10")}
     </div>
   );
 };

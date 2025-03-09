@@ -34,6 +34,7 @@ const SignInForm = () => {
         name={FormFields.Password}
         placeholder="Password"
         type="password"
+        defaultValue={actionState.payload?.get(FormFields.Password) as string}
       />
       <FieldError name={FormFields.Password} actionState={actionState} />
 

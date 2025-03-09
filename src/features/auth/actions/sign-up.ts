@@ -7,8 +7,13 @@ import { z } from "zod";
 import { lucia } from "@/lib/lucia";
 import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/utils/path";
-import { ActionState, fromErrorToActionState } from "@/utils/to-action-state";
+import {
+  ActionState,
+  fromErrorToActionState,
+  toActionState,
+} from "@/utils/to-action-state";
 import { hash } from "@node-rs/argon2";
+import { Prisma } from "@prisma/client";
 
 const signUpSchema = z
   .object({
@@ -38,7 +43,7 @@ const signUpSchema = z
     if (password !== confirmPassword) {
       ctx.addIssue({
         code: "custom",
-        message: "Password do not match",
+        message: "Passwords do not match",
         path: ["confirmPassword"],
       });
     }
@@ -69,6 +74,17 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       sessionCookie.attributes,
     );
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return toActionState(
+        "ERROR",
+        "Either email or username is already in use",
+        formData,
+      );
+    }
+
     return fromErrorToActionState(error, formData);
   }
 

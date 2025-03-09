@@ -26,7 +26,7 @@ const signInSchema = z.object({
     .max(191, { message: "Too many characters (max 191 characters)" }),
 });
 
-const INVALID_USER_ERROR = "Incorrect email or password";
+const ERROR_INVALID_USER = "Incorrect email or password";
 
 export const signIn = async (_actionState: ActionState, formData: FormData) => {
   try {
@@ -38,11 +38,12 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
       where: { email },
     });
 
-    if (!user) return toActionState("ERROR", INVALID_USER_ERROR);
+    if (!user) return toActionState("ERROR", ERROR_INVALID_USER, formData);
 
     const validPassword = await verify(user.passwordHash, password);
 
-    if (!validPassword) return toActionState("ERROR", INVALID_USER_ERROR);
+    if (!validPassword)
+      return toActionState("ERROR", ERROR_INVALID_USER, formData);
 
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);

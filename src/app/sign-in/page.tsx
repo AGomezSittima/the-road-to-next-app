@@ -16,14 +16,14 @@ const SignInPage = () => {
           <>
             <Link
               href={signUpPath()}
-              className="text-sm text-muted-foreground underline hover:text-foreground"
+              className="text-sm text-muted-foreground hover:underline hover:text-foreground"
             >
               No account yet?
             </Link>
 
             <Link
               href={passwordForgotPath()}
-              className="text-sm text-muted-foreground underline hover:text-foreground"
+              className="text-sm text-muted-foreground hover:underline hover:text-foreground"
             >
               Forgot Password?
             </Link>

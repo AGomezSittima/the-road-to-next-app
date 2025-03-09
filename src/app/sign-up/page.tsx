@@ -17,7 +17,7 @@ const SignUpPage = () => {
             href={signInPath()}
             className="text-sm text-muted-foreground hover:text-foreground"
           >
-            Have an account? <strong className="underline">Sign In now</strong>.
+            Have an account? <strong className="font-semibold underline">Sign In now</strong>.
           </Link>
         }
       />

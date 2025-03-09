@@ -43,6 +43,7 @@ const SignUpForm = () => {
         name={FormFields.Password}
         placeholder="Password"
         type="password"
+        defaultValue={actionState.payload?.get(FormFields.Password) as string}
       />
       <FieldError name={FormFields.Password} actionState={actionState} />
 
@@ -50,6 +51,7 @@ const SignUpForm = () => {
         name={FormFields.ConfirmPassword}
         placeholder="Confirm Password"
         type="password"
+        defaultValue={actionState.payload?.get(FormFields.ConfirmPassword) as string}
       />
       <FieldError name={FormFields.ConfirmPassword} actionState={actionState} />
 

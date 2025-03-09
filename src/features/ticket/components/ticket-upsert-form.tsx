@@ -30,7 +30,7 @@ enum FormFields {
 }
 
 const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
-  const [actionState, action, isPending] = useActionState(
+  const [actionState, action] = useActionState(
     upsertTicket.bind(null, ticket?.id),
     EMPTY_ACTION_STATE,
   );
@@ -103,7 +103,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
         </div>
       </div>
 
-      <SubmitButton label={ticket ? "Edit" : "Create"} isPending={isPending} />
+      <SubmitButton label={ticket ? "Edit" : "Create"} />
     </Form>
   );
 };

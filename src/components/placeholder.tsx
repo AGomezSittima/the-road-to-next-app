@@ -1,14 +1,10 @@
 import { LucideMessageSquareWarning } from "lucide-react";
-import React from "react";
+import React, { cloneElement } from "react";
 
 type PlaceholderProps = {
   label: string;
-  renderIcon?: (
-    className: string,
-  ) => React.ReactElement<React.SVGProps<SVGSVGElement>, "svg">;
-  renderButton?: (
-    className: string,
-  ) => React.ReactElement<
+  icon?: React.ReactElement<React.SVGProps<SVGElement>, "svg">;
+  button?: React.ReactElement<
     HTMLButtonElement | HTMLAnchorElement,
     "button" | "a"
   >;
@@ -16,16 +12,14 @@ type PlaceholderProps = {
 
 const Placeholder = ({
   label,
-  renderIcon = (className) => (
-    <LucideMessageSquareWarning className={className} />
-  ),
-  renderButton = (className) => <div className={className} />,
+  icon = <LucideMessageSquareWarning />,
+  button = <div className="h-10" />,
 }: PlaceholderProps) => {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-y-2 self-center">
-      {renderIcon?.("h-16 w-16")}
+      {cloneElement(icon, { className: "h-16 w-16" })}
       <h2 className="text-center text-lg font-semibold">{label}</h2>
-      {renderButton?.("h-10")}
+      {cloneElement(button, { className: "h-10" })}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import * as TailwindAnimatePlugin from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -63,9 +64,18 @@ export default {
             transform: "translateY(0)",
           },
         },
+        "header-from-top": {
+          from: {
+            transform: "translateY(-100%)",
+          },
+          to: {
+            transform: "translateY(0)",
+          },
+        },
       },
       animation: {
         "fade-in-from-top": "fade-in-from-top 0.5s ease-out",
+        "header-from-top": "header-from-top 0.5s ease-out",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -74,5 +84,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [TailwindAnimatePlugin],
 } satisfies Config;

@@ -18,7 +18,7 @@ enum FormFields {
 }
 
 const SignUpForm = () => {
-  const [actionState, formAction, isPending] = useActionState(
+  const [actionState, formAction] = useActionState(
     signUp,
     EMPTY_ACTION_STATE,
   );
@@ -55,7 +55,7 @@ const SignUpForm = () => {
       />
       <FieldError name={FormFields.ConfirmPassword} actionState={actionState} />
 
-      <SubmitButton label="Sign Up" isPending={isPending} />
+      <SubmitButton label="Sign Up" />
     </Form>
   );
 };

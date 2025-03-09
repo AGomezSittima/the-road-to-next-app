@@ -33,7 +33,7 @@ const useConfirmDialog = ({
 
   const dialogTrigger = renderTrigger(() => setIsOpen((state) => !state));
 
-  const [actionState, formAction, isPending] = useActionState(
+  const [actionState, formAction] = useActionState(
     action,
     EMPTY_ACTION_STATE,
   );
@@ -57,7 +57,7 @@ const useConfirmDialog = ({
               actionState={actionState}
               onSuccess={handleSuccess}
             >
-              <SubmitButton label="Confirm" isPending={isPending} />
+              <SubmitButton label="Confirm" />
             </Form>
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -18,13 +18,13 @@ import {
 const upsertTicketSchema = z.object({
   title: z
     .string()
-    .min(1, "Is required")
-    .max(191, "Too many characters (max 191 characters)"),
+    .min(1, { message: "Is required" })
+    .max(191, { message: "Too many characters (max 191 characters)" }),
   content: z
     .string()
-    .min(1, "Is required")
-    .max(1024, "Too many characters (max 1024 characters)"),
-  deadline: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Is required"),
+    .min(1, { message: "Is required" })
+    .max(1024, { message: "Too many characters (max 1024 characters)" }),
+  deadline: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Is required" }),
   bounty: z.coerce.number().positive(),
 });
 
@@ -34,12 +34,7 @@ export const upsertTicket = async (
   formData: FormData,
 ): Promise<ActionState> => {
   try {
-    const data = upsertTicketSchema.parse({
-      title: formData.get("title"),
-      content: formData.get("content"),
-      deadline: formData.get("deadline"),
-      bounty: formData.get("bounty"),
-    });
+    const data = upsertTicketSchema.parse(Object.fromEntries(formData));
 
     const dbData = {
       ...data,

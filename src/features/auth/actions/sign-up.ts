@@ -20,7 +20,11 @@ const signUpSchema = z
         (value) => !value.includes(" "),
         "Username cannot contain spaces",
       ),
-    email: z.string().min(1, { message: "Is required" }).max(191).email(),
+    email: z
+      .string()
+      .min(1, { message: "Is required" })
+      .max(191, { message: "Too many characters (max 191 characters)" })
+      .email(),
     password: z
       .string()
       .min(6, { message: "Must have at least 6 characters" })

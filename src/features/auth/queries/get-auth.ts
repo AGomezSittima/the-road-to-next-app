@@ -3,41 +3,24 @@
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-import { lucia } from "@/lib/lucia";
+import {
+  type SessionValidationResult,
+  validateSessionToken,
+} from "@/lib/auth/session";
+import { appConfig } from "@/utils/app-config";
 
-export const getAuth = cache(async () => {
+export const getAuth = cache(async (): Promise<SessionValidationResult> => {
+  const cookieStore = await cookies();
+
   const sessionId =
-    (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
+    cookieStore.get(appConfig.cookiesKeys.authSession)?.value ?? null;
 
-  if (!sessionId)
+  if (!sessionId) {
     return {
       user: null,
       session: null,
     };
-
-  const result = await lucia.validateSession(sessionId);
-
-  try {
-    if (result.session && result.session.fresh) {
-      const sessionCookie = lucia.createSessionCookie(result.session.id);
-
-      (await cookies()).set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-    } else if (!result.session) {
-      const sessionCookie = lucia.createBlankSessionCookie();
-
-      (await cookies()).set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-    }
-  } catch {
-    // do nothing if used in a RSC
   }
 
-  return result;
+  return await validateSessionToken(sessionId);
 });

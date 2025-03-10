@@ -16,13 +16,15 @@ import {
 import { cn } from "@/lib/utils";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { ticketEditPath, ticketPath } from "@/utils/path";
-import { Ticket } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 import { TICKET_ICONS } from "../constants";
 import { TicketOptionsMenu } from "./ticket-options-menu";
 
 type TicketItemProps = {
-  ticket: Ticket;
+  ticket: Prisma.TicketGetPayload<{
+    include: { user: { select: { username: true } } };
+  }>;
   isDetail?: boolean;
 };
 
@@ -80,7 +82,9 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
           </span>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
+          <p className="text-sm text-muted-foreground">
+            {ticket.deadline} by {ticket.user.username}
+          </p>
           <p className="text-sm text-muted-foreground">
             {toCurrencyFromCent(ticket.bounty)}
           </p>

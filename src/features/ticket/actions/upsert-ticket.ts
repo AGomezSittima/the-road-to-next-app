@@ -5,10 +5,11 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { setCookieByKey } from "@/actions/cookies";
+import { getAuth } from "@/features/auth/queries/get-auth";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { toCent } from "@/utils/currency";
-import { ticketsPath } from "@/utils/path";
+import { signInPath, ticketsPath } from "@/utils/path";
 import {
   ActionState,
   fromErrorToActionState,
@@ -34,10 +35,17 @@ export const upsertTicket = async (
   formData: FormData,
 ): Promise<ActionState> => {
   try {
+    const { user } = await getAuth();
+
+    if (!user) {
+      redirect(signInPath());
+    }
+
     const data = upsertTicketSchema.parse(Object.fromEntries(formData));
 
     const dbData = {
       ...data,
+      userId: user.id,
       bounty: toCent(data.bounty),
     };
 

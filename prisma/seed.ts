@@ -1,6 +1,18 @@
+import { hashPassword } from "@/lib/auth/password";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+
+const users = [
+  {
+    username: "admin",
+    email: "admin@admin.com",
+  },
+  {
+    username: "user",
+    email: process.env.PERSONAL_EMAIL ?? "",
+  },
+];
 
 const tickets = [
   {
@@ -25,7 +37,7 @@ const tickets = [
     bounty: 599, // $5.99
   },
   {
-    title: "Lorem ipsum database",
+    title: "Lorem ipsum (DB)",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mattis malesuada sem, non varius turpis malesuada auctor. Nam mollis sem vitae sagittis pretium. Nullam id aliquam orci. Sed varius molestie viverra. Vestibulum porta ut felis porta dignissim. Phasellus consectetur nisl vitae fermentum convallis. Praesent ultricies scelerisque ex, eget hendrerit ex tincidunt eget. Aliquam erat volutpat. Aliquam ornare, lacus eget rutrum ornare, est sapien rutrum ex, et eleifend magna sem ut leo. Quisque posuere dolor vitae arcu facilisis varius. Quisque sed mollis mauris, sit amet molestie ex. Nam tincidunt mi vel ante pretium vestibulum. Praesent eu vehicula dolor. Proin ultrices lectus non neque dapibus, rutrum volutpat mauris placerat. Cras sed risus mi. Sed magna velit, condimentum vitae varius nec, dapibus sed.",
     status: "OPEN" as const,
@@ -39,9 +51,16 @@ const seed = async () => {
   console.log("DB Seed: Started ...");
 
   await prisma.ticket.deleteMany();
+  await prisma.user.deleteMany();
+
+  const passwordHash = await hashPassword("secret123");
+
+  const dbUsers = await prisma.user.createManyAndReturn({
+    data: users.map((user) => ({ ...user, passwordHash })),
+  });
 
   await prisma.ticket.createMany({
-    data: tickets,
+    data: tickets.map((ticket) => ({ ...ticket, userId: dbUsers[0].id })),
   });
 
   const t1 = performance.now();

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { cache } from "react";
 
-import { signInPath } from "@/utils/path";
+import { signInPath } from "@/utils/paths";
 
 import { getAuth } from "./get-auth";
 

@@ -8,7 +8,7 @@ import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect"
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
-import { ticketsPath } from "@/utils/path";
+import { ticketsPath } from "@/utils/paths";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 
 export const deleteTicket = async (ticketId: string) => {

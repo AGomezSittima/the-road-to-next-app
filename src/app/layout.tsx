@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 
 import { Header } from "@/components/header";
+import { Sidebar } from "@/components/sidebar/components/sidebar";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -27,10 +28,12 @@ export default function RootLayout({
       <body className={`${montserrat.variable} antialiased`}>
         <ThemeProvider>
           <Header />
-
-          <main className="flex min-h-screen flex-1 flex-col overflow-y-auto overflow-x-hidden bg-secondary/20 px-8 py-24">
-            {children}
-          </main>
+          <div className="flex h-dvh border-collapse overflow-hidden">
+            <Sidebar />
+            <main className="flex min-h-screen flex-1 flex-col overflow-y-auto overflow-x-hidden bg-secondary/20 px-8 py-24">
+              {children}
+            </main>
+          </div>
 
           <Toaster expand />
         </ThemeProvider>

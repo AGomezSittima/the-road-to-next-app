@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { CardCompact } from "@/components/card-compact";
 import { SignUpForm } from "@/features/auth/components/sign-up-form";
-import { signInPath } from "@/utils/path";
+import { signInPath } from "@/utils/paths";
 
 const SignUpPage = () => {
   return (

@@ -17,7 +17,7 @@ import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { cn } from "@/lib/utils";
 import { toCurrencyFromCent } from "@/utils/currency";
-import { ticketEditPath, ticketPath } from "@/utils/path";
+import { ticketEditPath, ticketPath } from "@/utils/paths";
 import { Prisma } from "@prisma/client";
 
 import { TICKET_ICONS } from "../constants";

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { deleteSessionTokenCookie } from "@/lib/auth/cookies";
 import { invalidateSession } from "@/lib/auth/session";
-import { signInPath } from "@/utils/path";
+import { signInPath } from "@/utils/paths";
 
 import { getAuth } from "../queries/get-auth";
 

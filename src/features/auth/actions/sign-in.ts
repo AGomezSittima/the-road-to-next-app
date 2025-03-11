@@ -8,7 +8,7 @@ import { verifyPasswordHash } from "@/lib/auth/password";
 import { createSession } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
 import { generateRandomToken } from "@/utils/crypto";
-import { ticketsPath } from "@/utils/path";
+import { ticketsPath } from "@/utils/paths";
 import {
   ActionState,
   fromErrorToActionState,

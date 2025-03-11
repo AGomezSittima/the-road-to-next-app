@@ -5,11 +5,12 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { setCookieByKey } from "@/actions/cookies";
-import { getAuth } from "@/features/auth/queries/get-auth";
+import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import { isOwner } from "@/features/auth/utils/is-owner";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { toCent } from "@/utils/currency";
-import { signInPath, ticketsPath } from "@/utils/path";
+import { ticketsPath } from "@/utils/path";
 import {
   ActionState,
   fromErrorToActionState,
@@ -34,11 +35,16 @@ export const upsertTicket = async (
   _actionState: ActionState,
   formData: FormData,
 ): Promise<ActionState> => {
-  try {
-    const { user } = await getAuth();
+  const { user } = await getAuthOrRedirect();
 
-    if (!user) {
-      redirect(signInPath());
+  try {
+    if (ticketId) {
+      const ticket = await prisma.ticket.findUnique({
+        where: { id: ticketId },
+      });
+
+      if (!ticket || !isOwner(user, ticket))
+        return toActionState("ERROR", "Not authorized");
     }
 
     const data = upsertTicketSchema.parse(Object.fromEntries(formData));

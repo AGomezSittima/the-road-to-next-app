@@ -25,7 +25,7 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "animate-sidebar-from-left h-dvh border-r pt-24",
+        "h-dvh animate-sidebar-from-left border-r pt-24",
         isTransition && "duration-200",
         isOpen ? "w-[78px] md:w-60" : "w-[78px]",
       )}

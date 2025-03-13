@@ -1,12 +1,18 @@
-import { LucideBook, LucideLibrary } from "lucide-react";
+import { LucideBook, LucideCircleUser, LucideLibrary } from "lucide-react";
 
-import { homePath, ticketsPath } from "@/utils/paths";
+import { accountProfilePath, homePath, ticketsPath } from "@/utils/paths";
 
 import { NavItem } from "./types";
 
 export const navItems: NavItem[] = [
   { title: "All tickets", icon: <LucideLibrary />, href: homePath() },
   { title: "My tickets", icon: <LucideBook />, href: ticketsPath() },
+  {
+    separator: true,
+    title: "Account",
+    icon: <LucideCircleUser />,
+    href: accountProfilePath(),
+  },
 ];
 
 export const closedClassName =

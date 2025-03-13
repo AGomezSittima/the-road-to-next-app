@@ -8,3 +8,7 @@ export const ticketEditPath = (ticketId: string) =>
 export const signUpPath = () => "/sign-up";
 export const signInPath = () => "/sign-in";
 export const passwordForgotPath = () => "/password-forgot";
+
+const accountPath = () => "/account";
+export const accountProfilePath = () => `${accountPath()}/profile`;
+export const accountPasswordPath = () => `${accountPath()}/password`;

@@ -13,6 +13,8 @@ model User {
   username     String    @unique
   email        String    @unique
   passwordHash String
+  firstName    String
+  lastName     String?
   sessions     Session[]
   tickets      Ticket[]
 }

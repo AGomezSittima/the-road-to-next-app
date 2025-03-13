@@ -39,6 +39,13 @@ const signUpSchema = z
       .string()
       .min(6, { message: "Must have at least 6 characters" })
       .max(191, { message: "Too many characters (max 191 characters)" }),
+    firstName: z
+      .string()
+      .min(1, { message: "Is required" })
+      .max(191, { message: "Too many characters (max 191 characters)" }),
+    lastName: z
+      .string()
+      .max(191, { message: "Too many characters (max 191 characters)" }),
   })
   .superRefine(({ password, confirmPassword }, ctx) => {
     if (password !== confirmPassword) {
@@ -52,9 +59,8 @@ const signUpSchema = z
 
 export const signUp = async (_actionState: ActionState, formData: FormData) => {
   try {
-    const { username, email, password } = signUpSchema.parse(
-      Object.fromEntries(formData),
-    );
+    const { username, email, password, firstName, lastName } =
+      signUpSchema.parse(Object.fromEntries(formData));
 
     const passwordHash = await hashPassword(password);
 
@@ -63,6 +69,8 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         username,
         email,
         passwordHash,
+        firstName,
+        lastName,
       },
     });
 

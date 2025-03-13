@@ -7,10 +7,12 @@ const users = [
   {
     username: "admin",
     email: "admin@admin.com",
+    firstName: "Admin",
   },
   {
     username: "user",
     email: process.env.PERSONAL_EMAIL ?? "",
+    firstName: "User",
   },
 ];
 

@@ -2,6 +2,7 @@ import React from "react";
 
 import { Placeholder } from "@/components/placeholder";
 import { SearchInput } from "@/components/search-input";
+import { SortSelect } from "@/components/sort-select";
 
 import { getTickets } from "../queries/get-tickets";
 import { SearchParams } from "../search-params";
@@ -17,8 +18,15 @@ const TicketList = async ({ userId, searchParams }: TicketListProps) => {
 
   return (
     <div className="flex flex-1 animate-fade-in-from-top flex-col items-center gap-y-4">
-      <div className="w-full max-w-[420px]">
+      <div className="flex w-full max-w-[420px] gap-x-2">
         <SearchInput placeholder="Search tickets ..." />
+        <SortSelect
+          defaultValue="newest"
+          options={[
+            { label: "Newest", value: "newest" },
+            { label: "Bounty", value: "bounty" },
+          ]}
+        />
       </div>
 
       {tickets.length ? (

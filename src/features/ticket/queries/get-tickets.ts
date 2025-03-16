@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { appConfig } from "@/utils/app-config";
 
 import { ParsedSearchParams } from "../search-params";
 
@@ -12,8 +13,8 @@ export const getTickets = async (
       title: { contains: searchParams.search, mode: "insensitive" },
     },
     orderBy: {
-      ...(searchParams.sort === "newest" && { createdAt: "desc" }),
-      ...(searchParams.sort === "bounty" && { bounty: "desc" }),
+      [searchParams[appConfig.paramsKeys.ticketSortKey]]:
+        searchParams[appConfig.paramsKeys.ticketSortOrder],
     },
     include: { user: { select: { username: true } } },
   });

@@ -17,7 +17,7 @@ export const sortParser = {
 
 export const paginationParser = {
   page: parseAsInteger.withDefault(0),
-  size: parseAsInteger.withDefault(2),
+  size: parseAsInteger.withDefault(5),
 };
 
 export const sortOptions = { shallow: false, clearOnDefault: true };

@@ -1,6 +1,12 @@
+import { createSearchParamsCache, parseAsString } from "nuqs/server";
+
 import { appConfig } from "@/utils/app-config";
 
-export type SearchParams = {
-  [appConfig.paramsKeys.ticketSearch]: string | string[] | undefined;
-  [appConfig.paramsKeys.ticketSort]: string | string[] | undefined;
-};
+export const searchParamsCache = createSearchParamsCache({
+  [appConfig.paramsKeys.ticketSearch]: parseAsString.withDefault(""),
+  [appConfig.paramsKeys.ticketSort]: parseAsString.withDefault("newest"),
+});
+
+export type ParsedSearchParams = Awaited<
+  ReturnType<typeof searchParamsCache.parse>
+>;

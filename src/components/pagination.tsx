@@ -26,7 +26,7 @@ const Pagination = ({
   onPagination,
   paginatedMetadata: { count, hasNextPage },
 }: PaginationProps) => {
-  const startOffset = pagination.page * pagination.size + 1;
+  const startOffset = Math.min(pagination.page * pagination.size + 1, count);
   const endOffset = Math.min(startOffset - 1 + pagination.size, count);
 
   const label = `${startOffset} - ${endOffset} of ${count}`;

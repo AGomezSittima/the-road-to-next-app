@@ -24,7 +24,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // TODO: Fix hydration error
     <html suppressHydrationWarning lang="en">
       <body className={`${montserrat.variable} antialiased`}>
         <NuqsAdapter>

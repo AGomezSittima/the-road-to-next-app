@@ -18,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { Comments } from "@/features/comment/components/comments";
+import { CommentWithMetadata } from "@/features/comment/types";
 import { cn } from "@/lib/utils";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { ticketEditPath, ticketPath } from "@/utils/paths";
@@ -28,10 +29,11 @@ import { TicketOptionsMenu } from "./ticket-options-menu";
 
 type TicketItemProps = {
   ticket: TicketWithMetadata;
+  comments: CommentWithMetadata[];
   isDetail?: boolean;
 };
 
-const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
+const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
   const { user } = await getAuth();
   const isTicketOwner = isOwner(user, ticket);
 
@@ -121,7 +123,7 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
             </div>
           }
         >
-          <Comments ticketId={ticket.id} />
+          <Comments ticketId={ticket.id} comments={comments} />
         </Suspense>
       ) : null}
     </div>

@@ -9,10 +9,10 @@ import { CommentItem } from "./comment-item";
 
 type CommentsProps = {
   ticketId: string;
-  comments: CommentWithMetadata[];
+  comments?: CommentWithMetadata[];
 };
 
-const Comments = async ({ ticketId, comments }: CommentsProps) => {
+const Comments = async ({ ticketId, comments = [] }: CommentsProps) => {
   const { user } = await getAuth();
 
   return (

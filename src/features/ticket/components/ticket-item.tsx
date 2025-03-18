@@ -29,7 +29,7 @@ import { TicketOptionsMenu } from "./ticket-options-menu";
 
 type TicketItemProps = {
   ticket: TicketWithMetadata;
-  comments: CommentWithMetadata[];
+  comments?: CommentWithMetadata[];
   isDetail?: boolean;
 };
 

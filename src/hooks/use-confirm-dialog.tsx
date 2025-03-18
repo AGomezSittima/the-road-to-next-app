@@ -21,6 +21,7 @@ type ConfirmDialogProps = {
   description?: string;
   action: () => Promise<ActionState>;
   renderTrigger: (onClick: () => void) => React.ReactElement;
+  onSuccess?: (actionState: ActionState) => void;
 };
 
 const useConfirmDialog = ({
@@ -28,18 +29,17 @@ const useConfirmDialog = ({
   description = "This action cannot be undone. Make sure you understand the consequences.",
   action,
   renderTrigger,
+  onSuccess,
 }: ConfirmDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const dialogTrigger = renderTrigger(() => setIsOpen((state) => !state));
 
-  const [actionState, formAction] = useActionState(
-    action,
-    EMPTY_ACTION_STATE,
-  );
+  const [actionState, formAction] = useActionState(action, EMPTY_ACTION_STATE);
 
   const handleSuccess = () => {
     setIsOpen(false);
+    onSuccess?.(actionState);
   };
 
   const dialog = (

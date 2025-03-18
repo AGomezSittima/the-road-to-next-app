@@ -10,4 +10,5 @@ export const appConfig = {
     refreshIntervalRatio: 0.5, // Half of the expiration date
   },
   debounceDuration: 250, // 250 ms
+  comments: { commentsPerPage: 2 },
 } as const;

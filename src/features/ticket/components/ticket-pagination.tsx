@@ -4,6 +4,7 @@ import { useQueryState, useQueryStates } from "nuqs";
 import { useEffect, useRef } from "react";
 
 import { Pagination } from "@/components/pagination";
+import { PaginationMetadata } from "@/lib/types";
 import { appConfig } from "@/utils/app-config";
 
 import {
@@ -13,10 +14,7 @@ import {
 } from "../search-params";
 
 type TicketPaginationProps = {
-  paginatedTicketMetadata: {
-    count: number;
-    hasNextPage: boolean;
-  };
+  paginatedTicketMetadata: PaginationMetadata;
 };
 
 const TicketPagination = ({

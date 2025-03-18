@@ -11,19 +11,19 @@ import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 export const deleteComment = async (id: string) => {
   const { user } = await getAuthOrRedirect();
 
+  const comment = await prisma.comment.findUnique({ where: { id } });
+
+  if (!comment || !isOwner(user, comment)) {
+    return toActionState("ERROR", "Not authorized");
+  }
+
   try {
-    const comment = await prisma.comment.findUnique({ where: { id } });
-
-    if (!comment || !isOwner(user, comment)) {
-      return toActionState("ERROR", "Not authorized");
-    }
-
     await prisma.comment.delete({ where: { id } });
-
-    revalidatePath(ticketPath(comment.ticketId));
   } catch (error) {
     return fromErrorToActionState(error);
   }
+
+  revalidatePath(ticketPath(comment.ticketId));
 
   return toActionState("SUCCESS", "Comment deleted");
 };

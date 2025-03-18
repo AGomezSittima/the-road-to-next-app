@@ -4,7 +4,7 @@ import {
   LucideSquareArrowOutUpRight,
 } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
+import React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { getAuth } from "@/features/auth/queries/get-auth";
-import { isOwner } from "@/features/auth/utils/is-owner";
-import { Comments } from "@/features/comment/components/comments";
-import { CommentWithMetadata } from "@/features/comment/types";
 import { cn } from "@/lib/utils";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { ticketEditPath, ticketPath } from "@/utils/paths";
@@ -29,14 +24,11 @@ import { TicketOptionsMenu } from "./ticket-options-menu";
 
 type TicketItemProps = {
   ticket: TicketWithMetadata;
-  comments?: CommentWithMetadata[];
+  comments?: React.ReactNode;
   isDetail?: boolean;
 };
 
-const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
-  const { user } = await getAuth();
-  const isTicketOwner = isOwner(user, ticket);
-
+const TicketItem = ({ ticket, comments, isDetail }: TicketItemProps) => {
   const detailButton = (
     <Button asChild variant="outline" size="icon">
       <Link prefetch href={ticketPath(ticket.id)}>
@@ -46,7 +38,7 @@ const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
     </Button>
   );
 
-  const editButton = isTicketOwner ? (
+  const editButton = ticket.isOwner ? (
     <Button asChild variant="outline" size="icon">
       <Link prefetch href={ticketEditPath(ticket.id)}>
         <span className="sr-only">Go to ticket {ticket.title}</span>
@@ -55,7 +47,7 @@ const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
     </Button>
   ) : null;
 
-  const optionsMenu = isTicketOwner ? (
+  const optionsMenu = ticket.isOwner ? (
     <TicketOptionsMenu
       ticket={ticket}
       trigger={
@@ -113,19 +105,8 @@ const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
           )}
         </div>
       </div>
-      {isDetail ? (
-        <Suspense
-          fallback={
-            <div className="flex flex-col gap-y-4">
-              <Skeleton className="h-[250px] w-full" />
-              <Skeleton className="ml-8 h-[80px]" />
-              <Skeleton className="ml-8 h-[80px]" />
-            </div>
-          }
-        >
-          <Comments ticketId={ticket.id} comments={comments} />
-        </Suspense>
-      ) : null}
+
+      {comments}
     </div>
   );
 };

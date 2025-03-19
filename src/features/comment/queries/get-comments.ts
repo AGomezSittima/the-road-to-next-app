@@ -5,25 +5,34 @@ import { isOwner } from "@/features/auth/utils/is-owner";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 
-export const getComments = async (ticketId: string, offset?: number) => {
+export const getComments = async (ticketId: string, cursor?: string) => {
   const { user } = await getAuth();
 
-  const where = { ticketId };
-  const skip = offset ?? 0;
+  const where = {
+    ticketId,
+    id: {
+      lt: cursor,
+    },
+  };
   const take = appConfig.comments.commentsPerPage;
 
-  const [comments, count] = await prisma.$transaction([
+  const queryResult = await prisma.$transaction([
     // Get comments
     prisma.comment.findMany({
       where,
-      skip,
-      take,
+      take: take + 1,
       include: { user: { select: { username: true } } },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
     }),
     // Get total comments count
     prisma.comment.count({ where }),
   ]);
+
+  let [comments] = queryResult;
+  const [, count] = queryResult;
+
+  const hasNextPage = comments.length > take;
+  comments = hasNextPage ? comments.slice(0, -1) : comments;
 
   return {
     list: comments.map((comment) => ({
@@ -32,7 +41,8 @@ export const getComments = async (ticketId: string, offset?: number) => {
     })),
     metadata: {
       count,
-      hasNextPage: count > skip + take,
+      hasNextPage,
+      cursor: comments[comments.length - 1]?.id,
     },
   };
 };

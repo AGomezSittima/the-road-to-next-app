@@ -4,7 +4,7 @@ import { useQueryState, useQueryStates } from "nuqs";
 import { useEffect, useRef } from "react";
 
 import { Pagination } from "@/components/pagination";
-import { PaginationMetadata } from "@/lib/types";
+import { PaginationMetadata } from "@/types/pagination";
 import { appConfig } from "@/utils/app-config";
 
 import {

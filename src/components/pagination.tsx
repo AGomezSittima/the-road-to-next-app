@@ -1,4 +1,4 @@
-import { PaginationMetadata } from "@/lib/types";
+import { PaginationMetadata } from "@/types/pagination";
 
 import { Button } from "./ui/button";
 import {

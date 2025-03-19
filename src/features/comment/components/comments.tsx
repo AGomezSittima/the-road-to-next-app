@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { CardCompact } from "@/components/card-compact";
 import { Button } from "@/components/ui/button";
-import { PaginationMetadata } from "@/lib/types";
+import { PaginatedData } from "@/types/pagination";
 
 import { getComments } from "../queries/get-comments";
 import { CommentWithMetadata } from "../types";
@@ -14,10 +14,7 @@ import { CommentItem } from "./comment-item";
 
 type CommentsProps = {
   ticketId: string;
-  paginatedComments: {
-    list: CommentWithMetadata[];
-    metadata: PaginationMetadata;
-  };
+  paginatedComments: PaginatedData<CommentWithMetadata>;
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
@@ -25,7 +22,7 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
   const [metadata, setMetadata] = useState(paginatedComments.metadata);
 
   const handleMoreComments = async () => {
-    const morePaginatedComments = await getComments(ticketId, comments.length);
+    const morePaginatedComments = await getComments(ticketId, metadata.cursor);
 
     setComments((previousComments) => [
       ...previousComments,

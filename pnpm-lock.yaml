@@ -47,6 +47,9 @@ importers:
       '@radix-ui/react-tabs':
         specifier: ^1.1.3
         version: 1.1.3(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@tanstack/react-query':
+        specifier: ^5.69.0
+        version: 5.69.0(react@19.0.0)
       big.js:
         specifier: ^6.2.2
         version: 6.2.2
@@ -86,6 +89,9 @@ importers:
       react-error-boundary:
         specifier: ^5.0.0
         version: 5.0.0(react@19.0.0)
+      react-intersection-observer:
+        specifier: ^9.16.0
+        version: 9.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       sonner:
         specifier: ^2.0.1
         version: 2.0.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -1132,6 +1138,14 @@ packages:
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
+
+  '@tanstack/query-core@5.69.0':
+    resolution: {integrity: sha512-Kn410jq6vs1P8Nm+ZsRj9H+U3C0kjuEkYLxbiCyn3MDEiYor1j2DGVULqAz62SLZtUZ/e9Xt6xMXiJ3NJ65WyQ==}
+
+  '@tanstack/react-query@5.69.0':
+    resolution: {integrity: sha512-Ift3IUNQqTcaFa1AiIQ7WCb/PPy8aexZdq9pZWLXhfLcLxH0+PZqJ2xFImxCpdDZrFRZhLJrh76geevS5xjRhA==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@tybys/wasm-util@0.9.0':
     resolution: {integrity: sha512-6+7nlbMVX/PVDCwaIQ8nTOPveOcFLSt8GcXdx8hD0bt39uWxYT88uXzqTd4fTvqta7oeUJqudepapKNt2DYJFw==}
@@ -2348,6 +2362,15 @@ packages:
     resolution: {integrity: sha512-tnjAxG+IkpLephNcePNA7v6F/QpWLH8He65+DmedchDwg162JZqx4NmbXj0mlAYVVEd81OW7aFhmbsScYfiAFQ==}
     peerDependencies:
       react: '>=16.13.1'
+
+  react-intersection-observer@9.16.0:
+    resolution: {integrity: sha512-w9nJSEp+DrW9KmQmeWHQyfaP6b03v+TdXynaoA964Wxt7mdR3An11z4NNCQgL4gKSK7y1ver2Fq+JKH6CWEzUA==}
+    peerDependencies:
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -3580,6 +3603,13 @@ snapshots:
   '@swc/helpers@0.5.15':
     dependencies:
       tslib: 2.8.1
+
+  '@tanstack/query-core@5.69.0': {}
+
+  '@tanstack/react-query@5.69.0(react@19.0.0)':
+    dependencies:
+      '@tanstack/query-core': 5.69.0
+      react: 19.0.0
 
   '@tybys/wasm-util@0.9.0':
     dependencies:
@@ -4941,6 +4971,12 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.26.10
       react: 19.0.0
+
+  react-intersection-observer@9.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+    optionalDependencies:
+      react-dom: 19.0.0(react@19.0.0)
 
   react-is@16.13.1: {}
 

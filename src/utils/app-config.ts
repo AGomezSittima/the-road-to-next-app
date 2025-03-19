@@ -11,4 +11,7 @@ export const appConfig = {
   },
   debounceDuration: 250, // 250 ms
   comments: { commentsPerPage: 2 },
+  queryClient: {
+    staleTime: 60 * 1000,
+  },
 } as const;

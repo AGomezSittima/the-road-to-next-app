@@ -27,9 +27,10 @@ type TicketOptionsMenuProps = {
 
 const TicketOptionsMenu = ({ ticket, trigger }: TicketOptionsMenuProps) => {
   const [deleteButton, deleteDialog] = useConfirmDialog({
+    pendingMessage: "Deleting ticket ...",
     action: deleteTicket.bind(null, ticket.id),
-    renderTrigger: (onClick) => (
-      <DropdownMenuItem onClick={onClick}>
+    renderTrigger: (onClick, isPending) => (
+      <DropdownMenuItem onClick={onClick} disabled={isPending}>
         <LucideTrash className="mr-2 h-4 w-4" />
         <span>Delete</span>
       </DropdownMenuItem>

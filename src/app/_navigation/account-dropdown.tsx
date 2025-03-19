@@ -46,8 +46,10 @@ const AccountDropdown = ({ user }: AccountDropdownProps) => {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <form action={signOut}>
-            <LucideLogOut className="h-4 w-4" />
-            <button type="submit">Sign out </button>
+            <button type="submit" className="flex w-full items-center gap-x-2">
+              <LucideLogOut className="h-4 w-4" />
+              <span>Sign out</span>
+            </button>
           </form>
         </DropdownMenuItem>
       </DropdownMenuContent>

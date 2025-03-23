@@ -14,7 +14,7 @@ enum FormFields {
   Email = "email",
 }
 
-const ForgotPasswordForm = () => {
+const PasswordForgotForm = () => {
   const [actionState, formAction] = useActionState(
     forgotPassword,
     EMPTY_ACTION_STATE,
@@ -34,4 +34,4 @@ const ForgotPasswordForm = () => {
   );
 };
 
-export { ForgotPasswordForm };
+export { PasswordForgotForm };

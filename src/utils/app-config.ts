@@ -6,8 +6,11 @@ export const appConfig = {
     ticketSortOrder: "sortOrder",
   },
   authSessions: {
-    expirationTimeInMS: 1000 * 60 * 30, // 30 minutes
+    expirationTimeInMs: 1000 * 60 * 30, // 30 minutes
     refreshIntervalRatio: 0.5, // Half of the expiration date
+  },
+  passwordReset: {
+    expirationTimeInMs: 1000 * 60 * 60 * 2, // 2 hours
   },
   debounceDuration: 250, // 250 ms
   comments: { commentsPerPage: 2 },

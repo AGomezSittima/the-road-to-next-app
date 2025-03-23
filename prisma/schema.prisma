@@ -9,15 +9,26 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(cuid())
-  username     String    @unique
-  email        String    @unique
-  passwordHash String
-  firstName    String
-  lastName     String?
-  sessions     Session[]
-  tickets      Ticket[]
-  comments     Comment[]
+  id                  String               @id @default(cuid())
+  username            String               @unique
+  email               String               @unique
+  passwordHash        String
+  firstName           String
+  lastName            String?
+  sessions            Session[]
+  tickets             Ticket[]
+  comments            Comment[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  tokenHash String   @id
+  expiresAt DateTime
+  userId    String?
+
+  User User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Session {

@@ -6,7 +6,7 @@ import { cache } from "react";
 import {
   type SessionValidationResult,
   validateSessionToken,
-} from "@/lib/auth/session";
+} from "@/features/auth/lib/session";
 import { appConfig } from "@/utils/app-config";
 
 export const getAuth = cache(async (): Promise<SessionValidationResult> => {

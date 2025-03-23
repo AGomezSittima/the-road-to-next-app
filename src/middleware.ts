@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     if (token !== null) {
       response.cookies.set(appConfig.cookiesKeys.authSession, token, {
         path: "/",
-        maxAge: appConfig.authSessions.expirationTimeInMS / 1000,
+        maxAge: appConfig.authSessions.expirationTimeInMs / 1000,
         sameSite: "lax",
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",

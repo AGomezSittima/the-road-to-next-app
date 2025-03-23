@@ -9,6 +9,8 @@ import {
   toActionState,
 } from "@/utils/to-action-state";
 
+import { generatePasswordResetLink } from "../utils/generate-password-reset-link";
+
 const forgotPasswordSchema = z.object({
   email: z
     .string()
@@ -31,6 +33,10 @@ export const forgotPassword = async (
     });
 
     if (!user) return toActionState("ERROR", ERROR_INVALID_USER, formData);
+
+    const passwordResetLink = await generatePasswordResetLink(user.id);
+
+    console.log(passwordResetLink);
 
     // TODO: Send email with reset password link
   } catch (error) {

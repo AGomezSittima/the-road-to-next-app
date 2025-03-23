@@ -3,9 +3,9 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { setSessionTokenCookie } from "@/lib/auth/cookies";
-import { hashPassword } from "@/lib/auth/password";
-import { createSession } from "@/lib/auth/session";
+import { setSessionTokenCookie } from "@/features/auth/lib/cookies";
+import { hashPassword } from "@/features/auth/lib/password";
+import { createSession } from "@/features/auth/lib/session";
 import { prisma } from "@/lib/prisma";
 import { generateRandomToken } from "@/utils/crypto";
 import { ticketsPath } from "@/utils/paths";

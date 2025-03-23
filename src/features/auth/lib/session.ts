@@ -2,14 +2,14 @@ import { appConfig } from "@/utils/app-config";
 import { hashToken } from "@/utils/crypto";
 import type { Session, User } from "@prisma/client";
 
-import { prisma } from "../prisma";
+import { prisma } from "../../../lib/prisma";
 
 export type SessionValidationResult =
   | { session: Session; user: User }
   | { session: null; user: null };
 
 function calculateSessionExpiryDateFromNow(): Date {
-  return new Date(Date.now() + appConfig.authSessions.expirationTimeInMS);
+  return new Date(Date.now() + appConfig.authSessions.expirationTimeInMs);
 }
 
 export async function createSession(
@@ -58,7 +58,7 @@ export async function validateSessionToken(
 
   const refreshDate =
     session.expiresAt.getTime() -
-    appConfig.authSessions.expirationTimeInMS *
+    appConfig.authSessions.expirationTimeInMs *
       appConfig.authSessions.refreshIntervalRatio;
   if (Date.now() >= refreshDate) {
     session.expiresAt = calculateSessionExpiryDateFromNow();

@@ -23,7 +23,7 @@ const PasswordChangeForm = () => {
   return (
     <Form action={formAction} actionState={actionState}>
       <Input
-        type="passwordd"
+        type="password"
         name={FormFields.Password}
         placeholder="Password"
         defaultValue={actionState.payload?.get(FormFields.Password) as string}

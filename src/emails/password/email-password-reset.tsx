@@ -23,7 +23,7 @@ const EmailPasswordReset = ({ toName, url }: EmailPasswordResetProps) => {
           <Container>
             <Section>
               <Text>
-                Hi {toName}, you have requested to reset your password. Click
+                Hello {toName}, you have requested to reset your password. Click
                 the button below to reset your password.
               </Text>
             </Section>
@@ -40,6 +40,11 @@ const EmailPasswordReset = ({ toName, url }: EmailPasswordResetProps) => {
       </Tailwind>
     </Html>
   );
+};
+
+EmailPasswordReset.PreviewProps = {
+  toName: "Max Power",
+  url: "https://localhost:3000/password-reset/abc123",
 };
 
 export default EmailPasswordReset;

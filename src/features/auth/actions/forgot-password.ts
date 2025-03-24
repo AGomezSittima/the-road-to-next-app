@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 
+import { sendEmailPasswordReset } from "@/features/emails/send-email-password-reset";
 import { prisma } from "@/lib/prisma";
 import {
   ActionState,
@@ -36,9 +37,7 @@ export const forgotPassword = async (
 
     const passwordResetLink = await generatePasswordResetLink(user.id);
 
-    console.log(passwordResetLink);
-
-    // TODO: Send email with reset password link
+    await sendEmailPasswordReset(user.username, user.email, passwordResetLink);
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }

@@ -94,6 +94,9 @@ importers:
       react-intersection-observer:
         specifier: ^9.16.0
         version: 9.16.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      resend:
+        specifier: ^4.1.2
+        version: 4.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       sonner:
         specifier: ^2.0.1
         version: 2.0.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -1428,6 +1431,12 @@ packages:
       }
     engines: { node: ">=12.4.0" }
 
+  "@one-ini/wasm@0.1.1":
+    resolution:
+      {
+        integrity: sha512-XuySG1E38YScSJoMlqovLru4KTUNSjgVTIjyh7qMX6aNN5HY5Ct5LhRJdxO79JtTzKfzV/bnWpz+zquYrISsvw==,
+      }
+
   "@oslojs/asn1@1.0.0":
     resolution:
       {
@@ -2146,6 +2155,16 @@ packages:
     peerDependencies:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
 
+  "@react-email/render@1.0.1":
+    resolution:
+      {
+        integrity: sha512-W3gTrcmLOVYnG80QuUp22ReIT/xfLsVJ+n7ghSlG2BITB8evNABn1AO2rGQoXuK84zKtDAlxCdm3hRyIpZdGSA==,
+      }
+    engines: { node: ">=18.0.0" }
+    peerDependencies:
+      react: ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^18.0 || ^19.0 || ^19.0.0-rc
+
   "@react-email/render@1.0.5":
     resolution:
       {
@@ -2368,6 +2387,13 @@ packages:
         integrity: sha512-AjOC3zfnxd6S4Eiy3jwktJPclqhFHNyd8L6Gycf9WUPoKZpgM5PjkxY1X7uSy61xVpiJDhhk7XT2NVsN3ALTWg==,
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
+
+  abbrev@2.0.0:
+    resolution:
+      {
+        integrity: sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ==,
+      }
+    engines: { node: ^14.17.0 || ^16.13.0 || >=18.0.0 }
 
   accepts@1.3.8:
     resolution:
@@ -2761,6 +2787,13 @@ packages:
       }
     engines: { node: ">=12.5.0" }
 
+  commander@10.0.1:
+    resolution:
+      {
+        integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==,
+      }
+    engines: { node: ">=14" }
+
   commander@11.1.0:
     resolution:
       {
@@ -2779,6 +2812,12 @@ packages:
     resolution:
       {
         integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==,
+      }
+
+  config-chain@1.1.13:
+    resolution:
+      {
+        integrity: sha512-qj+f8APARXHrM0hraqXYb2/bOVSV4PvJQlNZ/DVj0QrmNM2q2euizkeuVckQ57J+W0mRH6Hvi+k50M4Jul2VRQ==,
       }
 
   convert-source-map@2.0.0:
@@ -2999,6 +3038,14 @@ packages:
       {
         integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==,
       }
+
+  editorconfig@1.0.4:
+    resolution:
+      {
+        integrity: sha512-L9Qe08KWTlqYMVvMcTIvMAdl1cDUubzRNYL+WfA4bLDMHe4nemKkpmYzkznE1FwLKu0EEmy6obgQKzMJrg4x9Q==,
+      }
+    engines: { node: ">=14" }
+    hasBin: true
 
   electron-to-chromium@1.5.123:
     resolution:
@@ -3665,6 +3712,12 @@ packages:
         integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==,
       }
 
+  ini@1.3.8:
+    resolution:
+      {
+        integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==,
+      }
+
   internal-slot@1.1.0:
     resolution:
       {
@@ -3919,6 +3972,21 @@ packages:
       }
     hasBin: true
 
+  js-beautify@1.15.4:
+    resolution:
+      {
+        integrity: sha512-9/KXeZUKKJwqCXUdBxFJ3vPh467OCckSBmYDwSK/EtV090K+iMJ7zx2S3HLVDIWFQdqMIsZWbnaGiba18aWhaA==,
+      }
+    engines: { node: ">=14" }
+    hasBin: true
+
+  js-cookie@3.0.5:
+    resolution:
+      {
+        integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==,
+      }
+    engines: { node: ">=14" }
+
   js-tokens@4.0.0:
     resolution:
       {
@@ -4136,6 +4204,13 @@ packages:
         integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==,
       }
 
+  minimatch@9.0.1:
+    resolution:
+      {
+        integrity: sha512-0jWhJpD/MdhPXwPuiRkCbfYfSKp2qnn2eOc279qI7f+osl/l+prKSrvhg157zSYvx/1nmgn2NqdT6k2Z7zSH9w==,
+      }
+    engines: { node: ">=16 || 14 >=14.17" }
+
   minimatch@9.0.5:
     resolution:
       {
@@ -4257,6 +4332,14 @@ packages:
       {
         integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==,
       }
+
+  nopt@7.2.1:
+    resolution:
+      {
+        integrity: sha512-taM24ViiimT/XntxbPyJQzCG+p4EKOpgD3mxFwW38mGjVUrfERQOeY4EDHjdnptttfHuHQXFx+lTP08Q+mLa/w==,
+      }
+    engines: { node: ^14.17.0 || ^16.13.0 || >=18.0.0 }
+    hasBin: true
 
   normalize-path@3.0.0:
     resolution:
@@ -4660,6 +4743,12 @@ packages:
         integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==,
       }
 
+  proto-list@1.2.4:
+    resolution:
+      {
+        integrity: sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==,
+      }
+
   punycode@2.3.1:
     resolution:
       {
@@ -4822,6 +4911,13 @@ packages:
         integrity: sha512-dYqgNSZbDwkaJ2ceRd9ojCGjBq+mOm9LmtXnAnEGyHhN/5R7iDW2TRw3h+o/jCFxus3P2LfWIIiwowAjANm7IA==,
       }
     engines: { node: ">= 0.4" }
+
+  resend@4.1.2:
+    resolution:
+      {
+        integrity: sha512-km0btrAj/BqIaRlS+SoLNMaCAUUWEgcEvZpycfVvoXEwAHCxU+vp/ikxPgKRkyKyiR2iDcdUq5uIBTDK9oSSSQ==,
+      }
+    engines: { node: ">=18" }
 
   resolve-from@4.0.0:
     resolution:
@@ -6099,6 +6195,8 @@ snapshots:
 
   "@nolyfill/is-core-module@1.0.39": {}
 
+  "@one-ini/wasm@0.1.1": {}
+
   "@oslojs/asn1@1.0.0":
     dependencies:
       "@oslojs/binary": 1.0.0
@@ -6620,6 +6718,14 @@ snapshots:
     dependencies:
       react: 19.0.0
 
+  "@react-email/render@1.0.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)":
+    dependencies:
+      html-to-text: 9.0.5
+      js-beautify: 1.15.4
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      react-promise-suspense: 0.3.4
+
   "@react-email/render@1.0.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)":
     dependencies:
       html-to-text: 9.0.5
@@ -6773,6 +6879,8 @@ snapshots:
     dependencies:
       "@typescript-eslint/types": 8.26.1
       eslint-visitor-keys: 4.2.0
+
+  abbrev@2.0.0: {}
 
   accepts@1.3.8:
     dependencies:
@@ -7018,11 +7126,18 @@ snapshots:
       color-string: 1.9.1
     optional: true
 
+  commander@10.0.1: {}
+
   commander@11.1.0: {}
 
   commander@4.1.1: {}
 
   concat-map@0.0.1: {}
+
+  config-chain@1.1.13:
+    dependencies:
+      ini: 1.3.8
+      proto-list: 1.2.4
 
   convert-source-map@2.0.0: {}
 
@@ -7137,6 +7252,13 @@ snapshots:
       gopd: 1.2.0
 
   eastasianwidth@0.2.0: {}
+
+  editorconfig@1.0.4:
+    dependencies:
+      "@one-ini/wasm": 0.1.1
+      commander: 10.0.1
+      minimatch: 9.0.1
+      semver: 7.7.1
 
   electron-to-chromium@1.5.123: {}
 
@@ -7739,6 +7861,8 @@ snapshots:
 
   inherits@2.0.4: {}
 
+  ini@1.3.8: {}
+
   internal-slot@1.1.0:
     dependencies:
       es-errors: 1.3.0
@@ -7894,6 +8018,16 @@ snapshots:
 
   jiti@1.21.7: {}
 
+  js-beautify@1.15.4:
+    dependencies:
+      config-chain: 1.1.13
+      editorconfig: 1.0.4
+      glob: 10.4.5
+      js-cookie: 3.0.5
+      nopt: 7.2.1
+
+  js-cookie@3.0.5: {}
+
   js-tokens@4.0.0: {}
 
   js-yaml@4.1.0:
@@ -7995,6 +8129,10 @@ snapshots:
     dependencies:
       brace-expansion: 1.1.11
 
+  minimatch@9.0.1:
+    dependencies:
+      brace-expansion: 2.0.1
+
   minimatch@9.0.5:
     dependencies:
       brace-expansion: 2.0.1
@@ -8075,6 +8213,10 @@ snapshots:
       - babel-plugin-macros
 
   node-releases@2.0.19: {}
+
+  nopt@7.2.1:
+    dependencies:
+      abbrev: 2.0.0
 
   normalize-path@3.0.0: {}
 
@@ -8274,6 +8416,8 @@ snapshots:
       object-assign: 4.1.1
       react-is: 16.13.1
 
+  proto-list@1.2.4: {}
+
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
@@ -8399,6 +8543,13 @@ snapshots:
       get-proto: 1.0.1
       gopd: 1.2.0
       set-function-name: 2.0.2
+
+  resend@4.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      "@react-email/render": 1.0.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+    transitivePeerDependencies:
+      - react
+      - react-dom
 
   resolve-from@4.0.0: {}
 

@@ -11,7 +11,7 @@ const PasswordResetPage = async ({ params }: PasswordResetPageProps) => {
   return (
     <div className="flex flex-1 flex-col items-center justify-center">
       <CardCompact
-        title="Reset Password"
+        title="New Password"
         description="Enter a new password for your account."
         className="w-full max-w-[420px] animate-fade-in-from-top"
         content={<PasswordResetForm tokenId={tokenId} />}

@@ -16,10 +16,7 @@ enum FormFields {
 }
 
 const SignInForm = () => {
-  const [actionState, formAction] = useActionState(
-    signIn,
-    EMPTY_ACTION_STATE,
-  );
+  const [actionState, formAction] = useActionState(signIn, EMPTY_ACTION_STATE);
 
   return (
     <Form action={formAction} actionState={actionState}>

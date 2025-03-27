@@ -17,4 +17,9 @@ export const appConfig = {
   queryClient: {
     staleTime: 60 * 1000,
   },
+  inngest: {
+    eventNames: {
+      passwordReset: "app/auth.password-reset",
+    },
+  },
 } as const;

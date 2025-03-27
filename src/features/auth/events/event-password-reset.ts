@@ -5,6 +5,12 @@ import { appConfig } from "@/utils/app-config";
 
 import { generatePasswordResetLink } from "../utils/generate-password-reset-link";
 
+export type PasswordResetEventArgs = {
+  data: {
+    userId: string;
+  };
+};
+
 export const passwordResetFunction = inngest.createFunction(
   { id: "send-password-reset" },
   { event: appConfig.events.names.passwordReset },
@@ -22,6 +28,10 @@ export const passwordResetFunction = inngest.createFunction(
       user.email,
       passwordResetLink,
     );
+
+    if (result.error) {
+      throw new Error(`${result.error.name}: ${result.error.message}`);
+    }
 
     return { event, body: result };
   },

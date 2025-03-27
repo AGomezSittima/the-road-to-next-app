@@ -17,9 +17,12 @@ export const appConfig = {
   queryClient: {
     staleTime: 60 * 1000,
   },
-  inngest: {
-    eventNames: {
+  events: {
+    names: {
       passwordReset: "app/auth.password-reset",
     },
+  },
+  emails: {
+    app: "no-reply@app.agomezsittima.org",
   },
 } as const;

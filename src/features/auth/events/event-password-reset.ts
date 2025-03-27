@@ -7,7 +7,7 @@ import { generatePasswordResetLink } from "../utils/generate-password-reset-link
 
 export const passwordResetFunction = inngest.createFunction(
   { id: "send-password-reset" },
-  { event: appConfig.inngest.eventNames.passwordReset },
+  { event: appConfig.events.names.passwordReset },
   async ({ event }) => {
     const { userId } = event.data;
 

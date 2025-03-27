@@ -35,7 +35,7 @@ export const forgotPassword = async (
     if (!user) return toActionState("ERROR", ERROR_INVALID_USER, formData);
 
     await inngest.send({
-      name: appConfig.inngest.eventNames.passwordReset,
+      name: appConfig.events.names.passwordReset,
       data: { userId: user.id },
     });
   } catch (error) {

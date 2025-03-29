@@ -6,7 +6,9 @@ import { z } from "zod";
 import { setSessionTokenCookie } from "@/features/auth/lib/cookies";
 import { hashPassword } from "@/features/auth/lib/password";
 import { createSession } from "@/features/auth/lib/session";
+import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
+import { appConfig } from "@/utils/app-config";
 import { generateRandomToken } from "@/utils/crypto";
 import { ticketsPath } from "@/utils/paths";
 import {
@@ -78,6 +80,11 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
     const session = await createSession(sessionToken, user.id);
 
     await setSessionTokenCookie(sessionToken, session.expiresAt);
+
+    await inngest.send({
+      name: appConfig.events.names.signUp,
+      data: { userId: user.id },
+    });
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

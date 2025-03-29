@@ -18,7 +18,11 @@ export const appConfig = {
     staleTime: 60 * 1000,
   },
   events: {
+    delays: {
+      welcomeEmailDelayInMS: 1000 * 60 * 30, // 30 minutes
+    },
     names: {
+      signUp: "app/auth.sign-up",
       passwordReset: "app/auth.password-reset",
     },
   },

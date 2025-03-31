@@ -9,7 +9,7 @@ export type SignUpEventArgs = {
   };
 };
 
-export const singUpFunction = inngest.createFunction(
+export const sendWelcomeFunction = inngest.createFunction(
   { id: "send-welcome-email" },
   { event: appConfig.events.names.signUp },
   async ({ event, step }) => {

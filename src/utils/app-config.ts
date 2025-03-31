@@ -9,6 +9,9 @@ export const appConfig = {
     expirationTimeInMs: 1000 * 60 * 30, // 30 minutes
     refreshIntervalRatio: 0.5, // Half of the expiration date
   },
+  emailVerification: {
+    expirationTimeInMs: 1000 * 60 * 15, // 15 minutes
+  },
   passwordReset: {
     expirationTimeInMs: 1000 * 60 * 60 * 2, // 2 hours
   },
@@ -28,5 +31,8 @@ export const appConfig = {
   },
   emails: {
     app: "no-reply@app.agomezsittima.org",
+  },
+  crypto: {
+    emailVerificationCodeLength: 8,
   },
 } as const;

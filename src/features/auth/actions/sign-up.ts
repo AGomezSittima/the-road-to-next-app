@@ -18,6 +18,8 @@ import {
 } from "@/utils/to-action-state";
 import { Prisma } from "@prisma/client";
 
+import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
+
 const signUpSchema = z
   .object({
     username: z
@@ -75,6 +77,12 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         lastName,
       },
     });
+
+    const verificationCode = await generateEmailVerificationCode(
+      user.id,
+      email,
+    );
+    console.log(verificationCode);
 
     const sessionToken = generateRandomToken();
     const session = await createSession(sessionToken, user.id);

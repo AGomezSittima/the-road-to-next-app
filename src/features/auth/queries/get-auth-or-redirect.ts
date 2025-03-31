@@ -1,16 +1,28 @@
 import { redirect } from "next/navigation";
 import { cache } from "react";
 
-import { signInPath } from "@/utils/paths";
+import { emailVerificationPath, signInPath } from "@/utils/paths";
 
 import { getAuth } from "./get-auth";
 
-export const getAuthOrRedirect = cache(async () => {
-  const auth = await getAuth();
+type GetAuthOrRedirectOptions = {
+  checkEmailVerified?: boolean;
+};
 
-  if (!auth.user) {
-    redirect(signInPath());
-  }
+export const getAuthOrRedirect = cache(
+  async (options?: GetAuthOrRedirectOptions) => {
+    const { checkEmailVerified = true } = options ?? {};
 
-  return auth;
-});
+    const auth = await getAuth();
+
+    if (!auth.user) {
+      redirect(signInPath());
+    }
+
+    if (checkEmailVerified && !auth.user.emailVerified) {
+      redirect(emailVerificationPath());
+    }
+
+    return auth;
+  },
+);

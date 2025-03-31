@@ -1,4 +1,4 @@
-import EmailWelcome from "@/emails/app/email-welcome";
+import EmailWelcome from "@/emails/auth/email-welcome";
 import { resend } from "@/lib/resend";
 import { appConfig } from "@/utils/app-config";
 

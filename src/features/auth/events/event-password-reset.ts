@@ -1,4 +1,4 @@
-import { sendEmailPasswordReset } from "@/features/emails/send-email-password-reset";
+import { sendEmailPasswordReset } from "@/features/auth/emails/send-email-password-reset";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
@@ -11,7 +11,7 @@ export type PasswordResetEventArgs = {
   };
 };
 
-export const passwordResetFunction = inngest.createFunction(
+export const passwordResetEvent = inngest.createFunction(
   { id: "send-password-reset" },
   { event: appConfig.events.names.passwordReset },
   async ({ event }) => {

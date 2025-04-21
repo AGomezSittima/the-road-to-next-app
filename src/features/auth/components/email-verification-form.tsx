@@ -33,15 +33,15 @@ const EmailVerificationForm = () => {
         maxLength={appConfig.crypto.emailVerificationCodeLength}
         pattern={REGEXP_ONLY_CHARS}
       >
-        <InputOTPGroup>
-          <InputOTPSlot index={0} />
-          <InputOTPSlot index={1} />
-          <InputOTPSlot index={2} />
-          <InputOTPSlot index={3} />
-          <InputOTPSlot index={4} />
-          <InputOTPSlot index={5} />
-          <InputOTPSlot index={6} />
-          <InputOTPSlot index={7} />
+        <InputOTPGroup className="w-full">
+          <InputOTPSlot className="w-full" index={0} />
+          <InputOTPSlot className="w-full" index={1} />
+          <InputOTPSlot className="w-full" index={2} />
+          <InputOTPSlot className="w-full" index={3} />
+          <InputOTPSlot className="w-full" index={4} />
+          <InputOTPSlot className="w-full" index={5} />
+          <InputOTPSlot className="w-full" index={6} />
+          <InputOTPSlot className="w-full" index={7} />
         </InputOTPGroup>
       </InputOTP>
 

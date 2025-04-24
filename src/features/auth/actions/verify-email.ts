@@ -29,7 +29,10 @@ export const verifyEmail = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
-  const { user } = await getAuthOrRedirect({ checkEmailVerified: false });
+  const { user } = await getAuthOrRedirect({
+    checkEmailVerified: false,
+    checkOrganization: false,
+  });
 
   try {
     const { code } = verifyEmailSchema.parse(Object.fromEntries(formData));

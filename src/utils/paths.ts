@@ -16,3 +16,7 @@ export const passwordResetPath = () => "/password-reset";
 const accountPath = () => "/account";
 export const accountProfilePath = () => `${accountPath()}/profile`;
 export const accountPasswordPath = () => `${accountPath()}/password`;
+
+export const organizationPath = () => "/organization";
+
+export const onboardingPath = () => "/onboarding";

@@ -7,7 +7,10 @@ import { getAuthOrRedirect } from "../queries/get-auth-or-redirect";
 import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
 
 export const resendVerificationEmail = async () => {
-  const { user } = await getAuthOrRedirect({ checkEmailVerified: false });
+  const { user } = await getAuthOrRedirect({
+    checkEmailVerified: false,
+    checkOrganization: false,
+  });
 
   try {
     const verificationCode = await generateEmailVerificationCode(

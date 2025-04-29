@@ -31,7 +31,10 @@ export const createOrganization = async (
     );
 
     await prisma.organization.create({
-      data: { name, memberships: { create: { userId: user.id } } },
+      data: {
+        name,
+        memberships: { create: { userId: user.id, isActive: false } },
+      },
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);

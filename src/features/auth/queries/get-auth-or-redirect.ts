@@ -5,6 +5,7 @@ import { getOrganizationsByUser } from "@/features/organization/queries/get-orga
 import {
   emailVerificationPath,
   onboardingPath,
+  selectActiveOrganizationPath,
   signInPath,
 } from "@/utils/paths";
 
@@ -13,12 +14,16 @@ import { getAuth } from "./get-auth";
 type GetAuthOrRedirectOptions = {
   checkEmailVerified?: boolean;
   checkOrganization?: boolean;
+  checkActiveOrgananization?: boolean;
 };
 
 export const getAuthOrRedirect = cache(
   async (options?: GetAuthOrRedirectOptions) => {
-    const { checkEmailVerified = true, checkOrganization = true } =
-      options ?? {};
+    const {
+      checkEmailVerified = true,
+      checkOrganization = true,
+      checkActiveOrgananization = true,
+    } = options ?? {};
 
     const auth = await getAuth();
 
@@ -30,10 +35,21 @@ export const getAuthOrRedirect = cache(
       redirect(emailVerificationPath());
     }
 
-    if (checkOrganization) {
+    if (checkOrganization || checkActiveOrgananization) {
       const organizations = await getOrganizationsByUser();
-      if (!organizations.length) {
+
+      if (checkOrganization && !organizations.length) {
         redirect(onboardingPath());
+      }
+
+      if (checkActiveOrgananization) {
+        const hasActive = organizations.some(
+          (organization) => organization.membershipByUser.isActive,
+        );
+
+        if (!hasActive) {
+          redirect(selectActiveOrganizationPath());
+        }
       }
     }
 

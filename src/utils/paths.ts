@@ -18,6 +18,8 @@ export const accountProfilePath = () => `${accountPath()}/profile`;
 export const accountPasswordPath = () => `${accountPath()}/password`;
 
 export const onboardingPath = () => "/onboarding";
+export const selectActiveOrganizationPath = () =>
+  "/onboarding/select-active-organization";
 
-export const organizationPath = () => "/organization";
-export const organizationCreatePath = () => `${organizationPath()}/create`;
+export const organizationsPath = () => "/organization";
+export const organizationCreatePath = () => `${organizationsPath()}/create`;

@@ -8,7 +8,7 @@ import {
 import {
   accountProfilePath,
   homePath,
-  organizationPath,
+  organizationsPath,
   ticketsPath,
 } from "@/utils/paths";
 
@@ -26,7 +26,7 @@ export const navItems: NavItem[] = [
   {
     title: "Organization",
     icon: <LucideUsers />,
-    href: organizationPath(),
+    href: organizationsPath(),
   },
 ];
 

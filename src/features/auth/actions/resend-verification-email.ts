@@ -10,6 +10,7 @@ export const resendVerificationEmail = async () => {
   const { user } = await getAuthOrRedirect({
     checkEmailVerified: false,
     checkOrganization: false,
+    checkActiveOrgananization: false,
   });
 
   try {

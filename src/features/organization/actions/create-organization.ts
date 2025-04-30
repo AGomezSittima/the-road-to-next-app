@@ -23,6 +23,7 @@ export const createOrganization = async (
 ) => {
   const { user } = await getAuthOrRedirect({
     checkOrganization: false,
+    checkActiveOrgananization: false,
   });
 
   try {
@@ -30,11 +31,25 @@ export const createOrganization = async (
       Object.fromEntries(formData),
     );
 
-    await prisma.organization.create({
-      data: {
-        name,
-        memberships: { create: { userId: user.id, isActive: false } },
-      },
+    await prisma.$transaction(async (tx) => {
+      const organization = await tx.organization.create({
+        data: {
+          name,
+          memberships: { create: { userId: user.id, isActive: true } },
+        },
+      });
+
+      await tx.membership.updateMany({
+        where: {
+          userId: user.id,
+          organizationId: {
+            not: organization.id,
+          },
+        },
+        data: {
+          isActive: false,
+        },
+      });
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);

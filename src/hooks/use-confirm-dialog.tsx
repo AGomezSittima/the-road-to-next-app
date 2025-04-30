@@ -21,7 +21,7 @@ import { useActionFeedback } from "./use-action-feedback";
 type ConfirmDialogProps = {
   title?: string;
   description?: string;
-  pendingMessage: string;
+  pendingMessage?: string;
   action: () => Promise<ActionState>;
   renderTrigger: (
     onClick: () => void,
@@ -33,7 +33,7 @@ type ConfirmDialogProps = {
 const useConfirmDialog = ({
   title = "Are you absolutely sure?",
   description = "This action cannot be undone. Make sure you understand the consequences.",
-  pendingMessage,
+  pendingMessage = "Processing ...",
   action,
   renderTrigger,
   onSuccess,

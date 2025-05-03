@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { MembershipDeleteButton } from "@/features/membership/components/membership-delete-button";
 import { membershipsPath } from "@/utils/paths";
 
 import { getOrganizationsByUser } from "../queries/get-organization-by-user";
@@ -81,6 +82,13 @@ const OrganizationTable = async ({ limitedAccess }: OrganizationTableProps) => {
             </Button>
           );
 
+          const leaveButton = (
+            <MembershipDeleteButton
+              userId={organization.membershipByUser.userId}
+              organizationId={organization.id}
+            />
+          );
+
           const deleteButton = (
             <OrganizationDeleteButton organizationId={organization.id} />
           );
@@ -90,6 +98,7 @@ const OrganizationTable = async ({ limitedAccess }: OrganizationTableProps) => {
               {switchButton}
               {limitedAccess ? null : detailButton}
               {limitedAccess ? null : editButton}
+              {limitedAccess ? null : leaveButton}
               {limitedAccess ? null : deleteButton}
             </>
           );

@@ -11,13 +11,18 @@ import {
 } from "@/components/ui/table";
 
 import { getMemberships } from "../queries/get-memberships";
+import { MembershipDeleteButton } from "./membership-delete-button";
 
 type MembershipTableProps = {
   organizationId: string;
+  signedUserId: string;
 };
 
 // TODO: Change to Data Table
-const MembershipTable = async ({ organizationId }: MembershipTableProps) => {
+const MembershipTable = async ({
+  organizationId,
+  signedUserId,
+}: MembershipTableProps) => {
   const memberships = await getMemberships(organizationId);
 
   return (
@@ -33,11 +38,25 @@ const MembershipTable = async ({ organizationId }: MembershipTableProps) => {
       </TableHeader>
       <TableBody>
         {memberships.map((membership) => {
-          const buttons = <></>; // TODO: Add buttons
+          const isSignedUser = membership.userId === signedUserId;
+
+          const deleteButton = (
+            <MembershipDeleteButton
+              userId={membership.userId}
+              organizationId={organizationId}
+            />
+          );
+
+          const buttons = <>{deleteButton}</>; // TODO: Add buttons
 
           return (
             <TableRow key={membership.userId}>
-              <TableCell>{membership.user.username}</TableCell>
+              <TableCell>
+                {membership.user.username}&nbsp;
+                <span className="text-xs text-muted-foreground">
+                  {isSignedUser && "(you)"}
+                </span>
+              </TableCell>
               <TableCell>{membership.user.email}</TableCell>
               <TableCell>
                 {format(membership.joinedAt, "yyyy-MM-dd, HH:mm")}

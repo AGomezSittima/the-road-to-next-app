@@ -23,3 +23,5 @@ export const selectActiveOrganizationPath = () =>
 
 export const organizationsPath = () => "/organization";
 export const organizationCreatePath = () => `${organizationsPath()}/create`;
+export const membershipsPath = (organizationId: string) =>
+  `${organizationsPath()}/${organizationId}/memberships`;

@@ -20,8 +20,12 @@ import { getOrganizationsByUser } from "../queries/get-organization-by-user";
 import { OrganizationDeleteButton } from "./organization-delete-button";
 import { OrganizationSwitchButton } from "./organization-switch-button";
 
+type OrganizationTableProps = {
+  limitedAccess?: boolean;
+};
+
 // TODO: Change to Data Table
-const OrganizationTable = async () => {
+const OrganizationTable = async ({ limitedAccess }: OrganizationTableProps) => {
   const organizations = await getOrganizationsByUser();
 
   const hasActive = organizations.some(
@@ -80,9 +84,9 @@ const OrganizationTable = async () => {
           const buttons = (
             <>
               {switchButton}
-              {detailButton}
-              {editButton}
-              {deleteButton}
+              {limitedAccess ? null : detailButton}
+              {limitedAccess ? null : editButton}
+              {limitedAccess ? null : deleteButton}
             </>
           );
 

@@ -35,7 +35,9 @@ export const createOrganization = async (
       const organization = await tx.organization.create({
         data: {
           name,
-          memberships: { create: { userId: user.id, isActive: true } },
+          memberships: {
+            create: { userId: user.id, isActive: true, role: "ADMIN" },
+          },
         },
       });
 

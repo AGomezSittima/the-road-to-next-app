@@ -33,6 +33,7 @@ const MembershipTable = async ({
           <TableHead>Email</TableHead>
           <TableHead>Joined At</TableHead>
           <TableHead>Verified Email</TableHead>
+          <TableHead>Role</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
@@ -47,7 +48,7 @@ const MembershipTable = async ({
             />
           );
 
-          const buttons = <>{deleteButton}</>; // TODO: Add buttons
+          const buttons = <>{deleteButton}</>;
 
           return (
             <TableRow key={membership.userId}>
@@ -68,6 +69,7 @@ const MembershipTable = async ({
                   <LucideBan />
                 )}
               </TableCell>
+              <TableCell>{membership.role}</TableCell>
               <TableCell className="flex justify-end gap-x-2">
                 {buttons}
               </TableCell>

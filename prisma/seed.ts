@@ -14,7 +14,7 @@ const users = [
     username: "user",
     email: process.env.PERSONAL_EMAIL ?? "",
     firstName: "User",
-    emailVerified: false,
+    emailVerified: true,
   },
 ];
 
@@ -84,11 +84,13 @@ const seed = async () => {
         userId: dbUsers[0].id,
         organizationId: dbOrganization.id,
         isActive: true,
+        role: "ADMIN",
       },
       {
         userId: dbUsers[1].id,
         organizationId: dbOrganization.id,
         isActive: false,
+        role: "MEMBER",
       },
     ],
   });

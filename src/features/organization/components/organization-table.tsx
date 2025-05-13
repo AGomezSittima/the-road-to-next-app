@@ -43,6 +43,7 @@ const OrganizationTable = async ({ limitedAccess }: OrganizationTableProps) => {
           <TableHead>Name</TableHead>
           <TableHead>Joined At</TableHead>
           <TableHead>Members</TableHead>
+          <TableHead>My Role</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
@@ -114,6 +115,7 @@ const OrganizationTable = async ({ limitedAccess }: OrganizationTableProps) => {
                 )}
               </TableCell>
               <TableCell>{organization._count.memberships}</TableCell>
+              <TableCell>{organization.membershipByUser.role}</TableCell>
               <TableCell className="flex justify-end gap-x-2">
                 {buttons}
               </TableCell>

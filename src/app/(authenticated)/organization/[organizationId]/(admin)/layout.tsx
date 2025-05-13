@@ -21,7 +21,9 @@ export default async function AuthenticatedLayout({
       <div className="flex flex-col gap-y-4">
         <div className="flex items-center gap-x-2">
           <LucideShieldUser className="size-8" />
-          <span className="text-muted-foreground">You are in the admin area.</span>
+          <span className="text-muted-foreground">
+            You are in the admin area.
+          </span>
         </div>
         {children}
       </div>

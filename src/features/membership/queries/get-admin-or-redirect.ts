@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { signInPath } from "@/utils/paths";
 
 import { getMembership } from "./get-membership";
 
-export const getAdminOrRedirect = async (organizationId: string) => {
+export const getAdminOrRedirect = cache(async (organizationId: string) => {
   const auth = await getAuthOrRedirect();
 
   const membership = await getMembership({
@@ -22,4 +23,4 @@ export const getAdminOrRedirect = async (organizationId: string) => {
   }
 
   return { ...auth, membership };
-};
+});

@@ -13,16 +13,55 @@ export const deleteMembership = async ({
   userId: string;
   organizationId: string;
 }) => {
-  const { user: auth } = await getAuthOrRedirect();
-  const isSignedInUser = auth.id === userId;
+  const { user } = await getAuthOrRedirect();
 
-  const membership = await getMemberships(organizationId);
-  const isLastMember = (membership ?? []).length === 1;
+  const memberships = await getMemberships(organizationId);
+  const isLastMember = (memberships ?? []).length === 1;
 
+  // Check if it is the last member of the organization
   if (isLastMember) {
     return toActionState(
       "ERROR",
       "You cannot delete the last membership of an organization",
+    );
+  }
+
+  // Check if the membership exists
+  const targetMembership = (memberships ?? []).find(
+    (membership) => membership.userId === userId,
+  );
+
+  if (!targetMembership) {
+    return toActionState("ERROR", "Membership not found");
+  }
+
+  // Check if the user is trying to delete the last admin
+  const adminMemberships = (memberships ?? []).filter(
+    (membership) => membership.role === "ADMIN",
+  );
+
+  const removesAdmin = targetMembership.role === "ADMIN";
+  const isLastAdmin = adminMemberships.length <= 1;
+
+  if (removesAdmin && isLastAdmin) {
+    return toActionState(
+      "ERROR",
+      "You cannot remove the last admin of an organization",
+    );
+  }
+
+  // Check if the user is authorized
+  const myMermbership = (memberships ?? []).find(
+    (membership) => membership.userId === user.id,
+  );
+
+  const isMyself = user.id === userId;
+  const isAdmin = myMermbership?.role === "ADMIN";
+
+  if (!isAdmin && !isMyself) {
+    return toActionState(
+      "ERROR",
+      "You can only delete memberships as an admin",
     );
   }
 
@@ -34,8 +73,8 @@ export const deleteMembership = async ({
     return fromErrorToActionState(error);
   }
 
-  const successMessage = isSignedInUser
-    ? "Left organization"
-    : "Membership deleted";
+  const successMessage = isMyself
+    ? "You have left the organization"
+    : "Membership has been deleted";
   return toActionState("SUCCESS", successMessage);
 };

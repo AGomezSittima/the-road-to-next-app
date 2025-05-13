@@ -1,10 +1,11 @@
 "use server";
 
-import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { prisma } from "@/lib/prisma";
 
+import { getAdminOrRedirect } from "./get-admin-or-redirect";
+
 export const getMemberships = async (organizationId: string) => {
-  await getAuthOrRedirect();
+  await getAdminOrRedirect(organizationId);
 
   return await prisma.membership.findMany({
     where: {

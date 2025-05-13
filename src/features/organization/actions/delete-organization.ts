@@ -1,13 +1,13 @@
 "use server";
 
-import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-redirect";
 import { prisma } from "@/lib/prisma";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 
 import { getOrganizationsByUser } from "../queries/get-organization-by-user";
 
 export const deleteOrganization = async (organizationId: string) => {
-  await getAuthOrRedirect();
+  await getAdminOrRedirect(organizationId);
 
   try {
     const userOrganizations = await getOrganizationsByUser();

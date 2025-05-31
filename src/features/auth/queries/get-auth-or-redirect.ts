@@ -22,7 +22,7 @@ export const getAuthOrRedirect = cache(
     const {
       checkEmailVerified = true,
       checkOrganization = true,
-      checkActiveOrgananization = true,
+      checkActiveOrgananization: checkActiveOrganization = true,
     } = options ?? {};
 
     const auth = await getAuth();
@@ -35,24 +35,24 @@ export const getAuthOrRedirect = cache(
       redirect(emailVerificationPath());
     }
 
-    if (checkOrganization || checkActiveOrgananization) {
+    let activeOrganization;
+    if (checkOrganization || checkActiveOrganization) {
       const organizations = await getOrganizationsByUser();
 
       if (checkOrganization && !organizations.length) {
         redirect(onboardingPath());
       }
 
-      if (checkActiveOrgananization) {
-        const hasActive = organizations.some(
-          (organization) => organization.membershipByUser.isActive,
-        );
+      activeOrganization = organizations.find(
+        (organization) => organization.membershipByUser.isActive,
+      );
 
-        if (!hasActive) {
-          redirect(selectActiveOrganizationPath());
-        }
+      const hasActiveOrganization = !!activeOrganization;
+      if (checkActiveOrganization && !hasActiveOrganization) {
+        redirect(selectActiveOrganizationPath());
       }
     }
 
-    return auth;
+    return { ...auth, activeOrganization };
   },
 );

@@ -35,7 +35,7 @@ export const upsertTicket = async (
   _actionState: ActionState,
   formData: FormData,
 ): Promise<ActionState> => {
-  const { user } = await getAuthOrRedirect();
+  const { user, activeOrganization } = await getAuthOrRedirect();
 
   try {
     if (ticketId) {
@@ -60,7 +60,7 @@ export const upsertTicket = async (
         id: ticketId || "",
       },
       update: dbData,
-      create: dbData,
+      create: { ...dbData, organizationId: activeOrganization!.id },
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);

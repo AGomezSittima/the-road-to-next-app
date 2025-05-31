@@ -14,14 +14,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
-import { Ticket, TicketStatus } from "@prisma/client";
+import { TicketStatus } from "@prisma/client";
 
 import { deleteTicket } from "../actions/delete-ticket";
 import { updateTicketStatus } from "../actions/update-ticket-status";
 import { TICKET_STATUS_LABELS } from "../constants";
+import { TicketWithMetadata } from "../types";
 
 type TicketOptionsMenuProps = {
-  ticket: Ticket;
+  ticket: TicketWithMetadata;
   trigger: React.ReactElement;
 };
 
@@ -30,7 +31,10 @@ const TicketOptionsMenu = ({ ticket, trigger }: TicketOptionsMenuProps) => {
     pendingMessage: "Deleting ticket ...",
     action: deleteTicket.bind(null, ticket.id),
     renderTrigger: (onClick, isPending) => (
-      <DropdownMenuItem onClick={onClick} disabled={isPending}>
+      <DropdownMenuItem
+        onClick={onClick}
+        disabled={!ticket.permissions.canDeleteTicket || isPending}
+      >
         <LucideTrash className="mr-2 h-4 w-4" />
         <span>Delete</span>
       </DropdownMenuItem>

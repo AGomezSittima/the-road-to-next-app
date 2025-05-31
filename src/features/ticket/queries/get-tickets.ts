@@ -54,7 +54,7 @@ export const getTickets = async (
   const organizationsByUser = await getOrganizationsByUser();
 
   return {
-    list: tickets.map(async (ticket) => {
+    list: tickets.map((ticket) => {
       const isTicketOwner = isOwner(user, ticket);
 
       const organization = organizationsByUser.find(

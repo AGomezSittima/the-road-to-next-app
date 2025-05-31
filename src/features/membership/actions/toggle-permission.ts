@@ -6,8 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { membershipsPath } from "@/utils/paths";
 import { toActionState } from "@/utils/to-action-state";
 
-import { getAdminOrRedirect } from "../queries/get-admin-or-redirect";
 import { PermissionKey } from "../../permissions/type";
+import { getAdminOrRedirect } from "../queries/get-admin-or-redirect";
 
 export const togglePermission = async ({
   userId,

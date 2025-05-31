@@ -7,8 +7,8 @@ import { Form } from "@/components/form/form";
 import { SubmitButton } from "@/components/form/submit-button";
 import { EMPTY_ACTION_STATE } from "@/utils/to-action-state";
 
-import { togglePermission } from "../actions/toggle-permission";
 import { PermissionKey } from "../../permissions/type";
+import { togglePermission } from "../actions/toggle-permission";
 
 type PermissionToggleProps = {
   userId: string;

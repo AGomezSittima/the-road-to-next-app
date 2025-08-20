@@ -13,6 +13,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
 import { TicketStatus } from "@prisma/client";
 
@@ -27,13 +32,15 @@ type TicketOptionsMenuProps = {
 };
 
 const TicketOptionsMenu = ({ ticket, trigger }: TicketOptionsMenuProps) => {
+  const hasDeletePermission = ticket.permissions.canDeleteTicket;
+
   const [deleteButton, deleteDialog] = useConfirmDialog({
     pendingMessage: "Deleting ticket ...",
     action: deleteTicket.bind(null, ticket.id),
     renderTrigger: (onClick, isPending) => (
       <DropdownMenuItem
         onClick={onClick}
-        disabled={!ticket.permissions.canDeleteTicket || isPending}
+        disabled={!hasDeletePermission || isPending}
       >
         <LucideTrash className="mr-2 h-4 w-4" />
         <span>Delete</span>
@@ -79,7 +86,16 @@ const TicketOptionsMenu = ({ ticket, trigger }: TicketOptionsMenuProps) => {
         <DropdownMenuContent side="right" className="w-56">
           {ticketStatusRadioGroupItems}
           <DropdownMenuSeparator />
-          {deleteButton}
+          {hasDeletePermission ? (
+            deleteButton
+          ) : (
+            <Tooltip>
+              <TooltipTrigger>{deleteButton}</TooltipTrigger>
+              <TooltipContent side="left">
+                You do not have permission to delete this ticket.
+              </TooltipContent>
+            </Tooltip>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

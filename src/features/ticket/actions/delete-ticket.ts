@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { setCookieByKey } from "@/actions/cookies";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
+import { getTicketPermissions } from "@/features/permissions/queries/get-ticket-permissions";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { ticketsPath } from "@/utils/paths";
@@ -20,6 +21,14 @@ export const deleteTicket = async (ticketId: string) => {
     });
 
     if (!ticket || !isOwner(user, ticket))
+      return toActionState("ERROR", "Not authorized");
+
+    const permissions = await getTicketPermissions({
+      organizationId: ticket.organizationId,
+      userId: user.id,
+    });
+
+    if (!permissions.canDeleteTicket)
       return toActionState("ERROR", "Not authorized");
 
     await prisma.ticket.delete({ where: { id: ticketId } });

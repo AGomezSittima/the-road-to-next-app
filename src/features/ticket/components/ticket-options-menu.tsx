@@ -91,7 +91,7 @@ const TicketOptionsMenu = ({ ticket, trigger }: TicketOptionsMenuProps) => {
           ) : (
             <Tooltip>
               <TooltipTrigger>{deleteButton}</TooltipTrigger>
-              <TooltipContent side="left">
+              <TooltipContent side="bottom" sideOffset={16}>
                 You do not have permission to delete this ticket.
               </TooltipContent>
             </Tooltip>

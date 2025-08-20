@@ -28,8 +28,8 @@ model Membership {
   role     MembershipRole @default(MEMBER)
 
   // permissions
-  canDeleteTicket Boolean @default(true)
-  canUpdateTicket Boolean @default(true)
+  canDeleteTicket Boolean @default(false)
+  canUpdateTicket Boolean @default(false)
 
   @@id(name: "membershipId", [organizationId, userId])
   @@index([organizationId])

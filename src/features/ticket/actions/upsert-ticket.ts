@@ -7,6 +7,7 @@ import { z } from "zod";
 import { setCookieByKey } from "@/actions/cookies";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
+import { getTicketPermissions } from "@/features/permissions/queries/get-ticket-permissions";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { toCent } from "@/utils/currency";
@@ -44,6 +45,14 @@ export const upsertTicket = async (
       });
 
       if (!ticket || !isOwner(user, ticket))
+        return toActionState("ERROR", "Not authorized");
+
+      const permissions = await getTicketPermissions({
+        organizationId: ticket.organizationId,
+        userId: user.id,
+      });
+
+      if (!permissions.canUpdateTicket)
         return toActionState("ERROR", "Not authorized");
     }
 

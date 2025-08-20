@@ -29,6 +29,8 @@ type TicketItemProps = {
 };
 
 const TicketItem = ({ ticket, comments, isDetail }: TicketItemProps) => {
+  const hasUpdatePermission = ticket.permissions.canUpdateTicket;
+
   const detailButton = (
     <Button asChild variant="outline" size="icon">
       <Link prefetch href={ticketPath(ticket.id)}>
@@ -38,7 +40,7 @@ const TicketItem = ({ ticket, comments, isDetail }: TicketItemProps) => {
     </Button>
   );
 
-  const editButton = ticket.isOwner ? (
+  const editButton = hasUpdatePermission ? (
     <Button asChild variant="outline" size="icon">
       <Link prefetch href={ticketEditPath(ticket.id)}>
         <span className="sr-only">Go to ticket {ticket.title}</span>

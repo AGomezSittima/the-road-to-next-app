@@ -37,6 +37,7 @@ const MembershipTable = async ({
           <TableHead>Verified Email</TableHead>
           <TableHead>Role</TableHead>
           <TableHead>Can Delete Ticket?</TableHead>
+          <TableHead>Can Update Ticket?</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
@@ -92,6 +93,14 @@ const MembershipTable = async ({
                   organizationId={membership.organizationId}
                   permissionKey="canDeleteTicket"
                   permissionValue={membership.canDeleteTicket}
+                />
+              </TableCell>
+              <TableCell>
+                <PermissionToggle
+                  userId={membership.userId}
+                  organizationId={membership.organizationId}
+                  permissionKey="canUpdateTicket"
+                  permissionValue={membership.canUpdateTicket}
                 />
               </TableCell>
               <TableCell className="flex justify-end gap-x-2">

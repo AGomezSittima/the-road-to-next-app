@@ -2,6 +2,7 @@ import { Suspense } from "react";
 
 import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
+import { InvitationCreateButton } from "@/features/invitations/components/invitation-create-button";
 import { InvitationsList } from "@/features/invitations/components/invitations-list";
 
 import { OrganizationBreadcrumbs } from "../_navigation/tabs";
@@ -21,6 +22,7 @@ const MembershipsPage = async ({ params }: InvitationsPageProps) => {
         title="Invitations"
         description="Manage your organization's invitations"
         tabs={<OrganizationBreadcrumbs />}
+        actions={<InvitationCreateButton organizationId={organizationId} />}
       />
 
       <Suspense fallback={<Spinner />}>

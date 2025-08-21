@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import { InvitationCreateButton } from "@/features/invitations/components/invitation-create-button";
 import { MembershipTable } from "@/features/membership/components/membership-table";
 
 import { OrganizationBreadcrumbs } from "../_navigation/tabs";
@@ -23,6 +24,7 @@ const MembershipsPage = async ({ params }: MembershipsPageProps) => {
         title="Memberships"
         description="Manage members in your organization"
         tabs={<OrganizationBreadcrumbs />}
+        actions={<InvitationCreateButton organizationId={organizationId} />}
       />
 
       <Suspense fallback={<Spinner />}>

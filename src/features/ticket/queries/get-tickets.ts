@@ -67,6 +67,8 @@ export const getTickets = async (
         permissions: {
           canDeleteTicket:
             isTicketOwner && !!organization?.membershipByUser.canDeleteTicket,
+          canUpdateTicket:
+            isTicketOwner && !!organization?.membershipByUser.canUpdateTicket,
         },
       };
     }),

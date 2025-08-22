@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-redirect";
+import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
+import { appConfig } from "@/utils/app-config";
 import { invitationsPath } from "@/utils/paths";
 import {
   ActionState,
@@ -47,7 +49,15 @@ export const createInvitation = async (
       email,
     );
 
-    console.log(emailInvitationLink);
+    await inngest.send({
+      name: appConfig.events.names.invitationCreated,
+      data: {
+        userId: user.id,
+        organizationId,
+        email,
+        emailInvitationLink,
+      },
+    });
   } catch (error) {
     return fromErrorToActionState(error);
   }

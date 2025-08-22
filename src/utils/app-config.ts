@@ -27,6 +27,7 @@ export const appConfig = {
     names: {
       signUp: "app/auth.sign-up",
       passwordReset: "app/auth.password-reset",
+      invitationCreated: "app/invitations.invitation-created",
     },
   },
   emails: {

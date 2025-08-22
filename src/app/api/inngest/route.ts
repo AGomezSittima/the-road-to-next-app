@@ -5,9 +5,15 @@ import {
   emailVerificationEvent,
   emailWelcomeEvent,
 } from "@/features/auth/events/event-sing-up";
+import { invitationCreatedEvent } from "@/features/invitations/events/event-invitation-created";
 import { inngest } from "@/lib/inngest";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
-  functions: [emailWelcomeEvent, emailVerificationEvent, passwordResetEvent],
+  functions: [
+    emailWelcomeEvent,
+    emailVerificationEvent,
+    passwordResetEvent,
+    invitationCreatedEvent,
+  ],
 });

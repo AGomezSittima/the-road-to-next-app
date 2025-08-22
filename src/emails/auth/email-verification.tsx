@@ -33,6 +33,6 @@ const EmailVerification = ({ toName, code }: EmailVerificationProps) => {
 EmailVerification.PreviewProps = {
   toName: "Max Power",
   code: "ABCDEFGH",
-};
+} as EmailVerificationProps;
 
 export default EmailVerification;

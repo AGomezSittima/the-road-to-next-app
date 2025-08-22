@@ -42,6 +42,6 @@ const EmailWelcome = ({ toName }: EmailWelcomeProps) => {
 
 EmailWelcome.PreviewProps = {
   toName: "Max Power",
-};
+} as EmailWelcomeProps;
 
 export default EmailWelcome;

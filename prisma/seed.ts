@@ -10,12 +10,13 @@ const users = [
     firstName: "Admin",
     emailVerified: true,
   },
-  {
-    username: "user",
-    email: process.env.PERSONAL_EMAIL ?? "",
-    firstName: "User",
-    emailVerified: true,
-  },
+  // HACK: Temporarily removed the this user to test anonymous invitation acceptance.
+  // {
+  //   username: "user",
+  //   email: process.env.PERSONAL_EMAIL ?? "",
+  //   firstName: "User",
+  //   emailVerified: true,
+  // },
 ];
 
 const tickets = [
@@ -86,30 +87,33 @@ const seed = async () => {
         isActive: true,
         role: "ADMIN",
       },
-      {
-        userId: dbUsers[1].id,
-        organizationId: dbOrganization.id,
-        isActive: false,
-        role: "MEMBER",
-      },
+      // HACK: Temporarily removed the this user to test anonymous invitation acceptance.
+      // {
+      //   userId: dbUsers[1].id,
+      //   organizationId: dbOrganization.id,
+      //   isActive: false,
+      //   role: "MEMBER",
+      // },
     ],
   });
 
-  const dbTickets = await prisma.ticket.createManyAndReturn({
-    data: tickets.map((ticket) => ({
-      ...ticket,
-      userId: dbUsers[0].id,
-      organizationId: dbOrganization.id,
-    })),
-  });
+  // HACK: Temporarily removed the this user to test anonymous invitation acceptance.
+  // const dbTickets = await prisma.ticket.createManyAndReturn({
+  //   data: tickets.map((ticket) => ({
+  //     ...ticket,
+  //     userId: dbUsers[0].id,
+  //     organizationId: dbOrganization.id,
+  //   })),
+  // });
 
-  await prisma.comment.createMany({
-    data: comments.map((comment) => ({
-      ...comment,
-      userId: dbUsers[1].id,
-      ticketId: dbTickets[0].id,
-    })),
-  });
+  // HACK: Temporarily removed the this user to test anonymous invitation acceptance.
+  // await prisma.comment.createMany({
+  //   data: comments.map((comment) => ({
+  //     ...comment,
+  //     userId: dbUsers[1].id,
+  //     ticketId: dbTickets[0].id,
+  //   })),
+  // });
 
   const t1 = performance.now();
   console.log(`DB Seed: Finished (${t1 - t0}ms) ...`);

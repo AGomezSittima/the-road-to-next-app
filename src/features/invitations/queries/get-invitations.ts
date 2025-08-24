@@ -9,6 +9,7 @@ export const getInvitations = async (organizationId: string) => {
     select: {
       email: true,
       createdAt: true,
+      organizationId: true,
       invitedByUser: {
         select: {
           username: true,

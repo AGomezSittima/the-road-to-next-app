@@ -32,6 +32,7 @@ model Invitation {
 
   status InvitationStatus @default(PENDING)
 
+  @@id(name: "invitationId", [email, organizationId])
   @@index([organizationId])
 }
 

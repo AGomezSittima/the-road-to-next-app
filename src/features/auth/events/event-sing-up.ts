@@ -63,3 +63,39 @@ export const emailWelcomeEvent = inngest.createFunction(
     });
   },
 );
+
+export const proccessInvitationsEvent = inngest.createFunction(
+  { id: "proccess-invitations" },
+  { event: appConfig.events.names.signUp },
+  async ({ event }) => {
+    const { userId } = event.data;
+
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { id: userId },
+    });
+
+    const invitations = await prisma.invitation.findMany({
+      where: { email: user.email, status: "ACCEPTED_WITHOUT_ACCOUNT" },
+    });
+
+    if (invitations.length === 0) {
+      return { event, body: "No invitations to process" };
+    }
+
+    await prisma.$transaction([
+      prisma.invitation.deleteMany({
+        where: { email: user.email, status: "ACCEPTED_WITHOUT_ACCOUNT" },
+      }),
+      prisma.membership.createMany({
+        data: invitations.map((invitation) => ({
+          userId: user.id,
+          organizationId: invitation.organizationId,
+          role: "MEMBER",
+          isActive: false,
+        })),
+      }),
+    ]);
+
+    return { event, body: `${invitations.length} invitations processed` };
+  },
+);

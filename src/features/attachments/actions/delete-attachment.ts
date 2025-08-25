@@ -25,6 +25,9 @@ export const deleteAttachment = async (id: string) => {
     await inngest.send({
       name: appConfig.events.names.attachmentDeleted,
       data: {
+        organizationId: attachment.ticket.organizationId,
+        ticketId: attachment.ticket.id,
+        fileName: attachment.name,
         attachmentId: id,
       },
     });

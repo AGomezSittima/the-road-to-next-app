@@ -1,5 +1,6 @@
 import { serve } from "inngest/next";
 
+import { attachmentDeletedEvent } from "@/features/attachments/events/event-attachment-deleted";
 import { passwordResetEvent } from "@/features/auth/events/event-password-reset";
 import {
   emailVerificationEvent,
@@ -17,5 +18,6 @@ export const { GET, POST, PUT } = serve({
     proccessInvitationsEvent,
     passwordResetEvent,
     invitationCreatedEvent,
+    attachmentDeletedEvent,
   ],
 });

@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
+import { s3 } from "@/lib/aws";
 import { prisma } from "@/lib/prisma";
 import { ticketPath } from "@/utils/paths";
 import {
@@ -12,8 +13,10 @@ import {
   fromErrorToActionState,
   toActionState,
 } from "@/utils/to-action-state";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 import { ACCEPTED_FILE_TYPES, MAX_FILE_SIZE_IN_MB } from "../constants";
+import { generateS3Key } from "../utils/generate-s3-key";
 import { sizeInMB } from "../utils/size";
 
 const createAttachmentsSchema = z.object({
@@ -62,8 +65,26 @@ export const createAttachments = async (
     for (const file of files) {
       const buffer = Buffer.from(await file.arrayBuffer());
 
-      // TODO: upload to s3
-      // TODO: create a database reference to S3 file
+      const attachment = await prisma.attachment.create({
+        data: {
+          name: file.name,
+          ticketId,
+        },
+      });
+
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Key: generateS3Key({
+            organizationId: ticket.organizationId,
+            ticketId,
+            fileName: file.name,
+            attachmentId: attachment.id,
+          }),
+          Body: buffer,
+          ContentType: file.type,
+        }),
+      );
     }
   } catch (error) {
     return fromErrorToActionState(error);

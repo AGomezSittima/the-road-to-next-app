@@ -4,7 +4,7 @@ import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-r
 import { prisma } from "@/lib/prisma";
 import { toActionState } from "@/utils/to-action-state";
 
-type DeleteInvitationParams = {
+type DeleteInvitationArgs = {
   email: string;
   organizationId: string;
 };
@@ -12,7 +12,7 @@ type DeleteInvitationParams = {
 export const deleteInvitation = async ({
   email,
   organizationId,
-}: DeleteInvitationParams) => {
+}: DeleteInvitationArgs) => {
   await getAdminOrRedirect(organizationId);
 
   const invitation = await prisma.invitation.findUnique({

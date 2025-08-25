@@ -133,8 +133,20 @@ model Ticket {
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  attachments Attachment[]
+
   @@index([userId])
   @@index([organizationId])
+}
+
+model Attachment {
+  id   String @id @default(cuid())
+  name String
+
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId String
+
+  @@index([ticketId])
 }
 
 model Comment {

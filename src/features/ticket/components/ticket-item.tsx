@@ -24,11 +24,17 @@ import { TicketOptionsMenu } from "./ticket-options-menu";
 
 type TicketItemProps = {
   ticket: TicketWithMetadata;
+  attachments?: React.ReactNode;
   comments?: React.ReactNode;
   isDetail?: boolean;
 };
 
-const TicketItem = ({ ticket, comments, isDetail }: TicketItemProps) => {
+const TicketItem = ({
+  ticket,
+  attachments,
+  comments,
+  isDetail,
+}: TicketItemProps) => {
   const hasUpdatePermission = ticket.permissions.canUpdateTicket;
 
   const detailButton = (
@@ -108,6 +114,7 @@ const TicketItem = ({ ticket, comments, isDetail }: TicketItemProps) => {
         </div>
       </div>
 
+      {attachments}
       {comments}
     </div>
   );

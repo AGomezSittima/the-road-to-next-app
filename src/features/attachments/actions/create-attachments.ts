@@ -13,8 +13,26 @@ import {
   toActionState,
 } from "@/utils/to-action-state";
 
+import { ACCEPTED_FILE_TYPES, MAX_FILE_SIZE_IN_MB } from "../constants";
+import { sizeInMB } from "../utils/size";
+
 const createAttachmentsSchema = z.object({
-  files: z.custom<FileList>((files) => Array.from(files)),
+  files: z
+    .custom<FileList>()
+    .transform((files) => Array.from(files))
+    .transform((files) => files.filter((file) => file.size > 0))
+    .refine(
+      (files) =>
+        files.every((file) => sizeInMB(file.size) <= MAX_FILE_SIZE_IN_MB),
+      `The maximum file size is ${MAX_FILE_SIZE_IN_MB}MB`,
+    )
+    .refine((files) =>
+      files.every(
+        (file) => ACCEPTED_FILE_TYPES.includes(file.type),
+        "File type is not supported",
+      ),
+    )
+    .refine((files) => files.length !== 0, "File is required"),
 });
 
 export const createAttachments = async (

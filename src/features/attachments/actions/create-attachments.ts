@@ -54,7 +54,7 @@ export const createAttachments = async (
   }
 
   if (!isOwner(user, ticket)) {
-    return toActionState("ERROR", "Not the owner of the ticket");
+    return toActionState("ERROR", "Not authorized");
   }
 
   try {

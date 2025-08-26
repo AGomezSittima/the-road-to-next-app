@@ -37,4 +37,9 @@ export const appConfig = {
   crypto: {
     emailVerificationCodeLength: 8,
   },
+  aws: {
+    s3: {
+      presignedUrlExpirationInSeconds: 5 * 60, // 5 minutes
+    },
+  },
 } as const;

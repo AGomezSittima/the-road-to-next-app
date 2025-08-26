@@ -29,6 +29,7 @@ export const appConfig = {
       passwordReset: "app/auth.password-reset",
       invitationCreated: "app/invitations.invitation-created",
       attachmentDeleted: "app/attachments.attachment-deleted",
+      organizationDeleted: "app/organization.organization-deleted",
     },
   },
   emails: {

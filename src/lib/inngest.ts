@@ -2,8 +2,9 @@ import { EventSchemas, Inngest } from "inngest";
 
 import { AttachmentDeletedEventArgs } from "@/features/attachments/events/event-attachment-deleted";
 import { PasswordResetEventArgs } from "@/features/auth/events/event-password-reset";
-import { SignUpEventArgs } from "@/features/auth/events/event-sing-up";
+import { SignUpEventArgs } from "@/features/auth/events/event-sign-up";
 import { InvitationCreatedEventArgs } from "@/features/invitations/events/event-invitation-created";
+import { OrganizationDeletedEventArgs } from "@/features/organization/events/event-organization-deleted";
 import { appConfig } from "@/utils/app-config";
 
 type Events = {
@@ -11,6 +12,7 @@ type Events = {
   [appConfig.events.names.passwordReset]: PasswordResetEventArgs;
   [appConfig.events.names.invitationCreated]: InvitationCreatedEventArgs;
   [appConfig.events.names.attachmentDeleted]: AttachmentDeletedEventArgs;
+  [appConfig.events.names.organizationDeleted]: OrganizationDeletedEventArgs;
 };
 
 export const inngest = new Inngest({

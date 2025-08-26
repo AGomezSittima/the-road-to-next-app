@@ -27,10 +27,10 @@ const TicketAttachments = async ({
               <AttachmentItem
                 key={attachment.id}
                 attachment={attachment}
-                buttons={[[
+                buttons={[
                   ...(isOwner
                     ? [<AttachmentDeleteButton key="0" id={attachment.id} />]
-                    : [])],
+                    : []),
                 ]}
               />
             ))}

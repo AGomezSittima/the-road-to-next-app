@@ -12,26 +12,24 @@ type AttachmentDeleteButtonProps = {
 };
 
 const AttachmentDeleteButton = ({ id }: AttachmentDeleteButtonProps) => {
-  // FIXME: Async hook error
-  // const [deleteButton, deleteDialog] = useConfirmDialog({
-  //   pendingMessage: "Deleting attachment ...",
-  //   action: deleteAttachment.bind(null, id),
-  //   renderTrigger: (onClick, isPending) => (
-  //     <Button variant="ghost" size="xs" onClick={onClick} disabled={isPending}>
-  //       {isPending ? (
-  //         <LucideLoaderCircle className="size-4 animate-spin" />
-  //       ) : (
-  //         <LucideTrash className="size-4" />
-  //       )}
-  //     </Button>
-  //   ),
-  // });
+  const [deleteButton, deleteDialog] = useConfirmDialog({
+    pendingMessage: "Deleting attachment ...",
+    action: deleteAttachment.bind(null, id),
+    renderTrigger: (onClick, isPending) => (
+      <Button variant="ghost" size="xs" onClick={onClick} disabled={isPending}>
+        {isPending ? (
+          <LucideLoaderCircle className="size-4 animate-spin" />
+        ) : (
+          <LucideTrash className="size-4" />
+        )}
+      </Button>
+    ),
+  });
 
   return (
     <>
-      {/* {deleteDialog}
-      {deleteButton} */}
-      Delete
+      {deleteDialog}
+      {deleteButton}
     </>
   );
 };

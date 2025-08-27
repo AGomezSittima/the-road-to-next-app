@@ -8,7 +8,7 @@ import { appConfig } from "@/utils/app-config";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-export async function Get(
+export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ attachmentId: string }> },
 ) {

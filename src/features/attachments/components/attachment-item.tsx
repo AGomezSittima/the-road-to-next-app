@@ -2,7 +2,7 @@ import { LucideArrowUpRightFromSquare } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-import { attachmentDownlaodUrl as attachmentDownloadUrl } from "@/utils/paths";
+import { attachmentDownloadUrl } from "@/utils/paths";
 import { Attachment } from "@prisma/client";
 
 type AttachmentItemProps = {

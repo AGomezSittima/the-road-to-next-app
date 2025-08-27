@@ -30,5 +30,5 @@ export const membershipsPath = (organizationId: string) =>
 export const invitationsPath = (organizationId: string) =>
   `${organizationsPath()}/${organizationId}/invitations`;
 
-export const attachmentDownlaodUrl = (attachmentId: string) =>
+export const attachmentDownloadUrl = (attachmentId: string) =>
   `/api/aws/s3/attachments/${attachmentId}`;

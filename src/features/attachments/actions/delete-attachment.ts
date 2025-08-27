@@ -1,10 +1,13 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
+import { ticketPath } from "@/utils/paths";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 
 export const deleteAttachment = async (id: string) => {
@@ -36,6 +39,8 @@ export const deleteAttachment = async (id: string) => {
   } catch (error) {
     return fromErrorToActionState(error);
   }
+
+  revalidatePath(ticketPath(id));
 
   return toActionState("SUCCESS", "Attachment deleted");
 };

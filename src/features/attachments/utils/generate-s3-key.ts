@@ -11,5 +11,5 @@ export const generateS3Key = ({
   fileName,
   attachmentId,
 }: GenerateS3KeyArgs) => {
-  return `${organizationId}/${ticketId}/${fileName}-${attachmentId}`;
+  return `${organizationId}/${ticketId}/${attachmentId}${fileName}`;
 };

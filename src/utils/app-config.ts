@@ -29,7 +29,7 @@ export const appConfig = {
       passwordReset: "app/auth.password-reset",
       invitationCreated: "app/invitations.invitation-created",
       attachmentDeleted: "app/attachments.attachment-deleted",
-      organizationDeleted: "app/organization.organization-deleted",
+      s3ObjectsCleanup: "app/s3.objects-cleanup",
     },
   },
   emails: {

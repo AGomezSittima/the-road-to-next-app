@@ -1,7 +1,7 @@
 "use server";
 
-import { generateS3Key } from "@/features/attachments/utils/generate-s3-key";
 import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-redirect";
+import { generateTicketAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
@@ -30,24 +30,23 @@ export const deleteOrganization = async (organizationId: string) => {
 
     const attachments = await prisma.attachment.findMany({
       where: { ticketId: { in: ticketsIds.map((t) => t.id) } },
-      include: { ticket: true },
     });
 
     if (attachments && attachments.length) {
-      const attachmentsKeys = {
-        Objects: attachments.map((attachment) => ({
-          Key: generateS3Key({
-            organizationId: organizationId,
-            ticketId: attachment.ticket.id,
-            fileName: attachment.name,
-            attachmentId: attachment.id,
-          }),
-        })),
-      };
-
       await inngest.send({
-        name: appConfig.events.names.organizationDeleted,
-        data: { organizationId, attachmentsKeys },
+        name: appConfig.events.names.s3ObjectsCleanup,
+        data: {
+          objects: {
+            Objects: attachments.map((attachment) => ({
+              Key: generateTicketAttachmentS3Key({
+                organizationId,
+                ticketId: attachment.ticketId,
+                fileName: attachment.name,
+                attachmentId: attachment.id,
+              }),
+            })),
+          },
+        },
       });
     }
 

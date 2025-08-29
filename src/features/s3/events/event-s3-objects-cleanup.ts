@@ -3,33 +3,28 @@ import { inngest } from "@/lib/inngest";
 import { appConfig } from "@/utils/app-config";
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
 
-export type OrganizationDeletedEventArgs = {
+export type S3ObjectsCleanupEventArgs = {
   data: {
-    organizationId: string;
-    attachmentsKeys: {
-      Objects: {
-        Key: string;
-      }[];
-    };
+    objects: { Objects: { Key: string }[] };
   };
 };
 
-export const organizationDeletedCleanupEvent = inngest.createFunction(
-  { id: "organization-deleted-cleanup", retries: 5 },
+export const s3ObjectsCleanupOnDependencyDeletedEvent = inngest.createFunction(
+  { id: "s3-objects-cleanup-on-dependency-deleted", retries: 5 },
   {
-    event: appConfig.events.names.organizationDeleted,
+    event: appConfig.events.names.s3ObjectsCleanup,
   },
   async ({ event, step }) => {
-    const { attachmentsKeys } = event.data;
+    const { objects } = event.data;
 
     await step
       .run(
-        "delete-attachments-s3",
+        "delete-objects-s3",
         async () =>
           await s3.send(
             new DeleteObjectsCommand({
               Bucket: process.env.AWS_BUCKET_NAME,
-              Delete: attachmentsKeys,
+              Delete: objects,
             }),
           ),
       )
@@ -41,3 +36,5 @@ export const organizationDeletedCleanupEvent = inngest.createFunction(
     return { event, body: true };
   },
 );
+
+// TODO: Create a periodic job to clean up old attachments that are not in the DB anymore

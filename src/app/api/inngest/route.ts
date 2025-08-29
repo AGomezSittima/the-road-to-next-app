@@ -8,7 +8,7 @@ import {
   proccessInvitationsEvent,
 } from "@/features/auth/events/event-sign-up";
 import { invitationCreatedEvent } from "@/features/invitations/events/event-invitation-created";
-import { organizationDeletedCleanupEvent } from "@/features/organization/events/event-organization-deleted";
+import { s3ObjectsCleanupOnDependencyDeletedEvent } from "@/features/s3/events/event-s3-objects-cleanup";
 import { inngest } from "@/lib/inngest";
 
 export const { GET, POST, PUT } = serve({
@@ -20,6 +20,6 @@ export const { GET, POST, PUT } = serve({
     passwordResetEvent,
     invitationCreatedEvent,
     attachmentDeletedEvent,
-    organizationDeletedCleanupEvent,
+    s3ObjectsCleanupOnDependencyDeletedEvent,
   ],
 });

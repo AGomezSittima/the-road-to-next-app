@@ -7,6 +7,8 @@ import { setCookieByKey } from "@/actions/cookies";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { getTicketPermissions } from "@/features/permissions/queries/get-ticket-permissions";
+import { generateTicketAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
+import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { ticketsPath } from "@/utils/paths";
@@ -30,6 +32,28 @@ export const deleteTicket = async (ticketId: string) => {
 
     if (!permissions.canDeleteTicket)
       return toActionState("ERROR", "Not authorized");
+
+    const attachments = await prisma.attachment.findMany({
+      where: { ticketId },
+    });
+
+    if (attachments && attachments.length) {
+      await inngest.send({
+        name: appConfig.events.names.s3ObjectsCleanup,
+        data: {
+          objects: {
+            Objects: attachments.map((attachment) => ({
+              Key: generateTicketAttachmentS3Key({
+                organizationId: ticket.organizationId,
+                ticketId: attachment.ticketId,
+                fileName: attachment.name,
+                attachmentId: attachment.id,
+              }),
+            })),
+          },
+        },
+      });
+    }
 
     await prisma.ticket.delete({ where: { id: ticketId } });
   } catch (error) {

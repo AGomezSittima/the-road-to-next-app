@@ -15,8 +15,8 @@ import {
 } from "@/utils/to-action-state";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 
+import { generateTicketAttachmentS3Key } from "../../s3/utils/generate-s3-key";
 import { ACCEPTED_FILE_TYPES, MAX_FILE_SIZE_IN_MB } from "../constants";
-import { generateS3Key } from "../utils/generate-s3-key";
 import { sizeInMB } from "../utils/size";
 
 const createAttachmentsSchema = z.object({
@@ -75,7 +75,7 @@ export const createAttachments = async (
       await s3.send(
         new PutObjectCommand({
           Bucket: process.env.AWS_BUCKET_NAME,
-          Key: generateS3Key({
+          Key: generateTicketAttachmentS3Key({
             organizationId: ticket.organizationId,
             ticketId,
             fileName: file.name,

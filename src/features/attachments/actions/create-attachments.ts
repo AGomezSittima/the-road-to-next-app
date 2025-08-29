@@ -6,7 +6,9 @@ import { z } from "zod";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { s3 } from "@/lib/aws";
+import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
+import { appConfig } from "@/utils/app-config";
 import { ticketPath } from "@/utils/paths";
 import {
   ActionState,
@@ -57,6 +59,8 @@ export const createAttachments = async (
     return toActionState("ERROR", "Not authorized");
   }
 
+  const createdAttachmentsIds: string[] = [];
+  const uploadedFilesKeys: string[] = [];
   try {
     const { files } = createAttachmentsSchema.parse({
       files: formData.getAll("files"),
@@ -72,21 +76,47 @@ export const createAttachments = async (
         },
       });
 
+      const attachmentKey = generateTicketAttachmentS3Key({
+        organizationId: ticket.organizationId,
+        ticketId,
+        fileName: file.name,
+        attachmentId: attachment.id,
+      });
+
       await s3.send(
         new PutObjectCommand({
           Bucket: process.env.AWS_BUCKET_NAME,
-          Key: generateTicketAttachmentS3Key({
-            organizationId: ticket.organizationId,
-            ticketId,
-            fileName: file.name,
-            attachmentId: attachment.id,
-          }),
+          Key: attachmentKey,
           Body: buffer,
           ContentType: file.type,
         }),
       );
+
+      createdAttachmentsIds.push(attachment.id);
+      uploadedFilesKeys.push(attachmentKey);
     }
   } catch (error) {
+    // Rollback uploaded files from S3
+    await inngest
+      .send({
+        name: appConfig.events.names.s3ObjectsCleanup,
+        data: {
+          objects: {
+            Objects: uploadedFilesKeys.map((key) => ({
+              Key: key,
+            })),
+          },
+        },
+      })
+      .catch(() => null);
+
+    // Rollback created attachment records from DB
+    await prisma.attachment
+      .deleteMany({
+        where: { id: { in: createdAttachmentsIds } },
+      })
+      .catch(() => null);
+
     return fromErrorToActionState(error);
   }
 

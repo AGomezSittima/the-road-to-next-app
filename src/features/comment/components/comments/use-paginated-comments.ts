@@ -8,8 +8,6 @@ export const usePaginatedComments = (
   ticketId: string,
   paginatedComments: PaginatedData<CommentWithMetadata>,
 ) => {
-  const queryKey = ["comments", ticketId];
-
   const {
     data,
     fetchNextPage,
@@ -17,7 +15,7 @@ export const usePaginatedComments = (
     isFetchingNextPage,
     invalidateQueries,
   } = usePaginated({
-    queryKey,
+    queryKey: ["comments", ticketId],
     queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
     initialPaginatedData: paginatedComments,
   });

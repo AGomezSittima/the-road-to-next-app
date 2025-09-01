@@ -3,7 +3,7 @@ import { inngest } from "@/lib/inngest";
 import { appConfig } from "@/utils/app-config";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
-import { generateTicketAttachmentS3Key } from "../../s3/utils/generate-s3-key";
+import { generateAttachmentS3Key } from "../../s3/utils/generate-s3-key";
 
 export type AttachmentDeletedEventArgs = {
   data: {
@@ -23,7 +23,7 @@ export const attachmentDeletedEvent = inngest.createFunction(
     const { organizationId, ticketId, fileName, attachmentId } = event.data;
 
     try {
-      const attachmentKey = generateTicketAttachmentS3Key({
+      const attachmentKey = generateAttachmentS3Key({
         organizationId,
         ticketId,
         fileName,

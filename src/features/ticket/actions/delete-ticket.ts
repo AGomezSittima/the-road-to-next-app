@@ -7,7 +7,7 @@ import { setCookieByKey } from "@/actions/cookies";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { getTicketPermissions } from "@/features/permissions/queries/get-ticket-permissions";
-import { generateTicketAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
+import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
@@ -43,7 +43,7 @@ export const deleteTicket = async (ticketId: string) => {
         data: {
           objects: {
             Objects: attachments.map((attachment) => ({
-              Key: generateTicketAttachmentS3Key({
+              Key: generateAttachmentS3Key({
                 organizationId: ticket.organizationId,
                 ticketId: attachment.ticketId,
                 fileName: attachment.name,

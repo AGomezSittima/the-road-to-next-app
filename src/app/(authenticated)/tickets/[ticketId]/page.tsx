@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Separator } from "@/components/ui/separator";
-import { TicketAttachments } from "@/features/attachments/components/ticket-attachments";
+import { Attachments } from "@/features/attachments/components/attachments";
 import { Comments } from "@/features/comment/components/comments/comments";
 import { getComments } from "@/features/comment/queries/get-comments";
 import { TicketItem } from "@/features/ticket/components/ticket-item";
@@ -40,7 +40,11 @@ const TicketPage = async ({ params }: TicketPageProps) => {
         <TicketItem
           ticket={ticket}
           attachments={
-            <TicketAttachments ticketId={ticket.id} isOwner={ticket.isOwner} />
+            <Attachments
+              entity="TICKET"
+              entityId={ticket.id}
+              isOwner={ticket.isOwner}
+            />
           }
           comments={
             <Comments

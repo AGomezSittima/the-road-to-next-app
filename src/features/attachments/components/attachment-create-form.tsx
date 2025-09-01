@@ -7,23 +7,26 @@ import { Form } from "@/components/form/form";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Input } from "@/components/ui/input";
 import { EMPTY_ACTION_STATE } from "@/utils/to-action-state";
+import { AttachmentEntity } from "@prisma/client";
 
 import { createAttachments } from "../actions/create-attachments";
 import { ACCEPTED_FILE_TYPES } from "../constants";
 
-type TicketAttachmentCreateFormProps = {
-  ticketId: string;
+type AttachmentCreateFormProps = {
+  entity: AttachmentEntity;
+  entityId: string;
 };
 
 enum FormFields {
   Files = "files",
 }
 
-const TicketAttachmentCreateForm = ({
-  ticketId,
-}: TicketAttachmentCreateFormProps) => {
+const AttachmentCreateForm = ({
+  entity,
+  entityId,
+}: AttachmentCreateFormProps) => {
   const [actionState, action] = useActionState(
-    createAttachments.bind(null, ticketId),
+    createAttachments.bind(null, { entity, entityId }),
     EMPTY_ACTION_STATE,
   );
 
@@ -45,4 +48,4 @@ const TicketAttachmentCreateForm = ({
   return null;
 };
 
-export { TicketAttachmentCreateForm };
+export { AttachmentCreateForm };

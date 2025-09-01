@@ -1,7 +1,7 @@
 "use server";
 
 import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-redirect";
-import { generateTicketAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
+import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
@@ -38,7 +38,7 @@ export const deleteOrganization = async (organizationId: string) => {
         data: {
           objects: {
             Objects: attachments.map((attachment) => ({
-              Key: generateTicketAttachmentS3Key({
+              Key: generateAttachmentS3Key({
                 organizationId,
                 ticketId: attachment.ticketId,
                 fileName: attachment.name,

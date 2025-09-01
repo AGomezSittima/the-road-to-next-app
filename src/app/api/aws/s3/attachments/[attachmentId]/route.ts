@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { generateTicketAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
+import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
 import { s3 } from "@/lib/aws";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
@@ -21,7 +21,7 @@ export async function GET(
     include: { ticket: true },
   });
 
-  const attachmentS3Key = generateTicketAttachmentS3Key({
+  const attachmentS3Key = generateAttachmentS3Key({
     organizationId: attachment.ticket.organizationId,
     ticketId: attachment.ticket.id,
     fileName: attachment.name,

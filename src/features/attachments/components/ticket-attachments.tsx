@@ -2,7 +2,7 @@ import { CardCompact } from "@/components/card-compact";
 
 import { getAttachments } from "../queries/get-attachments";
 import { AttachmentDeleteButton } from "./attachment-delete-button";
-import { AttachmentItem } from "./attachment-item";
+import { AttachmentList } from "./attachment-list";
 import { TicketAttachmentCreateForm } from "./ticket-attachment-create-form";
 
 type TicketAttachmentsProps = {
@@ -23,17 +23,14 @@ const TicketAttachments = async ({
       content={
         <>
           <div className="mx-2 mb-4 flex flex-col gap-y-2">
-            {attachments.map((attachment) => (
-              <AttachmentItem
-                key={attachment.id}
-                attachment={attachment}
-                buttons={[
-                  ...(isOwner
-                    ? [<AttachmentDeleteButton key="0" id={attachment.id} />]
-                    : []),
-                ]}
-              />
-            ))}
+            <AttachmentList
+              attachments={attachments}
+              renderButtons={(attachmentId: string) => [
+                ...(isOwner
+                  ? [<AttachmentDeleteButton key="0" id={attachmentId} />]
+                  : []),
+              ]}
+            />
           </div>
 
           {isOwner && <TicketAttachmentCreateForm ticketId={ticketId} />}

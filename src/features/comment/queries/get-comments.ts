@@ -3,9 +3,15 @@
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { prisma } from "@/lib/prisma";
+import { PaginatedData } from "@/types/pagination";
 import { appConfig } from "@/utils/app-config";
 
-export const getComments = async (ticketId: string, cursor?: string) => {
+import { CommentWithMetadata } from "../types";
+
+export const getComments = async (
+  ticketId: string,
+  cursor?: string,
+): Promise<PaginatedData<CommentWithMetadata>> => {
   const { user } = await getAuth();
 
   const where = {

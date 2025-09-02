@@ -2,13 +2,15 @@ import { s3 } from "@/lib/aws";
 import { inngest } from "@/lib/inngest";
 import { appConfig } from "@/utils/app-config";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { AttachmentEntity } from "@prisma/client";
 
 import { generateAttachmentS3Key } from "../../s3/utils/generate-s3-key";
 
 export type AttachmentDeletedEventArgs = {
   data: {
     organizationId: string;
-    ticketId: string;
+    entity: AttachmentEntity;
+    entityId: string;
     fileName: string;
     attachmentId: string;
   };
@@ -20,12 +22,14 @@ export const attachmentDeletedEvent = inngest.createFunction(
     event: appConfig.events.names.attachmentDeleted,
   },
   async ({ event }) => {
-    const { organizationId, ticketId, fileName, attachmentId } = event.data;
+    const { organizationId, entity, entityId, fileName, attachmentId } =
+      event.data;
 
     try {
       const attachmentKey = generateAttachmentS3Key({
         organizationId,
-        ticketId,
+        entity,
+        entityId,
         fileName,
         attachmentId,
       });

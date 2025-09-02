@@ -10,15 +10,23 @@ import { appConfig } from "@/utils/app-config";
 import { ticketPath } from "@/utils/paths";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 
+import { getOrganizationIdByAttachmentSubject } from "../utils/attachment-helper";
+
 export const deleteAttachment = async (id: string) => {
   const { user } = await getAuthOrRedirect();
 
   const attachment = await prisma.attachment.findUniqueOrThrow({
     where: { id },
-    include: { ticket: true },
+    include: { ticket: true, comment: { include: { ticket: true } } },
   });
 
-  if (!isOwner(user, attachment.ticket)) {
+  const subject = attachment.ticket ?? attachment.comment;
+
+  if (!subject) {
+    return toActionState("ERROR", "Subject not found");
+  }
+
+  if (!isOwner(user, subject)) {
     return toActionState("ERROR", "Not authorized");
   }
 
@@ -27,11 +35,17 @@ export const deleteAttachment = async (id: string) => {
       where: { id },
     });
 
+    const organizationId = getOrganizationIdByAttachmentSubject(
+      attachment.entity,
+      subject,
+    );
+
     await inngest.send({
       name: appConfig.events.names.attachmentDeleted,
       data: {
-        organizationId: attachment.ticket.organizationId,
-        ticketId: attachment.ticket.id,
+        organizationId: organizationId,
+        entity: attachment.entity,
+        entityId: subject.id,
         fileName: attachment.name,
         attachmentId: id,
       },

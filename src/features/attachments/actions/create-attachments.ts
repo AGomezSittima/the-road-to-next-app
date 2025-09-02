@@ -22,6 +22,7 @@ import { ACCEPTED_FILE_TYPES, MAX_FILE_SIZE_IN_MB } from "../constants";
 import {
   getOrganizationIdByAttachmentSubject,
   getPathByAttachmentSubject,
+  getSubjectByEntity,
 } from "../utils/attachment-helper";
 import { sizeInMB } from "../utils/size";
 
@@ -56,27 +57,7 @@ export const createAttachments = async (
 ) => {
   const { user } = await getAuthOrRedirect();
 
-  let subject;
-  switch (entity) {
-    case "TICKET": {
-      subject = await prisma.ticket.findUnique({
-        where: { id: entityId },
-      });
-
-      break;
-    }
-    case "COMMENT": {
-      subject = await prisma.comment.findUnique({
-        where: { id: entityId },
-        include: { ticket: true },
-      });
-
-      break;
-    }
-    default: {
-      return toActionState("ERROR", "Unknown entity");
-    }
-  }
+  const subject = await getSubjectByEntity({ entity, entityId });
 
   if (!subject) {
     return toActionState("ERROR", "Subject not found");

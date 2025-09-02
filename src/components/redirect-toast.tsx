@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-import { deleteCookieByKey, getCookieByKey } from "@/actions/cookies";
+import { consumeCookieByKey } from "@/actions/cookies";
 import { appConfig } from "@/utils/app-config";
 
 const RedirectToast = () => {
@@ -15,12 +15,10 @@ const RedirectToast = () => {
 
   useEffect(() => {
     const showCookieToast = async () => {
-      const message = await getCookieByKey(appConfig.cookiesKeys.toast);
+      const message = await consumeCookieByKey(appConfig.cookiesKeys.toast);
 
       if (message) {
         toast.success(message);
-
-        await deleteCookieByKey(appConfig.cookiesKeys.toast);
       }
     };
 

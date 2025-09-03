@@ -144,12 +144,13 @@ model Comment {
   createdAt DateTime @default(now())
   content   String   @db.VarChar(1024)
 
+  attachments Attachment[]
+
   ticketId String
   ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
-  userId     String?
-  user       User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
-  Attachment Attachment[]
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([ticketId])
   @@index([userId])

@@ -59,6 +59,7 @@ const InvitationCreateButton = ({
             Invite a user by email to your organization
           </DialogDescription>
         </DialogHeader>
+        {/* TODO: Extract component */}
         <Form action={action} actionState={actionState} onSuccess={handleClose}>
           <div className="grid gap-4 py-4">
             <div>

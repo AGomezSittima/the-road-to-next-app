@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import React, { useActionState } from "react";
 
 import { FieldError } from "@/components/form/field-error";
 import { Form } from "@/components/form/form";
@@ -15,6 +15,8 @@ import { ACCEPTED_FILE_TYPES } from "../constants";
 type AttachmentCreateFormProps = {
   entity: AttachmentEntity;
   entityId: string;
+  buttons?: React.ReactNode;
+  onSuccess?: () => void;
 };
 
 enum FormFields {
@@ -24,6 +26,8 @@ enum FormFields {
 const AttachmentCreateForm = ({
   entity,
   entityId,
+  buttons,
+  onSuccess,
 }: AttachmentCreateFormProps) => {
   const [actionState, action] = useActionState(
     createAttachments.bind(null, { entity, entityId }),
@@ -31,7 +35,7 @@ const AttachmentCreateForm = ({
   );
 
   return (
-    <Form action={action} actionState={actionState}>
+    <Form action={action} actionState={actionState} onSuccess={onSuccess}>
       <Input
         name={FormFields.Files}
         id={FormFields.Files}
@@ -41,7 +45,7 @@ const AttachmentCreateForm = ({
       />
       <FieldError actionState={actionState} name={FormFields.Files} />
 
-      <SubmitButton label="Upload" />
+      {buttons || <SubmitButton label="Upload" />}
     </Form>
   );
 

@@ -7,7 +7,7 @@ import {
 
 type UsePaginatedArgs<K> = {
   queryKey: string[];
-  queryFn: QueryFunction<K, string[], string>;
+  queryFn: QueryFunction<K, string[], string | undefined>;
   initialPaginatedData: K;
 };
 
@@ -22,12 +22,12 @@ export const usePaginated = <T, K extends PaginatedData<T>>({
     useInfiniteQuery({
       queryKey,
       queryFn,
-      initialPageParam: "",
+      initialPageParam: undefined as string | undefined,
       getNextPageParam: (lastPage) =>
         lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined,
       initialData: {
         pages: [initialPaginatedData],
-        pageParams: [""],
+        pageParams: [undefined],
       },
     });
 

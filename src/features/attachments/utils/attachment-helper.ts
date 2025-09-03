@@ -1,35 +1,7 @@
-import { prisma } from "@/lib/prisma";
 import { ticketPath } from "@/utils/paths";
 import { AttachmentEntity } from "@prisma/client";
 
 import { AttachmentSubject, isComment, isTicket } from "../types";
-
-type GetSubjectByEntityArgs = {
-  entity: AttachmentEntity;
-  entityId: string;
-};
-
-export const getSubjectByEntity = async ({
-  entity,
-  entityId,
-}: GetSubjectByEntityArgs) => {
-  switch (entity) {
-    case "TICKET": {
-      return await prisma.ticket.findUnique({
-        where: { id: entityId },
-      });
-    }
-    case "COMMENT": {
-      return await prisma.comment.findUnique({
-        where: { id: entityId },
-        include: { ticket: true },
-      });
-    }
-    default: {
-      return null;
-    }
-  }
-};
 
 export const getOrganizationIdByAttachmentSubject = (
   entity: AttachmentEntity,

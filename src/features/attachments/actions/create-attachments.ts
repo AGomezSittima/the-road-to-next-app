@@ -19,10 +19,10 @@ import { AttachmentEntity } from "@prisma/client";
 
 import { generateAttachmentS3Key } from "../../s3/utils/generate-s3-key";
 import { ACCEPTED_FILE_TYPES, MAX_FILE_SIZE_IN_MB } from "../constants";
+import * as attachmentService from "../service/get-attachment-subject";
 import {
   getOrganizationIdByAttachmentSubject,
   getPathByAttachmentSubject,
-  getSubjectByEntity,
 } from "../utils/attachment-helper";
 import { sizeInMB } from "../utils/size";
 
@@ -57,7 +57,10 @@ export const createAttachments = async (
 ) => {
   const { user } = await getAuthOrRedirect();
 
-  const subject = await getSubjectByEntity({ entity, entityId });
+  const subject = await attachmentService.getAttachmentSubject({
+    entity,
+    entityId,
+  });
 
   if (!subject) {
     return toActionState("ERROR", "Subject not found");

@@ -45,7 +45,8 @@ export const deleteTicket = async (ticketId: string) => {
             Objects: attachments.map((attachment) => ({
               Key: generateAttachmentS3Key({
                 organizationId: ticket.organizationId,
-                ticketId: attachment.ticketId,
+                entity: attachment.entity,
+                entityId: ticketId,
                 fileName: attachment.name,
                 attachmentId: attachment.id,
               }),

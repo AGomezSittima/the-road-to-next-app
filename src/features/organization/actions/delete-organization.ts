@@ -23,13 +23,14 @@ export const deleteOrganization = async (organizationId: string) => {
       return toActionState("ERROR", "Not a member of this organization");
     }
 
-    const ticketsIds = await prisma.ticket.findMany({
-      where: { organizationId },
-      select: { id: true },
-    });
-
     const attachments = await prisma.attachment.findMany({
-      where: { ticketId: { in: ticketsIds.map((t) => t.id) } },
+      where: {
+        OR: [
+          { ticket: { organizationId } },
+          { comment: { ticket: { organizationId } } },
+        ],
+      },
+      include: { ticket: true, comment: { include: { ticket: true } } },
     });
 
     if (attachments && attachments.length) {
@@ -37,14 +38,19 @@ export const deleteOrganization = async (organizationId: string) => {
         name: appConfig.events.names.s3ObjectsCleanup,
         data: {
           objects: {
-            Objects: attachments.map((attachment) => ({
-              Key: generateAttachmentS3Key({
-                organizationId,
-                ticketId: attachment.ticketId,
-                fileName: attachment.name,
-                attachmentId: attachment.id,
-              }),
-            })),
+            Objects: attachments.map((attachment) => {
+              const subject = attachment.ticket ?? attachment.comment;
+
+              return {
+                Key: generateAttachmentS3Key({
+                  organizationId,
+                  entity: attachment.entity,
+                  entityId: subject?.id ?? "",
+                  fileName: attachment.name,
+                  attachmentId: attachment.id,
+                }),
+              };
+            }),
           },
         },
       });

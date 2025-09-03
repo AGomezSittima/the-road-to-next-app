@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 
+import { getOrganizationIdByAttachmentSubject } from "@/features/attachments/utils/attachment-helper";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
 import { s3 } from "@/lib/aws";
@@ -18,12 +19,24 @@ export async function GET(
 
   const attachment = await prisma.attachment.findUniqueOrThrow({
     where: { id: attachmentId },
-    include: { ticket: true },
+    include: { ticket: true, comment: { include: { ticket: true } } },
   });
 
+  const subject = attachment.ticket ?? attachment.comment;
+
+  if (!subject) {
+    throw new Error("Subject not found");
+  }
+
+  const organizationId = getOrganizationIdByAttachmentSubject(
+    attachment.entity,
+    subject,
+  );
+
   const attachmentS3Key = generateAttachmentS3Key({
-    organizationId: attachment.ticket.organizationId,
-    ticketId: attachment.ticket.id,
+    organizationId,
+    entity: attachment.entity,
+    entityId: subject.id,
     fileName: attachment.name,
     attachmentId: attachment.id,
   });

@@ -29,7 +29,11 @@ const CommentList = ({ comments, onDeleteComment }: CommentListProps) => {
           />
         );
 
-        const buttons = [...(comment.isOwner ? [attachmentCreateButton, commentDeleteButton] : [])];
+        const buttons = [
+          ...(comment.isOwner
+            ? [attachmentCreateButton, commentDeleteButton]
+            : []),
+        ];
 
         return (
           <CommentItem key={comment.id} comment={comment} buttons={buttons} />

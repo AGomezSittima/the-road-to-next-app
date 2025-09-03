@@ -25,6 +25,8 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
     isFetchingNextPage,
     onCreateComment,
     onDeleteComment,
+    onCreateAttachment,
+    onDeleteAttachment,
   } = usePaginatedComments(ticketId, paginatedComments);
 
   const { ref, inView } = useInView();
@@ -49,7 +51,12 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
       />
 
       <div className="ml-8 flex flex-col gap-y-2">
-        <CommentList comments={comments} onDeleteComment={onDeleteComment} />
+        <CommentList
+          comments={comments}
+          onDeleteComment={onDeleteComment}
+          onCreateAttachment={onCreateAttachment}
+          onDeleteAttachment={onDeleteAttachment}
+        />
       </div>
 
       <div ref={ref}>

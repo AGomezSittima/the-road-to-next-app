@@ -21,15 +21,19 @@ import { AttachmentCreateForm } from "./attachment-create-form";
 type AttachmentCreateButtonProps = {
   entity: AttachmentEntity;
   entityId: string;
+  onCreateAttachment?: () => void;
 };
 
 const AttachmentCreateButton = ({
   entity,
   entityId,
+  onCreateAttachment,
 }: AttachmentCreateButtonProps) => {
   const [open, setOpen] = useState(false);
 
   const handleSuccess = () => {
+    onCreateAttachment?.();
+
     setOpen(false);
   };
 

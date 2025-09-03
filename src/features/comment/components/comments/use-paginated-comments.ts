@@ -29,5 +29,7 @@ export const usePaginatedComments = (
     isFetchingNextPage,
     onCreateComment: () => invalidateQueries(),
     onDeleteComment: () => invalidateQueries(),
+    onCreateAttachment: () => invalidateQueries(),
+    onDeleteAttachment: () => invalidateQueries(),
   };
 };

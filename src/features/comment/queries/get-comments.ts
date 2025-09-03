@@ -27,7 +27,7 @@ export const getComments = async (
     prisma.comment.findMany({
       where,
       take: take + 1,
-      include: { user: { select: { username: true } } },
+      include: { user: { select: { username: true } }, attachments: true },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
     }),
     // Get total comments count

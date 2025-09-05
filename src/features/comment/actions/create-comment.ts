@@ -41,6 +41,10 @@ export const createComment = async (
       userId: user.id,
       ticketId,
       content,
+      options: {
+        includeUser: true,
+        includeTicket: true,
+      },
     });
 
     await attachmentService.createAttachments({

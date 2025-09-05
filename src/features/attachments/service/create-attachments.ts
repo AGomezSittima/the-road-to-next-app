@@ -6,6 +6,7 @@ import { appConfig } from "@/utils/app-config";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { Attachment, AttachmentEntity } from "@prisma/client";
 
+import * as attachmentDataAccess from "../data";
 import { AttachmentSubject } from "../types";
 import { getOrganizationIdByAttachmentSubject } from "../utils/attachment-helper";
 
@@ -28,13 +29,10 @@ export const createAttachments = async ({
     for (const file of files) {
       const buffer = Buffer.from(await file.arrayBuffer());
 
-      const attachment = await prisma.attachment.create({
-        data: {
-          name: file.name,
-          ...(entity === "TICKET" ? { ticketId: entityId } : {}),
-          ...(entity === "COMMENT" ? { commentId: entityId } : {}),
-          entity,
-        },
+      const attachment = await attachmentDataAccess.createAttachment({
+        name: file.name,
+        entity,
+        entityId,
       });
 
       const organizationId = getOrganizationIdByAttachmentSubject(

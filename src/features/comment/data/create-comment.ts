@@ -1,91 +1,57 @@
 import { prisma } from "@/lib/prisma";
-import { Comment, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
+type UserInclude = { user: { select: { username: true } } };
+type TicketInclude = { ticket: true };
+
+type CreateCommentIncludeTypes = UserInclude & TicketInclude;
 type CreateCommentArgs = {
   userId: string;
   ticketId: string;
   content: string;
 };
 
-export async function createComment({
-  userId,
-  ticketId,
-  content,
-  options,
-}: CreateCommentArgs & {
-  options?: {
-    includeUser?: false;
-    includeTicket?: false;
-  };
-}): Promise<Comment>;
+type IncludeOptions = {
+  includeUser?: boolean;
+  includeTicket?: boolean;
+};
 
-export async function createComment({
-  userId,
-  ticketId,
-  content,
-  options,
-}: CreateCommentArgs & {
-  options?: {
-    includeUser?: true;
-    includeTicket?: false;
-  };
-}): Promise<
-  Prisma.CommentGetPayload<{
-    include: { user: { select: { username: true } } };
-  }>
->;
+type CommentPayload<T extends IncludeOptions> = T extends {
+  includeUser: true;
+  includeTicket: true;
+}
+  ? Prisma.CommentGetPayload<{ include: CreateCommentIncludeTypes }>
+  : T extends { includeUser: true }
+    ? Prisma.CommentGetPayload<{ include: UserInclude }>
+    : T extends { includeTicket: true }
+      ? Prisma.CommentGetPayload<{ include: TicketInclude }>
+      : Comment;
 
-export async function createComment({
+export async function createComment<T extends IncludeOptions>({
   userId,
   ticketId,
   content,
   options,
 }: CreateCommentArgs & {
-  options?: {
-    includeUser?: false;
-    includeTicket?: true;
-  };
-}): Promise<Prisma.CommentGetPayload<{ include: { ticket: true } }>>;
-
-export async function createComment({
-  userId,
-  ticketId,
-  content,
-  options,
-}: CreateCommentArgs & {
-  options?: {
-    includeUser?: true;
-    includeTicket?: true;
-  };
-}): Promise<
-  Prisma.CommentGetPayload<{
-    include: { user: { select: { username: true } }; ticket: true };
-  }>
->;
-
-export async function createComment({
-  userId,
-  ticketId,
-  content,
-  options,
-}: CreateCommentArgs & {
-  options?: {
-    includeUser?: boolean;
-    includeTicket?: boolean;
-  };
-}) {
+  options?: T;
+}): Promise<CommentPayload<T>> {
   const includeUser = options?.includeUser && {
     user: { select: { username: true } },
   };
 
   const includeTicket = options?.includeTicket && { ticket: true };
 
-  return await prisma.comment.create({
+  const comment = await prisma.comment.create({
     data: {
       userId,
       ticketId,
       content,
     },
-    include: { ...includeUser, ...includeTicket },
+    include: {
+      ...includeUser,
+      ...includeTicket,
+    },
   });
+
+  return comment as CommentPayload<T>;
 }

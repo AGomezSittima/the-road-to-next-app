@@ -11,14 +11,14 @@ import { ticketPath } from "@/utils/paths";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 
 import * as attachmentData from "../data";
-import * as attachmentSubjectDTO from "../dto/attachment-subject-dto";
+import { AttachmentSubjectDTO } from "../dto/attachment-subject-dto";
 
 export const deleteAttachment = async (id: string) => {
   const { user } = await getAuthOrRedirect();
 
   const attachment = await attachmentData.getAttachmentById(id);
 
-  const subject = attachmentSubjectDTO.fromAttachment(attachment);
+  const subject = AttachmentSubjectDTO.fromAttachment(attachment);
 
   if (!subject || !attachment) {
     return toActionState("ERROR", "Not found");

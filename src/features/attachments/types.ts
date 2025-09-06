@@ -19,6 +19,10 @@ type AttachmentSubjectComment = Prisma.CommentGetPayload<{
   };
 }>;
 
+export type AttachmentPayload = Prisma.AttachmentGetPayload<{
+  include: { ticket: true; comment: { include: { ticket: true } } };
+}>;
+
 export type AttachmentSubject =
   | AttachmentSubjectTicket
   | AttachmentSubjectComment;

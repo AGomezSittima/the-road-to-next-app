@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import * as attachmentSubjectDTO from "@/features/attachments/dto/attachment-subject-dto";
+import { AttachmentSubjectDTO } from "@/features/attachments/dto/attachment-subject-dto";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
 import { s3 } from "@/lib/aws";
@@ -22,7 +22,7 @@ export async function GET(
     include: { ticket: true, comment: { include: { ticket: true } } },
   });
 
-  const subject = attachmentSubjectDTO.fromAttachment(attachment);
+  const subject = AttachmentSubjectDTO.fromAttachment(attachment);
 
   if (!subject || !attachment) {
     throw new Error("Not found");

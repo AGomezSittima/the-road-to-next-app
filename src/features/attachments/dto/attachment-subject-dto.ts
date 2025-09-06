@@ -1,54 +1,74 @@
 import { AttachmentEntity } from "@prisma/client";
 
-import * as attachmentDTO from "../dto/attachment-dto";
-import { AttachmentSubject, isComment, isTicket } from "../types";
+import {
+  AttachmentPayload,
+  AttachmentSubject,
+  isComment,
+  isTicket,
+} from "../types";
 
-export type Type = {
+export class AttachmentSubjectDTO {
   entity: AttachmentEntity;
   entityId: string;
   organizationId: string;
   userId: string | null;
   ticketId: string;
   commentId: string | null;
-};
 
-export const fromTicket = (ticket: AttachmentSubject | null) => {
-  if (!ticket || !isTicket(ticket)) {
-    return null;
+  constructor(
+    entity: AttachmentEntity,
+    entityId: string,
+    organizationId: string,
+    userId: string | null,
+    ticketId: string,
+    commentId: string | null,
+  ) {
+    this.entity = entity;
+    this.entityId = entityId;
+    this.organizationId = organizationId;
+    this.userId = userId;
+    this.ticketId = ticketId;
+    this.commentId = commentId;
   }
 
-  return {
-    entity: "TICKET" as AttachmentEntity,
-    entityId: ticket.id,
-    organizationId: ticket.organizationId,
-    userId: ticket.userId,
-    ticketId: ticket.id,
-    commentId: null,
-  };
-};
-
-export const fromComment = (comment: AttachmentSubject | null) => {
-  if (!comment || !isComment(comment)) {
-    return null;
-  }
-
-  return {
-    entity: "COMMENT" as AttachmentEntity,
-    entityId: comment.id,
-    organizationId: comment.ticket.organizationId,
-    userId: comment.userId,
-    ticketId: comment.ticket.id,
-    commentId: comment.id,
-  };
-};
-
-export const fromAttachment = (attachment: attachmentDTO.Type | null) => {
-  switch (attachment?.entity) {
-    case "TICKET":
-      return fromTicket(attachment.ticket);
-    case "COMMENT":
-      return fromComment(attachment.comment);
-    default:
+  static fromTicket(ticket: AttachmentSubject | null) {
+    if (!ticket || !isTicket(ticket)) {
       return null;
+    }
+
+    return new AttachmentSubjectDTO(
+      "TICKET",
+      ticket.id,
+      ticket.organizationId,
+      ticket.userId,
+      ticket.id,
+      null,
+    );
   }
-};
+
+  static fromComment(comment: AttachmentSubject | null) {
+    if (!comment || !isComment(comment)) {
+      return null;
+    }
+
+    return new AttachmentSubjectDTO(
+      "COMMENT",
+      comment.id,
+      comment.ticket.organizationId,
+      comment.userId,
+      comment.ticket.id,
+      comment.id,
+    );
+  }
+
+  static fromAttachment(attachment: AttachmentPayload | null) {
+    switch (attachment?.entity) {
+      case "TICKET":
+        return this.fromTicket(attachment.ticket);
+      case "COMMENT":
+        return this.fromComment(attachment.comment);
+      default:
+        return null;
+    }
+  }
+}

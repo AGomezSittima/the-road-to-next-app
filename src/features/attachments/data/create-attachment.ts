@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { AttachmentEntity } from "@prisma/client";
 
-import * as attachmentDTO from "../dto/attachment-dto";
+import { AttachmentPayload } from "../types";
 
 type CreateAttachmentArgs = {
   name: string;
@@ -13,7 +13,7 @@ export const createAttachment = async ({
   name,
   entity,
   entityId,
-}: CreateAttachmentArgs): Promise<attachmentDTO.Type> => {
+}: CreateAttachmentArgs): Promise<AttachmentPayload> => {
   return await prisma.attachment.create({
     data: {
       name,

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { getOrganizationIdByAttachmentSubject } from "@/features/attachments/utils/attachment-helper";
+import * as attachmentSubjectDTO from "@/features/attachments/dto/attachment-subject-dto";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
 import { s3 } from "@/lib/aws";
@@ -22,21 +22,16 @@ export async function GET(
     include: { ticket: true, comment: { include: { ticket: true } } },
   });
 
-  const subject = attachment.ticket ?? attachment.comment;
+  const subject = attachmentSubjectDTO.fromAttachment(attachment);
 
-  if (!subject) {
-    throw new Error("Subject not found");
+  if (!subject || !attachment) {
+    throw new Error("Not found");
   }
 
-  const organizationId = getOrganizationIdByAttachmentSubject(
-    attachment.entity,
-    subject,
-  );
-
   const attachmentS3Key = generateAttachmentS3Key({
-    organizationId,
+    organizationId: subject.organizationId,
     entity: attachment.entity,
-    entityId: subject.id,
+    entityId: subject.entityId,
     fileName: attachment.name,
     attachmentId: attachment.id,
   });

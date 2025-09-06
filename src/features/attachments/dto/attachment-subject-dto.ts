@@ -1,5 +1,6 @@
 import { AttachmentEntity } from "@prisma/client";
 
+import * as attachmentDTO from "../dto/attachment-dto";
 import { AttachmentSubject, isComment, isTicket } from "../types";
 
 export type Type = {
@@ -39,4 +40,15 @@ export const fromComment = (comment: AttachmentSubject | null) => {
     ticketId: comment.ticket.id,
     commentId: comment.id,
   };
+};
+
+export const fromAttachment = (attachment: attachmentDTO.Type | null) => {
+  switch (attachment?.entity) {
+    case "TICKET":
+      return fromTicket(attachment.ticket);
+    case "COMMENT":
+      return fromComment(attachment.comment);
+    default:
+      return null;
+  }
 };

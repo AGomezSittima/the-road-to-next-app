@@ -7,11 +7,10 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { Attachment, AttachmentEntity } from "@prisma/client";
 
 import * as attachmentDataAccess from "../data";
-import { AttachmentSubject } from "../types";
-import { getOrganizationIdByAttachmentSubject } from "../utils/attachment-helper";
+import * as attachmentSubjectDTO from "../dto/attachment-subject-dto";
 
 type CreateAttachmentsArgs = {
-  subject: AttachmentSubject;
+  subject: attachmentSubjectDTO.Type;
   entity: AttachmentEntity;
   entityId: string;
   files: File[];
@@ -35,13 +34,8 @@ export const createAttachments = async ({
         entityId,
       });
 
-      const organizationId = getOrganizationIdByAttachmentSubject(
-        entity,
-        subject,
-      );
-
       const attachmentKey = generateAttachmentS3Key({
-        organizationId,
+        organizationId: subject.organizationId,
         entity,
         entityId,
         fileName: file.name,

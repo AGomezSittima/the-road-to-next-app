@@ -14,7 +14,6 @@ import { AttachmentEntity } from "@prisma/client";
 
 import { filesSchema } from "../schema/files";
 import * as attachmentService from "../service";
-import { getPathByAttachmentSubject } from "../utils/attachment-helper";
 
 const createAttachmentsSchema = z.object({
   files: filesSchema.refine((files) => files.length !== 0, "File is required"),
@@ -59,8 +58,7 @@ export const createAttachments = async (
     return fromErrorToActionState(error);
   }
 
-  const path = getPathByAttachmentSubject(entity, subject);
-  revalidatePath(path);
+  revalidatePath(subject.ticketId);
 
   return toActionState("SUCCESS", "Attachment(s) uploaded");
 };

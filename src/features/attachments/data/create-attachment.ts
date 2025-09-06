@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { AttachmentEntity } from "@prisma/client";
 
+import * as attachmentDTO from "../dto/attachment-dto";
+
 type CreateAttachmentArgs = {
   name: string;
   entity: AttachmentEntity;
@@ -11,7 +13,7 @@ export const createAttachment = async ({
   name,
   entity,
   entityId,
-}: CreateAttachmentArgs) => {
+}: CreateAttachmentArgs): Promise<attachmentDTO.Type> => {
   return await prisma.attachment.create({
     data: {
       name,
@@ -19,5 +21,6 @@ export const createAttachment = async ({
       ...(entity === "TICKET" ? { ticketId: entityId } : {}),
       ...(entity === "COMMENT" ? { commentId: entityId } : {}),
     },
+    include: { ticket: true, comment: { include: { ticket: true } } },
   });
 };

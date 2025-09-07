@@ -13,7 +13,7 @@ type ReferencedTicketsProps = {
 const ReferencedTickets = async ({ ticketId }: ReferencedTicketsProps) => {
   const referencedTickets = await getReferencedTickets(ticketId);
 
-  if (referencedTickets.length) return null;
+  if (!referencedTickets.length) return null;
 
   return (
     <CardCompact

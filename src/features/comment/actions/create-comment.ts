@@ -7,6 +7,8 @@ import { AttachmentSubjectDTO } from "@/features/attachments/dto/attachment-subj
 import { filesSchema } from "@/features/attachments/schema/files";
 import * as attachmentService from "@/features/attachments/service";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import * as ticketDataAccess from "@/features/ticket/data";
+import { findEntityIdsFromText } from "@/utils/find-entity-ids-from-text";
 import { ticketPath } from "@/utils/paths";
 import {
   ActionState,
@@ -60,6 +62,11 @@ export const createComment = async (
       entityId: comment.id,
       files,
     });
+
+    await ticketDataAccess.connectReferencedTickets(
+      ticketId,
+      findEntityIdsFromText("tickets", content),
+    );
   } catch (error) {
     return fromErrorToActionState(error);
   }

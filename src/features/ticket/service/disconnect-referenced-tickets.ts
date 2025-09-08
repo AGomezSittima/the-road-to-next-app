@@ -2,7 +2,24 @@ import { prisma } from "@/lib/prisma";
 import { findEntityIdsFromText } from "@/utils/find-entity-ids-from-text";
 import { Comment } from "@prisma/client";
 
-export const disconnectReferencedTicketsViaComment = async (comment: Comment) => {
+export async function disconnectReferencedTicketsViaComment(
+  comment: Comment,
+): Promise<void>;
+export async function disconnectReferencedTicketsViaComment(
+  commentId: string,
+): Promise<void>;
+export async function disconnectReferencedTicketsViaComment(
+  commentOrId: Comment | string,
+): Promise<void> {
+  const comment =
+    typeof commentOrId === "string"
+      ? await prisma.comment.findUnique({ where: { id: commentOrId } })
+      : commentOrId;
+
+  if (!comment) {
+    throw new Error("Comment not found.");
+  }
+
   const ticketId = comment.ticketId;
   const ticketIds = findEntityIdsFromText("tickets", comment.content);
 
@@ -39,4 +56,4 @@ export const disconnectReferencedTicketsViaComment = async (comment: Comment) =>
       },
     },
   });
-};
+}

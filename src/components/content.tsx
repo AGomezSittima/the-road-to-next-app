@@ -25,7 +25,13 @@ const renderLink = ({ attributes, content }: IntermediateRepresentation) => {
   }
 
   return (
-    <Link href={url} {...props} className="underline" onClick={handleClick}>
+    <Link
+      href={url}
+      {...props}
+      className="underline"
+      onClick={handleClick}
+      target={isInternal ? "_self" : "_blank"}
+    >
       {maybeParsedContent}
     </Link>
   );

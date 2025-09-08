@@ -19,9 +19,10 @@ export const deleteComment = async (id: string) => {
   }
 
   try {
-    await ticketService.disconnectReferencedTicketsViaComment(comment);
-
-    await prisma.comment.delete({ where: { id } });
+    await Promise.all([
+      ticketService.disconnectReferencedTicketsViaComment(comment),
+      prisma.comment.delete({ where: { id } }),
+    ]);
   } catch (error) {
     return fromErrorToActionState(error);
   }

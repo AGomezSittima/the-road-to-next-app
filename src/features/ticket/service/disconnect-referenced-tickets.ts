@@ -1,19 +1,21 @@
-import { prisma } from "@/lib/prisma";
 import { findEntityIdsFromText } from "@/utils/find-entity-ids-from-text";
-import { Comment } from "@prisma/client";
+import { Comment, Prisma } from "@prisma/client";
 
 export async function disconnectReferencedTicketsViaComment(
   comment: Comment,
+  tx: Prisma.TransactionClient,
 ): Promise<void>;
 export async function disconnectReferencedTicketsViaComment(
   commentId: string,
+  tx: Prisma.TransactionClient,
 ): Promise<void>;
 export async function disconnectReferencedTicketsViaComment(
   commentOrId: Comment | string,
+  tx: Prisma.TransactionClient,
 ): Promise<void> {
   const comment =
     typeof commentOrId === "string"
-      ? await prisma.comment.findUnique({ where: { id: commentOrId } })
+      ? await tx.comment.findUnique({ where: { id: commentOrId } })
       : commentOrId;
 
   if (!comment) {
@@ -26,12 +28,12 @@ export async function disconnectReferencedTicketsViaComment(
   if (!ticketIds.length) return;
 
   // TODO: Refactor common logic for making sure that referenced IDs are in the database
-  const referencedTicketIds = await prisma.ticket.findMany({
+  const referencedTicketIds = await tx.ticket.findMany({
     where: { id: { in: ticketIds } },
     select: { id: true },
   });
 
-  const comments = await prisma.comment.findMany({
+  const comments = await tx.comment.findMany({
     where: {
       ticketId: comment.ticketId,
       id: {
@@ -48,7 +50,7 @@ export async function disconnectReferencedTicketsViaComment(
     (ticketId) => !allOtherTicketIds.includes(ticketId.id),
   );
 
-  await prisma.ticket.update({
+  await tx.ticket.update({
     where: { id: ticketId },
     data: {
       referencedTickets: {

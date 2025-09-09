@@ -4,10 +4,11 @@ import { revalidatePath } from "next/cache";
 
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
-import * as ticketService from "@/features/ticket/service";
 import { prisma } from "@/lib/prisma";
 import { ticketPath } from "@/utils/paths";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
+
+import * as commentService from "../service";
 
 export const deleteComment = async (id: string) => {
   const { user } = await getAuthOrRedirect();
@@ -19,10 +20,7 @@ export const deleteComment = async (id: string) => {
   }
 
   try {
-    await Promise.all([
-      ticketService.disconnectReferencedTicketsViaComment(comment),
-      prisma.comment.delete({ where: { id } }),
-    ]);
+    commentService.deleteComment(comment);
   } catch (error) {
     return fromErrorToActionState(error);
   }

@@ -13,7 +13,7 @@ type InvitationsPageProps = {
   }>;
 };
 
-const MembershipsPage = async ({ params }: InvitationsPageProps) => {
+const InvitationsPage = async ({ params }: InvitationsPageProps) => {
   const { organizationId } = await params;
 
   return (
@@ -32,4 +32,4 @@ const MembershipsPage = async ({ params }: InvitationsPageProps) => {
   );
 };
 
-export default MembershipsPage;
+export default InvitationsPage;

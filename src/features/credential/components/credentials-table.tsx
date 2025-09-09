@@ -16,9 +16,13 @@ import { CredentialRevokeButton } from "./credential-revoke-button";
 
 type CredentialsTableProps = {
   organizationId: string;
+  signedUserId: string;
 };
 
-const CredentialsTable = async ({ organizationId }: CredentialsTableProps) => {
+const CredentialsTable = async ({
+  organizationId,
+  signedUserId,
+}: CredentialsTableProps) => {
   const credentials = await getCredentials(organizationId);
 
   if (!credentials.length) {
@@ -30,6 +34,7 @@ const CredentialsTable = async ({ organizationId }: CredentialsTableProps) => {
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
+          <TableHead>Created By</TableHead>
           <TableHead>Created At</TableHead>
           <TableHead>Last Used</TableHead>
           <TableHead />
@@ -37,9 +42,12 @@ const CredentialsTable = async ({ organizationId }: CredentialsTableProps) => {
       </TableHeader>
       <TableBody>
         {credentials.map((credential) => {
-          const credentialRevoked = Boolean(credential.revokedAt);
+          const isRevoked = Boolean(credential.revokedAt);
+          const hasUser = Boolean(credential.createdByUser);
+          const signedUserIsOwner =
+            credential.createdByUser?.id === signedUserId;
 
-          const revokeButton = credentialRevoked ? null : (
+          const revokeButton = isRevoked ? null : (
             <CredentialRevokeButton
               credentialId={credential.id}
               organizationId={organizationId}
@@ -51,14 +59,31 @@ const CredentialsTable = async ({ organizationId }: CredentialsTableProps) => {
           return (
             <TableRow
               key={credential.id}
-              className={cn(credentialRevoked && "text-muted-foreground")}
+              className={cn(isRevoked && "text-muted-foreground")}
             >
               <TableCell>
                 {credential.name}
-                {credentialRevoked && (
+                {isRevoked && (
                   <>
                     &nbsp;<span className="text-xs">(revoked)</span>
                   </>
+                )}
+              </TableCell>
+              <TableCell className={cn(!hasUser && "text-muted-foreground")}>
+                {credential.createdByUser ? (
+                  <>
+                    {credential.createdByUser.username}
+                    {signedUserIsOwner && (
+                      <>
+                        &nbsp;
+                        <span className="text-xs text-muted-foreground">
+                          (you)
+                        </span>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  "Deleted user"
                 )}
               </TableCell>
               <TableCell>

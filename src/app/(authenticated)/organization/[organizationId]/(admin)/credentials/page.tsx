@@ -2,6 +2,7 @@ import { Suspense } from "react";
 
 import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
+import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { CredentialCreateButton } from "@/features/credential/components/credential-create-button";
 import { CredentialsTable } from "@/features/credential/components/credentials-table";
 
@@ -15,6 +16,7 @@ type CredentialsPageProps = {
 
 const CredentialsPage = async ({ params }: CredentialsPageProps) => {
   const { organizationId } = await params;
+  const { user } = await getAuthOrRedirect();
 
   return (
     <div className="flex flex-1 flex-col gap-y-8">
@@ -26,7 +28,10 @@ const CredentialsPage = async ({ params }: CredentialsPageProps) => {
       />
 
       <Suspense fallback={<Spinner />}>
-        <CredentialsTable organizationId={organizationId} />
+        <CredentialsTable
+          organizationId={organizationId}
+          signedUserId={user.id}
+        />
       </Suspense>
     </div>
   );

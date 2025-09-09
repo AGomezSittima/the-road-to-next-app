@@ -12,6 +12,7 @@ export const getCredentials = async (organizationId: string) => {
       id: true,
       name: true,
       createdAt: true,
+      createdByUser: { select: { id: true, username: true } },
       lastUsed: true,
       revokedAt: true,
     },

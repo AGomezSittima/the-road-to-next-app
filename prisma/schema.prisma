@@ -27,8 +27,10 @@ model Credential {
   lastUsed   DateTime?
   revokedAt  DateTime?
 
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdByUserId String?
+  createdByUser   User?        @relation(fields: [createdByUserId], references: [id], onDelete: Cascade)
+  organizationId  String
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
 }
@@ -96,7 +98,8 @@ model User {
   emailVerificationTokens EmailVerificationToken[]
   passwordResetTokens     PasswordResetToken[]
 
-  invitesByUser Invitation[]
+  invitesByUser      Invitation[]
+  createdCredentials Credential[]
 }
 
 model EmailVerificationToken {

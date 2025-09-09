@@ -9,8 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 import { getCredentials } from "../queries/get-credentials";
+import { CredentialRevokeButton } from "./credential-revoke-button";
 
 type CredentialsTableProps = {
   organizationId: string;
@@ -35,11 +37,28 @@ const CredentialsTable = async ({ organizationId }: CredentialsTableProps) => {
       </TableHeader>
       <TableBody>
         {credentials.map((credential) => {
-          const buttons = <></>; // TODO: Add revoke credential button
+          const revokeButton = credential.revokedAt ? null : (
+            <CredentialRevokeButton
+              credentialId={credential.id}
+              organizationId={organizationId}
+            />
+          );
+
+          const buttons = <>{revokeButton}</>;
 
           return (
-            <TableRow key={credential.id}>
-              <TableCell>{credential.name}</TableCell>
+            <TableRow
+              key={credential.id}
+              className={cn(credential.revokedAt && "text-muted-foreground")}
+            >
+              <TableCell>
+                {credential.name}
+                {credential.revokedAt && (
+                  <>
+                    &nbsp;<span className="text-xs">(revoked)</span>
+                  </>
+                )}
+              </TableCell>
               <TableCell>
                 {format(credential.createdAt, "yyyy-MM-dd, HH:mm")}
               </TableCell>

@@ -25,6 +25,7 @@ model Credential {
   secretHash String    @unique
   name       String
   lastUsed   DateTime?
+  revokedAt  DateTime?
 
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)

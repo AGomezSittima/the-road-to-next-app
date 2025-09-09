@@ -13,6 +13,7 @@ export const getCredentials = async (organizationId: string) => {
       name: true,
       createdAt: true,
       lastUsed: true,
+      revokedAt: true,
     },
   });
 };

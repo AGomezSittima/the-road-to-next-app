@@ -1,4 +1,5 @@
 import { Heading } from "@/components/heading";
+import { CredentialCreateButton } from "@/features/credential/components/credential-create-button";
 
 import { OrganizationBreadcrumbs } from "../_navigation/tabs";
 
@@ -17,6 +18,7 @@ const CredentialsPage = async ({ params }: CredentialsPageProps) => {
         title="Credentials"
         description="Manage your organization's API secrets"
         tabs={<OrganizationBreadcrumbs />}
+        actions={<CredentialCreateButton organizationId={organizationId} />}
       />
     </div>
   );

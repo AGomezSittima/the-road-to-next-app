@@ -37,7 +37,9 @@ const CredentialsTable = async ({ organizationId }: CredentialsTableProps) => {
       </TableHeader>
       <TableBody>
         {credentials.map((credential) => {
-          const revokeButton = credential.revokedAt ? null : (
+          const credentialRevoked = Boolean(credential.revokedAt);
+
+          const revokeButton = credentialRevoked ? null : (
             <CredentialRevokeButton
               credentialId={credential.id}
               organizationId={organizationId}
@@ -49,11 +51,11 @@ const CredentialsTable = async ({ organizationId }: CredentialsTableProps) => {
           return (
             <TableRow
               key={credential.id}
-              className={cn(credential.revokedAt && "text-muted-foreground")}
+              className={cn(credentialRevoked && "text-muted-foreground")}
             >
               <TableCell>
                 {credential.name}
-                {credential.revokedAt && (
+                {credentialRevoked && (
                   <>
                     &nbsp;<span className="text-xs">(revoked)</span>
                   </>

@@ -4,6 +4,7 @@ import { useParams, usePathname } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import {
+  credentialsPath,
   invitationsPath,
   membershipsPath,
   organizationsPath,
@@ -16,7 +17,10 @@ const OrganizationBreadcrumbs = () => {
   const title = {
     memberships: "Memberships" as const,
     invitations: "Invitations" as const,
-  }[pathName.split("/").at(-1) as "memberships" | "invitations"];
+    credentials: "Credentials" as const,
+  }[
+    pathName.split("/").at(-1) as "memberships" | "invitations" | "credentials"
+  ];
 
   return (
     <Breadcrumbs
@@ -32,6 +36,10 @@ const OrganizationBreadcrumbs = () => {
             {
               title: "Invitations",
               href: invitationsPath(params.organizationId),
+            },
+            {
+              title: "Credentials",
+              href: credentialsPath(params.organizationId),
             },
           ],
         },

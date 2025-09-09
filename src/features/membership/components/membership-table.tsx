@@ -70,10 +70,13 @@ const MembershipTable = async ({
           return (
             <TableRow key={membership.userId}>
               <TableCell>
-                {membership.user.username}&nbsp;
-                <span className="text-xs text-muted-foreground">
-                  {isSignedUser && "(you)"}
-                </span>
+                {membership.user.username}
+                {isSignedUser && (
+                  <>
+                    &nbsp;
+                    <span className="text-xs text-muted-foreground">(you)</span>
+                  </>
+                )}
               </TableCell>
               <TableCell>{membership.user.email}</TableCell>
               <TableCell>

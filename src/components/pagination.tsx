@@ -1,3 +1,5 @@
+import { useTransition } from "react";
+
 import { PaginationMetadata } from "@/types/pagination";
 
 import { Button } from "./ui/button";
@@ -25,22 +27,28 @@ const Pagination = ({
   onPagination,
   paginatedMetadata: { count, hasNextPage },
 }: PaginationProps) => {
-  const startOffset = Math.min(pagination.page * pagination.size + 1, count);
-  const endOffset = Math.min(startOffset - 1 + pagination.size, count);
-
-  const label = `${startOffset} - ${endOffset} of ${count}`;
+  const [isPending, startTransition] = useTransition();
 
   const handleChangeSize = (size: string) => {
     onPagination({ page: 0, size: parseInt(size) });
   };
 
   const handlePreviousPage = () => {
-    onPagination({ ...pagination, page: pagination.page - 1 });
+    startTransition(() => {
+      onPagination({ ...pagination, page: pagination.page - 1 });
+    });
   };
 
   const handleNextPage = () => {
-    onPagination({ ...pagination, page: pagination.page + 1 });
+    startTransition(() => {
+      onPagination({ ...pagination, page: pagination.page + 1 });
+    });
   };
+
+  const startOffset = Math.min(pagination.page * pagination.size + 1, count);
+  const endOffset = Math.min(startOffset - 1 + pagination.size, count);
+
+  const label = `${startOffset} - ${endOffset} of ${count}`;
 
   const sizeButton = (
     <Select
@@ -64,7 +72,7 @@ const Pagination = ({
     <Button
       variant="outline"
       size="sm"
-      disabled={pagination.page <= 0}
+      disabled={pagination.page <= 0 || isPending}
       onClick={handlePreviousPage}
     >
       Previous
@@ -75,7 +83,7 @@ const Pagination = ({
     <Button
       variant="outline"
       size="sm"
-      disabled={!hasNextPage}
+      disabled={!hasNextPage || isPending}
       onClick={handleNextPage}
     >
       Next

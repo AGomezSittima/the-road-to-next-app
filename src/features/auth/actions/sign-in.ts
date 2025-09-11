@@ -39,12 +39,14 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
       where: { email },
     });
 
-    if (!user) return toActionState("ERROR", ERROR_INVALID_USER, formData);
+    const validPassword = await verifyPasswordHash(
+      user ? user.passwordHash : "invalid",
+      password,
+    );
 
-    const validPassword = await verifyPasswordHash(user.passwordHash, password);
-
-    if (!validPassword)
+    if (!user || !validPassword) {
       return toActionState("ERROR", ERROR_INVALID_USER, formData);
+    }
 
     const sessionToken = generateRandomToken();
     const session = await createSession(sessionToken, user.id);

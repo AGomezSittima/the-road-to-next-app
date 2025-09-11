@@ -11,6 +11,7 @@ export const appConfig = {
   },
   emailVerification: {
     expirationTimeInMs: 1000 * 60 * 15, // 15 minutes
+    emailResendIntervalInSeconds: 60, // 30 seconds
   },
   passwordReset: {
     expirationTimeInMs: 1000 * 60 * 60 * 2, // 2 hours

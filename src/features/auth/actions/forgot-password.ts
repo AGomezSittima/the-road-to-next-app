@@ -19,8 +19,6 @@ const forgotPasswordSchema = z.object({
     .email(),
 });
 
-const ERROR_INVALID_USER = "Incorrect email";
-
 export const forgotPassword = async (
   _actionState: ActionState,
   formData: FormData,
@@ -32,12 +30,12 @@ export const forgotPassword = async (
       where: { email },
     });
 
-    if (!user) return toActionState("ERROR", ERROR_INVALID_USER, formData);
-
-    await inngest.send({
-      name: appConfig.events.names.passwordReset,
-      data: { userId: user.id },
-    });
+    if (user) {
+      await inngest.send({
+        name: appConfig.events.names.passwordReset,
+        data: { userId: user.id },
+      });
+    }
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }

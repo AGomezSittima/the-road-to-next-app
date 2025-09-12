@@ -7,7 +7,7 @@ import { setCookieByKey } from "@/actions/cookies";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
-import { ticketsPath } from "@/utils/paths";
+import { membershipsPath, ticketsPath } from "@/utils/paths";
 import { ActionState, fromErrorToActionState } from "@/utils/to-action-state";
 
 const createOrganizationSchema = z.object({
@@ -26,12 +26,13 @@ export const createOrganization = async (
     checkActiveOrgananization: false,
   });
 
+  let organization;
   try {
     const { name } = createOrganizationSchema.parse(
       Object.fromEntries(formData),
     );
 
-    await prisma.$transaction(async (tx) => {
+    organization = await prisma.$transaction(async (tx) => {
       const organization = await tx.organization.create({
         data: {
           name,
@@ -52,11 +53,19 @@ export const createOrganization = async (
           isActive: false,
         },
       });
+
+      return organization;
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
 
-  await setCookieByKey(appConfig.cookiesKeys.toast, "Organization created");
+  await setCookieByKey(
+    appConfig.cookiesKeys.toast,
+    JSON.stringify({
+      message: "Organization created",
+      link: membershipsPath(organization.id),
+    }),
+  );
   redirect(ticketsPath());
 };

@@ -33,6 +33,8 @@ export const invitationsPath = (organizationId: string) =>
   `${organizationsPath()}/${organizationId}/invitations`;
 export const credentialsPath = (organizationId: string) =>
   `${organizationsPath()}/${organizationId}/credentials`;
+export const subscriptionPath = (organizationId: string) =>
+  `${organizationsPath()}/${organizationId}/subscription`;
 
 export const attachmentDownloadUrl = (attachmentId: string) =>
   `/api/aws/s3/attachments/${attachmentId}`;

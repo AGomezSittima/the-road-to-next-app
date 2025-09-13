@@ -11,6 +11,8 @@
     "type": "tsc --noEmit",
     "postinstall": "prisma generate",
     "prisma-seed": "tsx prisma/seed.ts",
+    "stripe-seed": "tsx src/lib/stripe/seed.ts",
+    "seed": "pnpm prisma-seed && pnpm stripe-seed",
     "prettier": "prettier --write .",
     "email": "email dev --dir src/emails"
   },

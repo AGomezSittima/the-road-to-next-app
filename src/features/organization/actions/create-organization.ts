@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { setCookieByKey } from "@/actions/cookies";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { membershipsPath, ticketsPath } from "@/utils/paths";
@@ -59,6 +60,14 @@ export const createOrganization = async (
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
+
+  await inngest.send({
+    name: appConfig.events.names.organizationCreated,
+    data: {
+      organizationId: organization.id,
+      byEmail: user.email,
+    },
+  });
 
   await setCookieByKey(
     appConfig.cookiesKeys.toast,

@@ -8,6 +8,7 @@ import {
   proccessInvitationsEvent,
 } from "@/features/auth/events/event-sign-up";
 import { invitationCreatedEvent } from "@/features/invitations/events/event-invitation-created";
+import { organizationCreatedEvent } from "@/features/organization/events/event-organization-created";
 import {
   periodicS3ObjectsCleanup,
   s3ObjectsCleanupOnDependencyDeletedEvent,
@@ -19,6 +20,7 @@ export const { GET, POST, PUT } = serve({
   functions: [
     emailWelcomeEvent,
     emailVerificationEvent,
+    organizationCreatedEvent,
     proccessInvitationsEvent,
     passwordResetEvent,
     invitationCreatedEvent,

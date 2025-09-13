@@ -28,6 +28,7 @@ export const appConfig = {
     names: {
       signUp: "app/auth.sign-up",
       passwordReset: "app/auth.password-reset",
+      organizationCreated: "app/organization.created",
       invitationCreated: "app/invitations.invitation-created",
       attachmentDeleted: "app/attachments.attachment-deleted",
       s3ObjectsCleanup: "app/s3.objects-cleanup",

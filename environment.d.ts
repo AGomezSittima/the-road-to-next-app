@@ -7,6 +7,7 @@ declare global {
       AWS_ACCESS_KEY: string;
       AWS_SECRET_ACCESS_KEY: string;
       STRIPE_SECRET_KEY: string;
+      STRIPE_WEBHOOK_SECRET: string;
     }
   }
 }

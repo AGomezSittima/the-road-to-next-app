@@ -11,6 +11,8 @@ import {
 import { stripe } from "@/lib/stripe";
 import { toCurrencyFromCent } from "@/utils/currency";
 
+import { CheckoutSessionForm } from "./checkout-session-form";
+
 type PricesProps = {
   organizationId: string | null | undefined;
   productId: string | undefined;
@@ -22,12 +24,16 @@ const Prices = async ({ organizationId, productId }: PricesProps) => {
   return (
     <div className="flex gap-x-2">
       {prices.data.map((price) => (
-        <button key={price.id}>
+        <CheckoutSessionForm
+          key={price.id}
+          organizationId={organizationId}
+          priceId={price.id}
+        >
           <span className="text-lg font-bold">
             {toCurrencyFromCent(price.unit_amount || 0, price.currency)}
           </span>
           &nbsp;/&nbsp;<span>{price.recurring?.interval}</span>
-        </button>
+        </CheckoutSessionForm>
       ))}
     </div>
   );

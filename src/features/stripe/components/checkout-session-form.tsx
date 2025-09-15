@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { EMPTY_ACTION_STATE } from "@/utils/to-action-state";
 
 import { createCheckoutSession } from "../actions/create-checkout-session";
+import { createCustomerPortal } from "../actions/create-customer-portal";
 
 type CheckoutSessionFormProps = {
   organizationId: string | null | undefined;
@@ -23,8 +24,12 @@ const CheckoutSessionForm = ({
   activePriceId,
   children,
 }: CheckoutSessionFormProps) => {
+  const actionFunction = !activePriceId
+    ? createCheckoutSession.bind(null, { organizationId, priceId })
+    : createCustomerPortal.bind(null, organizationId);
+
   const [actionState, action] = useActionState(
-    createCheckoutSession.bind(null, { organizationId, priceId }),
+    actionFunction,
     EMPTY_ACTION_STATE,
   );
 
@@ -40,7 +45,7 @@ const CheckoutSessionForm = ({
         {!activePriceId ? null : isActivePrice ? (
           <span>Current Plan</span>
         ) : (
-          <span>Other Plan</span>
+          <span>Change Plan</span>
         )}
         <div>{children}</div>
       </Button>

@@ -47,13 +47,25 @@ const seed = async () => {
   const productOne = await stripe.products.create({
     name: "Business Plan",
     description: "Your business plan.",
-    marketing_features: [{ name: "Cancel anytime" }],
+    metadata: {
+      allowedMembers: 999,
+    },
+    marketing_features: [
+      { name: "Cancel anytime" },
+      { name: "Unlimited members" },
+    ],
   });
 
   const productTwo = await stripe.products.create({
     name: "Startup Plan",
     description: "Your startup plan.",
-    marketing_features: [{ name: "Cancel anytime" }],
+    metadata: {
+      allowedMembers: 3,
+    },
+    marketing_features: [
+      { name: "Cancel anytime" },
+      { name: "Up to 3 members" },
+    ],
   });
 
   await stripe.prices.create({

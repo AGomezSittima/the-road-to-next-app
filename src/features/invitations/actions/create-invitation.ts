@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-redirect";
+import { getStripeProvisioningByOrganization } from "@/features/stripe/queries/get-stripe-provisioning";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
@@ -26,6 +27,16 @@ export const createInvitation = async (
   formData: FormData,
 ) => {
   const { user } = await getAdminOrRedirect(organizationId);
+
+  const { allowedMembers, currentMembers } =
+    await getStripeProvisioningByOrganization(organizationId);
+
+  if (allowedMembers <= currentMembers) {
+    return toActionState(
+      "ERROR",
+      "Upgrade your subscription to invite more members",
+    );
+  }
 
   try {
     const { email } = createInvitationSchema.parse(

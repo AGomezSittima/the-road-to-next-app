@@ -5,16 +5,25 @@ import Stripe from "stripe";
 import * as stripeDataAccess from "@/features/stripe/data";
 import { stripe } from "@/lib/stripe";
 
-const handleSubscriptionCreated = async (subscription: Stripe.Subscription) => {
-  await stripeDataAccess.updateSubscription(subscription);
+const handleSubscriptionCreated = async (
+  subscription: Stripe.Subscription,
+  eventAt: number,
+) => {
+  await stripeDataAccess.updateSubscription(subscription, eventAt);
 };
 
-const handleSubscriptionUpdated = async (subscription: Stripe.Subscription) => {
-  await stripeDataAccess.updateSubscription(subscription);
+const handleSubscriptionUpdated = async (
+  subscription: Stripe.Subscription,
+  eventAt: number,
+) => {
+  await stripeDataAccess.updateSubscription(subscription, eventAt);
 };
 
-const handleSubscriptionDeleted = async (subscription: Stripe.Subscription) => {
-  await stripeDataAccess.deleteStripeSubscription(subscription);
+const handleSubscriptionDeleted = async (
+  subscription: Stripe.Subscription,
+  eventAt: number,
+) => {
+  await stripeDataAccess.deleteStripeSubscription(subscription, eventAt);
 };
 
 export async function POST(req: Request) {
@@ -37,15 +46,15 @@ export async function POST(req: Request) {
 
     switch (event.type) {
       case "customer.subscription.created": {
-        handleSubscriptionCreated(event.data.object);
+        handleSubscriptionCreated(event.data.object, event.created);
         break;
       }
       case "customer.subscription.updated": {
-        handleSubscriptionUpdated(event.data.object);
+        handleSubscriptionUpdated(event.data.object, event.created);
         break;
       }
       case "customer.subscription.deleted": {
-        handleSubscriptionDeleted(event.data.object);
+        handleSubscriptionDeleted(event.data.object, event.created);
         break;
       }
       default:

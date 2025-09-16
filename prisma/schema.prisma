@@ -27,6 +27,7 @@ model StripeCustomer {
   subscriptionStatus StripeSubscriptionStatus?
   productId          String?
   priceId            String?
+  eventAt            Int?
 
   organizationId String       @unique
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)

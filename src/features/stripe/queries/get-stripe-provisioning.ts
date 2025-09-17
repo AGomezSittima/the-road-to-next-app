@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
+import { isActiveSubscription } from "../utils/is-active-subscription";
+
 export type GetStripeProvisioningPayload = {
   allowedMembers: number;
   currentMembers: number;
@@ -21,7 +23,7 @@ export const getStripeProvisioningByOrganization = async (
     ]);
 
   const currentMembers = membershipCount + invitaionCount;
-  const isActive = stripeCustomer?.subscriptionStatus === "active";
+  const isActive = isActiveSubscription(stripeCustomer?.subscriptionStatus);
 
   if (!isActive || !stripeCustomer?.productId) {
     return { allowedMembers: 1, currentMembers };

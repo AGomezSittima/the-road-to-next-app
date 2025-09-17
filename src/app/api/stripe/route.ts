@@ -57,6 +57,10 @@ export async function POST(req: Request) {
         handleSubscriptionDeleted(event.data.object, event.created);
         break;
       }
+      case "customer.subscription.trial_will_end": {
+        console.log("Subscription trial will end. Send email?");
+        break;
+      }
       default:
         console.log(`Unhandled event type ${event.type}`);
     }

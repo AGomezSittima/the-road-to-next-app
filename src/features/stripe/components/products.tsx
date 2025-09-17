@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { toCurrencyFromCent } from "@/utils/currency";
 
 import { getStripeCustomerByOrganization } from "../queries/get-stripe-customer";
+import { isActiveSubscription } from "../utils/is-active-subscription";
 import { CheckoutSessionForm } from "./checkout-session-form";
 
 type PricesProps = {
@@ -55,7 +56,7 @@ const Products = async ({ organizationId }: ProductsProps) => {
   const stripeCustomer = await getStripeCustomerByOrganization(organizationId);
 
   const subscriptionStatus = stripeCustomer?.subscriptionStatus;
-  const activeSubscription = subscriptionStatus === "active";
+  const activeSubscription = isActiveSubscription(subscriptionStatus);
   const activeProductId = activeSubscription ? stripeCustomer?.productId : null;
   const activePriceId = activeSubscription ? stripeCustomer?.priceId : null;
 

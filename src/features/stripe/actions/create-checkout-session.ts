@@ -34,6 +34,7 @@ export const createCheckoutSession = async ({
 
   const price = await stripe.prices.retrieve(priceId);
 
+  // TODO: Extract params outside
   const session = await stripe.checkout.sessions.create({
     billing_address_collection: "auto",
     line_items: [
@@ -53,6 +54,7 @@ export const createCheckoutSession = async ({
       metadata: {
         organizationId,
       },
+      trial_period_days: 7,
     },
   });
 

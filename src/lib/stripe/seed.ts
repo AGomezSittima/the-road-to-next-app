@@ -51,6 +51,7 @@ const seed = async () => {
       allowedMembers: 999,
     },
     marketing_features: [
+      { name: "Trial period of 7 days" },
       { name: "Cancel anytime" },
       { name: "Unlimited members" },
     ],
@@ -63,6 +64,7 @@ const seed = async () => {
       allowedMembers: 3,
     },
     marketing_features: [
+      { name: "Trial period of 7 days" },
       { name: "Cancel anytime" },
       { name: "Up to 3 members" },
     ],

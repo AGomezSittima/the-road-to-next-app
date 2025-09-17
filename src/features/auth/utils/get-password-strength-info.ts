@@ -1,35 +1,29 @@
 type StrengthInfo = {
   labelText: string;
   strengthBarColor: string;
-  strengthTextColor: string;
 };
 
 const STRENGHT_INFO_VALUES: ReadonlyArray<StrengthInfo> = [
-  { labelText: "", strengthBarColor: "", strengthTextColor: "" },
+  { labelText: "", strengthBarColor: "" },
   {
     labelText: "Very Weak",
-    strengthBarColor: "bg-red-400",
-    strengthTextColor: "text-red-400",
+    strengthBarColor: "bg-[#4f5b7f]",
   },
   {
     labelText: "Weak",
-    strengthBarColor: "bg-orange-500",
-    strengthTextColor: "text-orange-500",
+    strengthBarColor: "bg-[#6b47b3]",
   },
   {
     labelText: "Fair",
-    strengthBarColor: "bg-yellow-500",
-    strengthTextColor: "text-yellow-500",
+    strengthBarColor: "bg-[#8440e0]",
   },
   {
     labelText: "Good",
-    strengthBarColor: "bg-lime-500",
-    strengthTextColor: "text-lime-500",
+    strengthBarColor: "bg-[#9a3bf0]",
   },
   {
     labelText: "Strong",
-    strengthBarColor: "bg-green-500",
-    strengthTextColor: "text-green-500",
+    strengthBarColor: "bg-[#6225c5]",
   },
 ];
 

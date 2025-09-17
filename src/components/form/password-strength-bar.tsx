@@ -13,6 +13,7 @@ type PasswordStrengthBarProps = {
 };
 
 // TODO: Add feedback for the user
+// TODO: Check if any configurations can be made, for example ask for a minimum of 6 characters
 const PasswordStrengthBar = ({ inputRef }: PasswordStrengthBarProps) => {
   const [passwordScore, setPasswordScore] = useState<number>(0);
   const zxcvbnRef = useRef<typeof zxcvbn | null>(null);
@@ -29,6 +30,7 @@ const PasswordStrengthBar = ({ inputRef }: PasswordStrengthBarProps) => {
       return;
     }
 
+    // Lazy load zxcvbn
     if (!zxcvbnRef.current) {
       const zxcvbn = await import("zxcvbn");
       zxcvbnRef.current = zxcvbn.default ?? zxcvbn;

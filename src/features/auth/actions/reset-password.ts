@@ -6,15 +6,17 @@ import { z } from "zod";
 import { setCookieByKey } from "@/actions/cookies";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
-import { hashToken } from "@/utils/crypto";
-import { signInPath } from "@/utils/paths";
+import { generateRandomToken, hashToken } from "@/utils/crypto";
+import { ticketsPath } from "@/utils/paths";
 import {
   ActionState,
   fromErrorToActionState,
   toActionState,
 } from "@/utils/to-action-state";
 
+import { setSessionTokenCookie } from "../lib/cookies";
 import { hashPassword } from "../lib/password";
+import { createSession } from "../lib/session";
 
 const resetPasswordSchema = z
   .object({
@@ -47,7 +49,7 @@ export const resetPassword = async (
       Object.fromEntries(formData),
     );
 
-    const tokenHash = await hashToken(tokenId);
+    const tokenHash = hashToken(tokenId);
 
     const passwordResetToken = await prisma.passwordResetToken.findUnique({
       where: { tokenHash },
@@ -80,13 +82,21 @@ export const resetPassword = async (
       where: { id: passwordResetToken.userId },
       data: { passwordHash },
     });
+
+    const sessionToken = generateRandomToken();
+    const session = await createSession(
+      sessionToken,
+      passwordResetToken.userId,
+    );
+
+    await setSessionTokenCookie(sessionToken, session.expiresAt);
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
 
   await setCookieByKey(
     appConfig.cookiesKeys.toast,
-    "Successfully reset password",
+    "Your password has been reset and you’re now signed in.",
   );
-  redirect(signInPath());
+  redirect(ticketsPath());
 };

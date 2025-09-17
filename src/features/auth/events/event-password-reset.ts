@@ -11,8 +11,8 @@ export type PasswordResetEventArgs = {
   };
 };
 
-export const passwordResetEvent = inngest.createFunction(
-  { id: "send-password-reset" },
+export const sendPasswordResetEmailFunction = inngest.createFunction(
+  { id: "send-password-reset-email" },
   { event: appConfig.events.names.passwordReset },
   async ({ event }) => {
     const { userId } = event.data;

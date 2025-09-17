@@ -16,7 +16,7 @@ export type S3ObjectsCleanupEventArgs = {
   };
 };
 
-export const periodicS3ObjectsCleanup = inngest.createFunction(
+export const periodicS3ObjectsCleanupFunction = inngest.createFunction(
   { id: "periodic-s3-objects-cleanup", retries: 5 },
   { cron: "TZ=Europe/Madrid 0 0 * * 0" },
   async ({ step }) => {
@@ -62,8 +62,8 @@ export const periodicS3ObjectsCleanup = inngest.createFunction(
   },
 );
 
-export const s3ObjectsCleanupOnDependencyDeletedEvent = inngest.createFunction(
-  { id: "s3-objects-cleanup-on-dependency-deleted", retries: 5 },
+export const s3ObjectsCleanupFunction = inngest.createFunction(
+  { id: "s3-objects-cleanup", retries: 5 },
   {
     event: appConfig.events.names.s3ObjectsCleanup,
   },

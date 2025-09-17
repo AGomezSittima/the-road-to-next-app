@@ -13,8 +13,8 @@ export type InvitationCreatedEventArgs = {
   };
 };
 
-export const invitationCreatedEvent = inngest.createFunction(
-  { id: "invitation-created" },
+export const sendInvitationEmailFunction = inngest.createFunction(
+  { id: "send-invitation-email-function" },
   { event: appConfig.events.names.invitationCreated },
   async ({ event }) => {
     const { userId, organizationId, email, emailInvitationLink } = event.data;

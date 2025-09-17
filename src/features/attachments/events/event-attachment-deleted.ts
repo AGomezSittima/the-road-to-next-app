@@ -16,8 +16,8 @@ export type AttachmentDeletedEventArgs = {
   };
 };
 
-export const attachmentDeletedEvent = inngest.createFunction(
-  { id: "attachment-deleted" },
+export const deleteAttachmentFromS3Function = inngest.createFunction(
+  { id: "delete-attachment-from-s3" },
   {
     event: appConfig.events.names.attachmentDeleted,
   },

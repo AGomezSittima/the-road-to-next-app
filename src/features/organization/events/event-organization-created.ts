@@ -10,8 +10,8 @@ export type OrganizationCreatedEventArgs = {
   };
 };
 
-export const organizationCreatedEvent = inngest.createFunction(
-  { id: "organization-created" },
+export const createStripeCustomerFunction = inngest.createFunction(
+  { id: "create-stripe-customer" },
   { event: appConfig.events.names.organizationCreated },
   async ({ event }) => {
     const { organizationId, byEmail } = event.data;

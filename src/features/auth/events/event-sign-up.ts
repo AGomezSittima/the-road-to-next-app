@@ -12,7 +12,7 @@ export type SignUpEventArgs = {
   };
 };
 
-export const emailVerificationEvent = inngest.createFunction(
+export const sendVerificationEmailFunction = inngest.createFunction(
   { id: "send-verification-email" },
   { event: appConfig.events.names.signUp },
   async ({ event }) => {
@@ -41,7 +41,7 @@ export const emailVerificationEvent = inngest.createFunction(
   },
 );
 
-export const emailWelcomeEvent = inngest.createFunction(
+export const sendWelcomeEmailFunction = inngest.createFunction(
   { id: "send-welcome-email" },
   { event: appConfig.events.names.signUp },
   async ({ event, step }) => {
@@ -64,7 +64,7 @@ export const emailWelcomeEvent = inngest.createFunction(
   },
 );
 
-export const proccessInvitationsEvent = inngest.createFunction(
+export const proccessInvitationsFunction = inngest.createFunction(
   { id: "proccess-invitations" },
   { event: appConfig.events.names.signUp },
   async ({ event }) => {

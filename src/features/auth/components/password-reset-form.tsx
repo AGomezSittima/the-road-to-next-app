@@ -4,6 +4,7 @@ import { useActionState } from "react";
 
 import { FieldError } from "@/components/form/field-error";
 import { Form } from "@/components/form/form";
+import { PasswordInputWithBar } from "@/components/form/password-input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Input } from "@/components/ui/input";
 import { EMPTY_ACTION_STATE } from "@/utils/to-action-state";
@@ -27,8 +28,7 @@ const PasswordResetForm = ({ tokenId }: PasswordResetFormProps) => {
 
   return (
     <Form action={formAction} actionState={actionState}>
-      <Input
-        type="password"
+      <PasswordInputWithBar
         name={FormFields.Password}
         placeholder="Password"
         defaultValue={actionState.payload?.get(FormFields.Password) as string}

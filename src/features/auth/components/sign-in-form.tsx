@@ -4,6 +4,7 @@ import { useActionState } from "react";
 
 import { FieldError } from "@/components/form/field-error";
 import { Form } from "@/components/form/form";
+import { PasswordInput } from "@/components/form/password-input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Input } from "@/components/ui/input";
 import { EMPTY_ACTION_STATE } from "@/utils/to-action-state";
@@ -27,10 +28,9 @@ const SignInForm = () => {
       />
       <FieldError name={FormFields.Email} actionState={actionState} />
 
-      <Input
+      <PasswordInput
         name={FormFields.Password}
         placeholder="Password"
-        type="password"
         defaultValue={actionState.payload?.get(FormFields.Password) as string}
       />
       <FieldError name={FormFields.Password} actionState={actionState} />

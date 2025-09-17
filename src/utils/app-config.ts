@@ -16,7 +16,11 @@ export const appConfig = {
   passwordReset: {
     expirationTimeInMs: 1000 * 60 * 60 * 2, // 2 hours
   },
-  debounceDuration: 250, // 250 ms
+  debounce: {
+    sm: 150, // 150ms
+    md: 250, // 250ms
+    lg: 500, // 500ms
+  },
   comments: { commentsPerPage: 2 },
   queryClient: {
     staleTime: 60 * 1000,

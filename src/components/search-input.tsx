@@ -19,7 +19,7 @@ const SearchInput = ({ value, onChange, placeholder }: SearchInputProps) => {
 
       onChange(value);
     },
-    appConfig.debounceDuration,
+    appConfig.debounce.md,
   );
 
   return (

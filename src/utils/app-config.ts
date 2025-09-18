@@ -4,6 +4,7 @@ export const appConfig = {
     ticketSearch: "search",
     ticketSortKey: "sortKey",
     ticketSortOrder: "sortOrder",
+    ticketOnlyActiveOrganization: "onlyActiveOrganization",
   },
   authSessions: {
     expirationTimeInMs: 1000 * 60 * 30, // 30 minutes

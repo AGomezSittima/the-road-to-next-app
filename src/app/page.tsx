@@ -21,6 +21,7 @@ const HomePage = async ({ searchParams }: HomePageProps) => {
       <Suspense fallback={<Spinner />}>
         <TicketList
           searchParams={searchParamsCache.parse(await searchParams)}
+          filteringOptions={{ onlyActiveOrganizationFilter: false }}
         />
       </Suspense>
     </div>

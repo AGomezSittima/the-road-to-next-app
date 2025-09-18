@@ -31,8 +31,9 @@ const TicketsByOrganizationPage = async ({
 
       <Suspense fallback={<Spinner />}>
         <TicketList
-          byOrganization
           searchParams={searchParamsCache.parse(await searchParams)}
+          byOrganization
+          filteringOptions={{ onlyActiveOrganizationFilter: false }}
         />
       </Suspense>
     </div>

@@ -1,5 +1,6 @@
 import {
   createSearchParamsCache,
+  parseAsBoolean,
   parseAsInteger,
   parseAsString,
 } from "nuqs/server";
@@ -14,6 +15,10 @@ export const sortParser = {
   [appConfig.paramsKeys.ticketSortKey]: parseAsString.withDefault("createdAt"),
   [appConfig.paramsKeys.ticketSortOrder]: parseAsString.withDefault("desc"),
 };
+
+export const onlyActiveOrganizationParser = parseAsBoolean
+  .withDefault(false)
+  .withOptions({ shallow: false, clearOnDefault: true });
 
 export const paginationParser = {
   page: parseAsInteger.withDefault(0),
@@ -30,6 +35,8 @@ export const searchParamsCache = createSearchParamsCache({
     sortParser[appConfig.paramsKeys.ticketSortKey],
   [appConfig.paramsKeys.ticketSortOrder]:
     sortParser[appConfig.paramsKeys.ticketSortOrder],
+  [appConfig.paramsKeys.ticketOnlyActiveOrganization]:
+    onlyActiveOrganizationParser,
   ...paginationParser,
 });
 

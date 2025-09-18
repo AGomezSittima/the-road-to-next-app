@@ -5,21 +5,36 @@ import { Placeholder } from "@/components/placeholder";
 import { getTickets } from "../queries/get-tickets";
 import { ParsedSearchParams } from "../search-params";
 import { TicketItem } from "./ticket-item";
+import { TicketOnlyActiveOrganizationSwitch } from "./ticket-only-active-organization-switch";
 import { TicketPagination } from "./ticket-pagination";
 import { TicketSearchInput } from "./ticket-search-input";
 import { TicketSortSelect } from "./ticket-sort-select";
 
+type FilteringOptions = {
+  searchFilter?: boolean;
+  sortFilter?: boolean;
+  onlyActiveOrganizationFilter?: boolean;
+};
+
 type TicketListProps = {
+  searchParams: ParsedSearchParams;
   userId?: string;
   byOrganization?: boolean;
-  searchParams: ParsedSearchParams;
+  filteringOptions?: FilteringOptions;
 };
 
 const TicketList = async ({
   userId,
   byOrganization = false,
+  filteringOptions = {},
   searchParams,
 }: TicketListProps) => {
+  const {
+    searchFilter = true,
+    sortFilter = true,
+    onlyActiveOrganizationFilter = true,
+  } = filteringOptions;
+
   const { list: tickets, metadata: ticketMetadata } = await getTickets(
     userId,
     byOrganization,
@@ -28,16 +43,19 @@ const TicketList = async ({
 
   return (
     <div className="flex flex-1 animate-fade-in-from-top flex-col items-center gap-y-4">
-      <div className="flex w-full max-w-[420px] gap-x-2">
-        <TicketSearchInput placeholder="Search tickets ..." />
-        <TicketSortSelect
-          options={[
-            { label: "Newest", sortKey: "createdAt", sortOrder: "desc" },
-            { label: "Oldest", sortKey: "createdAt", sortOrder: "asc" },
-            { label: "Bounty", sortKey: "bounty", sortOrder: "desc" },
-            { label: "Title", sortKey: "title", sortOrder: "asc" },
-          ]}
-        />
+      <div className="flex w-full max-w-[420px] items-center gap-x-2">
+        {searchFilter && <TicketSearchInput placeholder="Search tickets ..." />}
+        {sortFilter && (
+          <TicketSortSelect
+            options={[
+              { label: "Newest", sortKey: "createdAt", sortOrder: "desc" },
+              { label: "Oldest", sortKey: "createdAt", sortOrder: "asc" },
+              { label: "Bounty", sortKey: "bounty", sortOrder: "desc" },
+              { label: "Title", sortKey: "title", sortOrder: "asc" },
+            ]}
+          />
+        )}
+        {onlyActiveOrganizationFilter && <TicketOnlyActiveOrganizationSwitch />}
       </div>
 
       {tickets.length ? (

@@ -26,7 +26,8 @@ export const getTickets = async (
   const where = {
     userId,
     title: { contains: searchParams.search, mode: "insensitive" as const },
-    ...(byOrganization && activeOrganization
+    ...((byOrganization && activeOrganization) ||
+    (searchParams.onlyActiveOrganization && activeOrganization)
       ? { organizationId: activeOrganization.id }
       : {}),
   };

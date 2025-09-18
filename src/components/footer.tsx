@@ -16,9 +16,14 @@ const DataContent = async () => {
   return (
     <>
       <p className="mx-auto">
-        {activeOrganization
-          ? `Active organization - ${activeOrganization.name}`
-          : "No active organization"}
+        {activeOrganization ? (
+          <>
+            Active organization&nbsp;-&nbsp;
+            <strong className="font-medium">{activeOrganization.name}</strong>
+          </>
+        ) : (
+          <>No active organization</>
+        )}
       </p>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -44,7 +49,7 @@ const Footer = async () => {
   }
 
   return (
-    <div className="animate-fade-in-from-bottom fixed bottom-0 left-0 flex w-full items-center justify-center border-2 border-muted bg-background px-4 py-2 font-medium">
+    <div className="animate-fade-in-from-bottom fixed bottom-0 left-0 flex w-full items-center justify-center border-2 border-muted bg-background px-4 py-2">
       <Suspense
         fallback={
           <div className="flex items-center gap-x-2">

@@ -22,6 +22,7 @@ type BreadcrumbProps = {
     title: string;
     href?: string;
     dropdown?: { title: string; href: string }[];
+    skip?: boolean;
   }[];
 };
 
@@ -30,6 +31,10 @@ const Breadcrumbs = ({ breadcrumbs }: BreadcrumbProps) => {
     <Breadcrumb>
       <BreadcrumbList>
         {breadcrumbs.map((breadcrumb, index) => {
+          if (breadcrumb.skip) {
+            return null;
+          }
+
           let breadcrumbItem = (
             <BreadcrumbPage>{breadcrumb.title}</BreadcrumbPage>
           );

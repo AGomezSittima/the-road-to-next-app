@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 
-import { getOrganizationsByUser } from "../queries/get-organization-by-user";
+import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 
 export const deleteOrganization = async (organizationId: string) => {
   await getAdminOrRedirect(organizationId);

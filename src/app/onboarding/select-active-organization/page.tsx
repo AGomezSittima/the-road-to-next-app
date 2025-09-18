@@ -7,7 +7,7 @@ import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import { OrganizationTable } from "@/features/organization/components/organization-table";
-import { getOrganizationsByUser } from "@/features/organization/queries/get-organization-by-user";
+import { getOrganizationsByUser } from "@/features/organization/queries/get-organizations-by-user";
 import { onboardingPath, organizationsPath } from "@/utils/paths";
 const SelectActiveOrganizationPage = async () => {
   const organizations = await getOrganizationsByUser();

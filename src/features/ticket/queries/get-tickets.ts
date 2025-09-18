@@ -4,7 +4,7 @@ import { PAGE_SIZES } from "@/components/pagination/constants";
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { getActiveOrganization } from "@/features/organization/queries/get-active-organization";
-import { getOrganizationsByUser } from "@/features/organization/queries/get-organization-by-user";
+import { getOrganizationsByUser } from "@/features/organization/queries/get-organizations-by-user";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 

@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { organizationsPath } from "@/utils/paths";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 
-import { getOrganizationsByUser } from "../queries/get-organization-by-user";
+import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 
 export const switchOrganization = async (organizationId: string) => {
   const { user } = await getAuthOrRedirect({

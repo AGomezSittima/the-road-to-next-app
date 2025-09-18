@@ -11,7 +11,13 @@ import {
   subscriptionPath,
 } from "@/utils/paths";
 
-const OrganizationBreadcrumbs = () => {
+type OrganizationBreadcrumbsProps = {
+  organizationName: string | undefined;
+};
+
+const OrganizationBreadcrumbs = ({
+  organizationName,
+}: OrganizationBreadcrumbsProps) => {
   const params = useParams<{ organizationId: string }>();
   const pathName = usePathname();
 
@@ -32,6 +38,9 @@ const OrganizationBreadcrumbs = () => {
     <Breadcrumbs
       breadcrumbs={[
         { title: "Organizations", href: organizationsPath() },
+        organizationName
+          ? { title: organizationName }
+          : { title: "", skip: true },
         {
           title,
           dropdown: [

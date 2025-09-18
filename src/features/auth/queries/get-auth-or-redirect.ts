@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { cache } from "react";
 
-import { getOrganizationsByUser } from "@/features/organization/queries/get-organization-by-user";
+import { getOrganizationsByUser } from "@/features/organization/queries/get-organizations-by-user";
 import {
   emailVerificationPath,
   onboardingPath,

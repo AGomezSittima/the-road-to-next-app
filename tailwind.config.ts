@@ -64,6 +64,16 @@ export default {
             transform: "translateY(0)",
           },
         },
+        "fade-in-from-bottom": {
+          from: {
+            opacity: "0",
+            transform: "translateY(16px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
         "header-from-top": {
           from: {
             transform: "translateY(-100%)",
@@ -87,6 +97,7 @@ export default {
       },
       animation: {
         "fade-in-from-top": "fade-in-from-top 0.5s ease-out",
+        "fade-in-from-bottom": "fade-in-from-bottom 0.5s ease-out",
         "header-from-top": "header-from-top 0.5s ease-out",
         "sidebar-from-left": "sidebar-from-left 0.5s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",

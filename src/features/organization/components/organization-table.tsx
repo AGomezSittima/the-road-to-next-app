@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import {
   LucideArrowLeftRight,
   LucideArrowUpRightFromSquare,
-  LucidePen,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -20,6 +19,7 @@ import { MembershipDeleteButton } from "@/features/membership/components/members
 import { membershipsPath } from "@/utils/paths";
 
 import { getOrganizationsByUser } from "../queries/get-organization-by-user";
+import { EditOrganizationButton } from "./edit-organization-button";
 import { OrganizationDeleteButton } from "./organization-delete-button";
 import { OrganizationSwitchButton } from "./organization-switch-button";
 
@@ -79,9 +79,10 @@ const OrganizationTable = async ({ limitedAccess }: OrganizationTableProps) => {
           );
 
           const editButton = (
-            <Button variant="outline" size="icon">
-              <LucidePen className="size-4" />
-            </Button>
+            <EditOrganizationButton
+              organizationId={organization.id}
+              placeholder={organization.name}
+            />
           );
 
           const leaveButton = (

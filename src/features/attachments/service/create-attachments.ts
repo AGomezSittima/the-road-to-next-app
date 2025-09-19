@@ -30,6 +30,7 @@ export const createAttachments = async ({
 
       const attachment = await attachmentDataAccess.createAttachment({
         name: file.name,
+        fileType: file.type,
         entity,
         entityId,
       });

@@ -203,8 +203,9 @@ model Comment {
 }
 
 model Attachment {
-  id   String @id @default(cuid())
+  id   String         @id @default(cuid())
   name String
+  type AttachmentType
 
   entity AttachmentEntity
 
@@ -215,6 +216,11 @@ model Attachment {
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   @@index([ticketId])
+}
+
+enum AttachmentType {
+  IMAGE
+  DOCUMENT
 }
 
 enum AttachmentEntity {

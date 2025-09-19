@@ -26,7 +26,7 @@ const MembershipsPage = async ({ params }: MembershipsPageProps) => {
       <Heading
         title="Memberships"
         description="Manage members in your organization"
-        tabs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
+        breadcrumbs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
         actions={<InvitationCreateButton organizationId={organizationId} />}
       />
 

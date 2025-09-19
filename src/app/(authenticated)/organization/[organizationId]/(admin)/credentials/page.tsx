@@ -26,7 +26,7 @@ const CredentialsPage = async ({ params }: CredentialsPageProps) => {
       <Heading
         title="Credentials"
         description="Manage your organization's API secrets"
-        tabs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
+        breadcrumbs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
         actions={<CredentialCreateButton organizationId={organizationId} />}
       />
 

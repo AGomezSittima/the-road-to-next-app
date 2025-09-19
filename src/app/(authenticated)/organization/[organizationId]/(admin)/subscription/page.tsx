@@ -23,7 +23,9 @@ const SubscriptionPage = async ({ params }: SubscriptionPageProps) => {
       <Heading
         title="Subscription"
         description="Manage your subscription"
-        tabs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
+        breadcrumbs={
+          <OrganizationBreadcrumbs organizationName={organization?.name} />
+        }
         actions={
           <CustomerPortalForm organizationId={organizationId}>
             <>

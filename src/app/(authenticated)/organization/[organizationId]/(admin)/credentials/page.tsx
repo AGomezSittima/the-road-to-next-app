@@ -5,6 +5,7 @@ import { Spinner } from "@/components/spinner";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { CredentialCreateButton } from "@/features/credential/components/credential-create-button";
 import { CredentialsTable } from "@/features/credential/components/credentials-table";
+import { getOrganizationById } from "@/features/organization/queries/get-organization";
 
 import { OrganizationBreadcrumbs } from "../_navigation/tabs";
 
@@ -18,12 +19,14 @@ const CredentialsPage = async ({ params }: CredentialsPageProps) => {
   const { organizationId } = await params;
   const { user } = await getAuthOrRedirect();
 
+  const organization = await getOrganizationById(organizationId);
+
   return (
     <div className="flex flex-1 flex-col gap-y-8">
       <Heading
         title="Credentials"
         description="Manage your organization's API secrets"
-        tabs={<OrganizationBreadcrumbs />}
+        tabs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
         actions={<CredentialCreateButton organizationId={organizationId} />}
       />
 

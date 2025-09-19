@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
+import { getOrganizationById } from "@/features/organization/queries/get-organization";
 import { CustomerPortalForm } from "@/features/stripe/components/customer-portal-form";
 import { Products } from "@/features/stripe/components/products";
 
@@ -15,12 +16,14 @@ type SubscriptionPageProps = {
 const SubscriptionPage = async ({ params }: SubscriptionPageProps) => {
   const { organizationId } = await params;
 
+  const organization = await getOrganizationById(organizationId);
+
   return (
     <div className="flex flex-1 flex-col gap-y-8">
       <Heading
         title="Subscription"
         description="Manage your subscription"
-        tabs={<OrganizationBreadcrumbs />}
+        tabs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
         actions={
           <CustomerPortalForm organizationId={organizationId}>
             <>

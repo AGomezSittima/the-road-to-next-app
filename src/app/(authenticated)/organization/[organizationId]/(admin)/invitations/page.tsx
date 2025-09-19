@@ -4,6 +4,7 @@ import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
 import { InvitationCreateButton } from "@/features/invitations/components/invitation-create-button";
 import { InvitationsList } from "@/features/invitations/components/invitations-list";
+import { getOrganizationById } from "@/features/organization/queries/get-organization";
 
 import { OrganizationBreadcrumbs } from "../_navigation/tabs";
 
@@ -16,12 +17,14 @@ type InvitationsPageProps = {
 const InvitationsPage = async ({ params }: InvitationsPageProps) => {
   const { organizationId } = await params;
 
+  const organization = await getOrganizationById(organizationId);
+
   return (
     <div className="flex flex-1 flex-col gap-y-8">
       <Heading
         title="Invitations"
         description="Manage your organization's invitations"
-        tabs={<OrganizationBreadcrumbs />}
+        tabs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
         actions={<InvitationCreateButton organizationId={organizationId} />}
       />
 

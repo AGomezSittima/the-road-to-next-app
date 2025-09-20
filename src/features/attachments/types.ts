@@ -1,4 +1,8 @@
+import { z } from "zod";
+
 import { Prisma } from "@prisma/client";
+
+import { attachmentSubjectSchema } from "./schema/attachmentSubject";
 
 type AttachmentSubjectTicket = Prisma.TicketGetPayload<{
   select: {
@@ -26,6 +30,8 @@ export type AttachmentPayload = Prisma.AttachmentGetPayload<{
 export type AttachmentSubject =
   | AttachmentSubjectTicket
   | AttachmentSubjectComment;
+
+export type AttachmentReferenceData = z.TypeOf<typeof attachmentSubjectSchema>;
 
 export const isTicket = (
   subject: AttachmentSubject,

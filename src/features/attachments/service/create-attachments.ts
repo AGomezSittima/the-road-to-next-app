@@ -8,6 +8,7 @@ import { Attachment, AttachmentEntity } from "@prisma/client";
 
 import * as attachmentDataAccess from "../data";
 import { AttachmentSubjectDTO } from "../dto/attachment-subject-dto";
+import { attachmentSubjectSchema } from "../schema/attachmentSubject";
 
 type CreateAttachmentsArgs = {
   subject: AttachmentSubjectDTO;
@@ -27,12 +28,16 @@ export const createAttachments = async ({
   try {
     for (const file of files) {
       const buffer = Buffer.from(await file.arrayBuffer());
+      const referenceData = attachmentSubjectSchema.parse(
+        entity === AttachmentEntity.TICKET
+          ? { entity, ticketId: entityId }
+          : { entity, commentId: entityId },
+      );
 
       const attachment = await attachmentDataAccess.createAttachment({
         name: file.name,
         fileType: file.type,
-        entity,
-        entityId,
+        referenceData,
       });
 
       const attachmentKey = generateAttachmentS3Key({

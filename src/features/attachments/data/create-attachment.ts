@@ -1,22 +1,20 @@
 import { prisma } from "@/lib/prisma";
-import { AttachmentEntity } from "@prisma/client";
 
-import { AttachmentPayload } from "../types";
+import { AttachmentPayload, AttachmentReferenceData } from "../types";
 import { getAttachmentTypeFromFileType } from "../utils/get-attachment-type";
 
 type CreateAttachmentArgs = {
   name: string;
   fileType: string;
-  entity: AttachmentEntity;
-  entityId: string;
+  referenceData: AttachmentReferenceData;
 };
 
 export const createAttachment = async ({
   name,
   fileType,
-  entity,
-  entityId,
+  referenceData,
 }: CreateAttachmentArgs): Promise<AttachmentPayload> => {
+  const { entity, ticketId, commentId } = referenceData;
   const attachmentType = getAttachmentTypeFromFileType(fileType);
 
   return await prisma.attachment.create({
@@ -24,8 +22,8 @@ export const createAttachment = async ({
       name,
       entity,
       type: attachmentType,
-      ...(entity === "TICKET" ? { ticketId: entityId } : {}),
-      ...(entity === "COMMENT" ? { commentId: entityId } : {}),
+      ticketId,
+      commentId,
     },
     include: { ticket: true, comment: { include: { ticket: true } } },
   });

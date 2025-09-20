@@ -8,7 +8,7 @@ import { CommentItem, CommentItemSection } from "./comment-item";
 type CommentListProps = {
   comments: CommentWithMetadata[];
   onDeleteComment: (id: string) => void;
-  onDeleteAttachment?: (id: string) => void;
+  onDeleteAttachment?: (commentId: string, attachmentId: string) => void;
 };
 
 const CommentList = ({
@@ -43,7 +43,9 @@ const CommentList = ({
                         <AttachmentDeleteButton
                           key="0"
                           id={attachmentId}
-                          onDeleteAttachment={onDeleteAttachment}
+                          onDeleteAttachment={(attachmentId) =>
+                            onDeleteAttachment?.(comment.id, attachmentId)
+                          }
                         />,
                       ]
                     : []),

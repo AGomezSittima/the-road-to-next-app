@@ -32,6 +32,7 @@ export const usePaginated = <T, K extends PaginatedData<T>>({
     });
 
   return {
+    queryClient,
     data,
     fetchNextPage,
     hasNextPage,

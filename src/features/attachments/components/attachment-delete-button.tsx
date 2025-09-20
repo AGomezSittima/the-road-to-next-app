@@ -10,7 +10,7 @@ import { deleteAttachment } from "../actions/delete-attachment";
 
 type AttachmentDeleteButtonProps = {
   id: string;
-  onDeleteAttachment?: (id: string) => void;
+  onDeleteAttachment?: (attachmentId: string) => void;
 };
 
 const AttachmentDeleteButton = ({

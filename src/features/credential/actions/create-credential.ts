@@ -32,7 +32,7 @@ export const createCredential = async (
 
     secret = await generateCredential(user.id, organizationId, name);
   } catch (error) {
-    return fromErrorToActionState(error);
+    return fromErrorToActionState(error, formData);
   }
 
   revalidatePath(credentialsPath(organizationId));

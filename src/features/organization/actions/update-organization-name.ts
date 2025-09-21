@@ -33,7 +33,7 @@ export const updateOrganizationName = async (
       data: { name },
     });
   } catch (error) {
-    return fromErrorToActionState(error);
+    return fromErrorToActionState(error, formData);
   }
 
   revalidatePath(organizationsPath());

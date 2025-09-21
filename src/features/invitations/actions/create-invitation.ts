@@ -31,7 +31,7 @@ export const createInvitation = async (
 
     await invitationService.createInvitation(user.id, organizationId, email);
   } catch (error) {
-    return fromErrorToActionState(error);
+    return fromErrorToActionState(error, formData);
   }
 
   revalidatePath(invitationsPath(organizationId));

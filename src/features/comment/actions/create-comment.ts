@@ -68,7 +68,7 @@ export const createComment = async (
       findEntityIdsFromText("tickets", content),
     );
   } catch (error) {
-    return fromErrorToActionState(error);
+    return fromErrorToActionState(error, formData);
   }
 
   revalidatePath(ticketPath(ticketId));

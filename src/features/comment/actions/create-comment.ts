@@ -3,12 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { AttachmentSubjectDTO } from "@/features/attachments/dto/attachment-subject-dto";
 import { filesSchema } from "@/features/attachments/schema/files";
-import * as attachmentService from "@/features/attachments/service";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import * as ticketDataAccess from "@/features/ticket/data";
-import { findEntityIdsFromText } from "@/utils/find-entity-ids-from-text";
 import { ticketPath } from "@/utils/paths";
 import {
   ActionState,
@@ -16,7 +12,7 @@ import {
   toActionState,
 } from "@/utils/to-action-state";
 
-import * as commentDataAccess from "../data";
+import * as commentService from "../service";
 
 const createCommentSchema = z.object({
   content: z
@@ -40,33 +36,12 @@ export const createComment = async (
       files: formData.getAll("files"),
     });
 
-    comment = await commentDataAccess.createComment({
+    comment = await commentService.createComment({
       userId: user.id,
       ticketId,
       content,
-      options: {
-        includeUser: true,
-        includeTicket: true,
-      },
-    });
-
-    const subject = AttachmentSubjectDTO.fromComment(comment);
-
-    if (!subject) {
-      return toActionState("ERROR", "Comment not created");
-    }
-
-    await attachmentService.createAttachments({
-      subject,
-      entity: "COMMENT",
-      entityId: comment.id,
       files,
     });
-
-    await ticketDataAccess.connectReferencedTickets(
-      ticketId,
-      findEntityIdsFromText("tickets", content),
-    );
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }

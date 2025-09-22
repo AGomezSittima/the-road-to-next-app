@@ -3,34 +3,20 @@
 import { revalidatePath } from "next/cache";
 
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { isOwner } from "@/features/auth/utils/is-owner";
-import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/utils/paths";
 import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 import { TicketStatus } from "@prisma/client";
+
+import * as ticketService from "../service";
 
 export const updateTicketStatus = async (
   ticketId: string,
   status: TicketStatus,
 ) => {
-  const { user } = await getAuthOrRedirect();
+  await getAuthOrRedirect();
 
   try {
-    const ticket = await prisma.ticket.findUnique({
-      where: { id: ticketId },
-    });
-
-    if (!ticket || !isOwner(user, ticket))
-      return toActionState("ERROR", "Not authorized");
-
-    await prisma.ticket.update({
-      where: {
-        id: ticketId,
-      },
-      data: {
-        status,
-      },
-    });
+    await ticketService.updateTicketStatus(ticketId, status);
   } catch (error) {
     return fromErrorToActionState(error);
   }

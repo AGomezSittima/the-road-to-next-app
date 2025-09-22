@@ -1,5 +1,3 @@
-"use server";
-
 import { PAGE_SIZES } from "@/components/pagination/constants";
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";

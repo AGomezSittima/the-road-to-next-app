@@ -1,5 +1,3 @@
-"use server";
-
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { getTicketPermissions } from "@/features/permissions/queries/get-ticket-permissions";
@@ -20,6 +18,7 @@ export const getTicket = async (ticketId: string) => {
   if (!ticket) return null;
 
   const isTicketOwner = isOwner(user, ticket);
+
   const permissions = await getTicketPermissions({
     organizationId: ticket.organizationId,
     userId: user?.id,

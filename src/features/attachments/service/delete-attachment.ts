@@ -4,11 +4,11 @@ import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { User } from "@prisma/client";
 
-import * as attachmentData from "../data";
 import { AttachmentSubjectDTO } from "../dto/attachment-subject-dto";
+import { getAttachmentById } from "../queries/get-attachment";
 
 export const deleteAttachment = async (id: string, user: User) => {
-  const attachment = await attachmentData.getAttachmentById(id);
+  const attachment = await getAttachmentById(id);
 
   const subject = AttachmentSubjectDTO.fromAttachment(attachment);
 

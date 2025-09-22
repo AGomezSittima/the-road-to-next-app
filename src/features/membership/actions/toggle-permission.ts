@@ -2,12 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 
-import { prisma } from "@/lib/prisma";
 import { membershipsPath } from "@/utils/paths";
-import { toActionState } from "@/utils/to-action-state";
+import { fromErrorToActionState, toActionState } from "@/utils/to-action-state";
 
 import { PermissionKey } from "../../permissions/type";
 import { getAdminOrRedirect } from "../queries/get-admin-or-redirect";
+import * as membershipService from "../service";
 
 export const togglePermission = async ({
   userId,
@@ -20,27 +20,15 @@ export const togglePermission = async ({
 }) => {
   await getAdminOrRedirect(organizationId);
 
-  const where = {
-    membershipId: {
+  try {
+    await membershipService.togglePermission({
       userId,
       organizationId,
-    },
-  };
-
-  const membership = await prisma.membership.findUnique({
-    where,
-  });
-
-  if (!membership) {
-    return toActionState("ERROR", "Membership not found");
+      permissionKey,
+    });
+  } catch (error) {
+    return fromErrorToActionState(error);
   }
-
-  await prisma.membership.update({
-    where,
-    data: {
-      [permissionKey]: !membership[permissionKey],
-    },
-  });
 
   revalidatePath(membershipsPath(organizationId));
 

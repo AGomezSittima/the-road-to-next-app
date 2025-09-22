@@ -3,13 +3,14 @@
 import { z } from "zod";
 
 import { inngest } from "@/lib/inngest";
-import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import {
   ActionState,
   fromErrorToActionState,
   toActionState,
 } from "@/utils/to-action-state";
+
+import { getUserByEmail } from "../queries/get-user";
 
 const forgotPasswordSchema = z.object({
   email: z
@@ -26,9 +27,7 @@ export const forgotPassword = async (
   try {
     const { email } = forgotPasswordSchema.parse(Object.fromEntries(formData));
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    const user = await getUserByEmail(email);
 
     if (user) {
       await inngest.send({

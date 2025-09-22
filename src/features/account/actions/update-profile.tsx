@@ -49,6 +49,7 @@ export const updateProfile = async (
       Object.fromEntries(formData),
     );
 
+    // TODO: Extract to DAL
     await prisma.user.update({
       where: { id: user.id },
       data: {

@@ -4,19 +4,14 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { setCookieByKey } from "@/actions/cookies";
-import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
-import { generateRandomToken, hashToken } from "@/utils/crypto";
+import { generateRandomToken } from "@/utils/crypto";
 import { ticketsPath } from "@/utils/paths";
-import {
-  ActionState,
-  fromErrorToActionState,
-  toActionState,
-} from "@/utils/to-action-state";
+import { ActionState, fromErrorToActionState } from "@/utils/to-action-state";
 
 import { setSessionTokenCookie } from "../lib/cookies";
-import { hashPassword } from "../lib/password";
 import { createSession } from "../lib/session";
+import * as authService from "../service";
 
 const resetPasswordSchema = z
   .object({
@@ -49,39 +44,10 @@ export const resetPassword = async (
       Object.fromEntries(formData),
     );
 
-    const tokenHash = hashToken(tokenId);
-
-    const passwordResetToken = await prisma.passwordResetToken.findUnique({
-      where: { tokenHash },
-    });
-
-    if (passwordResetToken) {
-      await prisma.passwordResetToken.delete({
-        where: { tokenHash },
-      });
-    }
-
-    if (
-      !passwordResetToken ||
-      Date.now() > passwordResetToken.expiresAt.getTime()
-    ) {
-      return toActionState(
-        "ERROR",
-        "Expired or invalid verification token",
-        formData,
-      );
-    }
-
-    await prisma.session.deleteMany({
-      where: { userId: passwordResetToken.userId },
-    });
-
-    const passwordHash = await hashPassword(password);
-
-    await prisma.user.update({
-      where: { id: passwordResetToken.userId },
-      data: { passwordHash },
-    });
+    const passwordResetToken = await authService.resetPassword(
+      tokenId,
+      password,
+    );
 
     const sessionToken = generateRandomToken();
     const session = await createSession(
@@ -96,7 +62,8 @@ export const resetPassword = async (
 
   await setCookieByKey(
     appConfig.cookiesKeys.toast,
-    "Your password has been reset and you’re now signed in.",
+    "Your password has been reset and you're now signed in.",
   );
+
   redirect(ticketsPath());
 };

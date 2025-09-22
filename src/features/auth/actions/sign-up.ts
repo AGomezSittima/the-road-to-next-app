@@ -4,19 +4,12 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { setSessionTokenCookie } from "@/features/auth/lib/cookies";
-import { hashPassword } from "@/features/auth/lib/password";
 import { createSession } from "@/features/auth/lib/session";
-import { inngest } from "@/lib/inngest";
-import { prisma } from "@/lib/prisma";
-import { appConfig } from "@/utils/app-config";
 import { generateRandomToken } from "@/utils/crypto";
 import { ticketsPath } from "@/utils/paths";
-import {
-  ActionState,
-  fromErrorToActionState,
-  toActionState,
-} from "@/utils/to-action-state";
-import { Prisma } from "@prisma/client";
+import { ActionState, fromErrorToActionState } from "@/utils/to-action-state";
+
+import * as authService from "../service";
 
 const signUpSchema = z
   .object({
@@ -64,39 +57,17 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
     const { username, email, password, firstName, lastName } =
       signUpSchema.parse(Object.fromEntries(formData));
 
-    const passwordHash = await hashPassword(password);
-
-    const user = await prisma.user.create({
-      data: {
-        username,
-        email,
-        passwordHash,
-        firstName,
-        lastName,
-      },
-    });
-
-    await inngest.send({
-      name: appConfig.events.names.signUp,
-      data: { userId: user.id },
+    const user = await authService.signUp(password, {
+      username,
+      email,
+      firstName,
+      lastName,
     });
 
     const sessionToken = generateRandomToken();
     const session = await createSession(sessionToken, user.id);
-
     await setSessionTokenCookie(sessionToken, session.expiresAt);
   } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2002"
-    ) {
-      return toActionState(
-        "ERROR",
-        "Either email or username is already in use",
-        formData,
-      );
-    }
-
     return fromErrorToActionState(error, formData);
   }
 

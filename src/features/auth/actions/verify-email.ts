@@ -6,18 +6,13 @@ import { z } from "zod";
 import { setCookieByKey } from "@/actions/cookies";
 import { setSessionTokenCookie } from "@/features/auth/lib/cookies";
 import { createSession } from "@/features/auth/lib/session";
-import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { generateRandomToken } from "@/utils/crypto";
 import { ticketsPath } from "@/utils/paths";
-import {
-  ActionState,
-  fromErrorToActionState,
-  toActionState,
-} from "@/utils/to-action-state";
+import { ActionState, fromErrorToActionState } from "@/utils/to-action-state";
 
 import { getAuthOrRedirect } from "../queries/get-auth-or-redirect";
-import { validateEmailVerificationCode } from "../utils/validate-email-verification-code";
+import * as authService from "../service";
 
 const verifyEmailSchema = z.object({
   code: z.string().length(appConfig.crypto.emailVerificationCodeLength, {
@@ -38,21 +33,7 @@ export const verifyEmail = async (
   try {
     const { code } = verifyEmailSchema.parse(Object.fromEntries(formData));
 
-    const validCode = await validateEmailVerificationCode(
-      user.id,
-      user.email,
-      code,
-    );
-
-    if (!validCode) {
-      return toActionState("ERROR", "Invalid or expired code");
-    }
-
-    await prisma.session.deleteMany({ where: { userId: user.id } });
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { emailVerified: true },
-    });
+    await authService.verifyEmail(code, user);
 
     const sessionToken = generateRandomToken();
     const session = await createSession(sessionToken, user.id);
@@ -63,5 +44,6 @@ export const verifyEmail = async (
   }
 
   await setCookieByKey(appConfig.cookiesKeys.toast, "Email verified");
+
   redirect(ticketsPath());
 };

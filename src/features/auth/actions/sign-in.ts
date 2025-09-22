@@ -6,7 +6,6 @@ import { z } from "zod";
 import { setSessionTokenCookie } from "@/features/auth/lib/cookies";
 import { verifyPasswordHash } from "@/features/auth/lib/password";
 import { createSession } from "@/features/auth/lib/session";
-import { prisma } from "@/lib/prisma";
 import { generateRandomToken } from "@/utils/crypto";
 import { ticketsPath } from "@/utils/paths";
 import {
@@ -14,6 +13,8 @@ import {
   fromErrorToActionState,
   toActionState,
 } from "@/utils/to-action-state";
+
+import { getUserByEmail } from "../queries/get-user";
 
 const signInSchema = z.object({
   email: z
@@ -35,9 +36,7 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
       Object.fromEntries(formData),
     );
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    const user = await getUserByEmail(email);
 
     const validPassword = await verifyPasswordHash(
       user ? user.passwordHash : "invalid",

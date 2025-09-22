@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { generateRandomToken, hashToken } from "@/utils/crypto";
 
+// TODO: Refactor to DAL
 export const generateCredential = async (
   userId: string,
   organizationId: string,

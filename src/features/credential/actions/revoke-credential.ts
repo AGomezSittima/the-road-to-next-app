@@ -14,6 +14,7 @@ export const revokeCredential = async ({
   await getAdminOrRedirect(organizationId);
 
   try {
+    // TODO: Extract to DAL
     await prisma.credential.update({
       where: { id: credentialId },
       data: {

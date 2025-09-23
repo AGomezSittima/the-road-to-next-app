@@ -5,11 +5,11 @@ import { z } from "zod";
 
 import { setCookieByKey } from "@/actions/cookies";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { inngest } from "@/lib/inngest";
-import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { membershipsPath, ticketsPath } from "@/utils/paths";
 import { ActionState, fromErrorToActionState } from "@/utils/to-action-state";
+
+import * as organizationService from "../service";
 
 const createOrganizationSchema = z.object({
   name: z
@@ -33,41 +33,14 @@ export const createOrganization = async (
       Object.fromEntries(formData),
     );
 
-    organization = await prisma.$transaction(async (tx) => {
-      const organization = await tx.organization.create({
-        data: {
-          name,
-          memberships: {
-            create: { userId: user.id, isActive: true, role: "ADMIN" },
-          },
-        },
-      });
-
-      await tx.membership.updateMany({
-        where: {
-          userId: user.id,
-          organizationId: {
-            not: organization.id,
-          },
-        },
-        data: {
-          isActive: false,
-        },
-      });
-
-      return organization;
-    });
+    organization = await organizationService.createOrganization(
+      user.id,
+      name,
+      user.email,
+    );
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
-
-  await inngest.send({
-    name: appConfig.events.names.organizationCreated,
-    data: {
-      organizationId: organization.id,
-      byEmail: user.email,
-    },
-  });
 
   await setCookieByKey(
     appConfig.cookiesKeys.toast,
@@ -76,5 +49,6 @@ export const createOrganization = async (
       link: membershipsPath(organization.id),
     }),
   );
+
   redirect(ticketsPath());
 };

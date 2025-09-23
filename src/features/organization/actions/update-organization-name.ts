@@ -28,6 +28,7 @@ export const updateOrganizationName = async (
       Object.fromEntries(formData),
     );
 
+    // TODO: Extract to DAL
     await prisma.organization.update({
       where: { id: organizationId },
       data: { name },

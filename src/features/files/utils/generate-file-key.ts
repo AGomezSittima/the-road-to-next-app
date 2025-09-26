@@ -1,6 +1,6 @@
 import { AttachmentEntity } from "@prisma/client";
 
-type GenerateTicketAttachmentS3KeyArgs = {
+type GenerateTicketAttachmentKeyArgs = {
   organizationId: string;
   entity: AttachmentEntity;
   entityId: string;
@@ -8,12 +8,12 @@ type GenerateTicketAttachmentS3KeyArgs = {
   attachmentId: string;
 };
 
-export const generateAttachmentS3Key = ({
+export const generateAttachmentKey = ({
   organizationId,
   entity,
   entityId,
   fileName,
   attachmentId,
-}: GenerateTicketAttachmentS3KeyArgs) => {
+}: GenerateTicketAttachmentKeyArgs) => {
   return `${organizationId}/${entity}/${entityId}/${attachmentId}-${fileName}`;
 };

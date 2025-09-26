@@ -1,5 +1,5 @@
 import { getAttachments } from "@/features/attachments/queries/get-attachments";
-import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
+import { generateAttachmentKey } from "@/features/files/utils/generate-file-key";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
@@ -21,11 +21,11 @@ export const deleteTicket = async (userId: string, ticketId: string) => {
 
   if (attachments && attachments.length) {
     await inngest.send({
-      name: appConfig.events.names.s3ObjectsCleanup,
+      name: appConfig.events.names.filesCleanup,
       data: {
         objects: {
           Objects: attachments.map((attachment) => ({
-            Key: generateAttachmentS3Key({
+            Key: generateAttachmentKey({
               organizationId: ticket.organizationId,
               entity: attachment.entity,
               entityId: ticketId,

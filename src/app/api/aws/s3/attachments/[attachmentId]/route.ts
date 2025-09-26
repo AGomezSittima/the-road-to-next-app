@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 
 import { AttachmentSubjectDTO } from "@/features/attachments/dto/attachment-subject-dto";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
+import { generateAttachmentKey } from "@/features/files/utils/generate-file-key";
 import { s3 } from "@/lib/aws";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
@@ -28,7 +28,8 @@ export async function GET(
     throw new Error("Not found");
   }
 
-  const attachmentS3Key = generateAttachmentS3Key({
+  // TODO: Extract to abtraction FileUpload file
+  const attachmentS3Key = generateAttachmentKey({
     organizationId: subject.organizationId,
     entity: attachment.entity,
     entityId: subject.entityId,

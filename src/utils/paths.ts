@@ -37,4 +37,4 @@ export const subscriptionPath = (organizationId: string) =>
   `${organizationsPath()}/${organizationId}/subscription`;
 
 export const attachmentDownloadUrl = (attachmentId: string) =>
-  `/api/aws/s3/attachments/${attachmentId}`;
+  `/api/files/attachments/${attachmentId}`;

@@ -1,4 +1,4 @@
-import { generateAttachmentS3Key } from "@/features/s3/utils/generate-s3-key";
+import { generateAttachmentKey } from "@/features/files/utils/generate-file-key";
 import { s3 } from "@/lib/aws";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
@@ -40,7 +40,8 @@ export const createAttachments = async ({
         referenceData,
       });
 
-      const attachmentKey = generateAttachmentS3Key({
+      // TODO: Extract to abtraction FileUpload file
+      const attachmentKey = generateAttachmentKey({
         organizationId: subject.organizationId,
         entity,
         entityId,
@@ -62,9 +63,10 @@ export const createAttachments = async ({
     }
   } catch (error) {
     // Rollback uploaded files from S3
+    // TODO: Extract to abtraction FileUpload file
     await inngest
       .send({
-        name: appConfig.events.names.s3ObjectsCleanup,
+        name: appConfig.events.names.filesCleanup,
         data: {
           objects: {
             Objects: uploadedFilesKeys.map((key) => ({

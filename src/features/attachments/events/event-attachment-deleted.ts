@@ -4,7 +4,7 @@ import { appConfig } from "@/utils/app-config";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { AttachmentEntity } from "@prisma/client";
 
-import { generateAttachmentS3Key } from "../../s3/utils/generate-s3-key";
+import { generateAttachmentKey } from "../../files/utils/generate-file-key";
 
 export type AttachmentDeletedEventArgs = {
   data: {
@@ -26,7 +26,7 @@ export const deleteAttachmentFromS3Function = inngest.createFunction(
       event.data;
 
     try {
-      const attachmentKey = generateAttachmentS3Key({
+      const attachmentKey = generateAttachmentKey({
         organizationId,
         entity,
         entityId,

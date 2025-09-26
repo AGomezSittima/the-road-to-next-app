@@ -36,7 +36,7 @@ export const appConfig = {
       organizationCreated: "app/organization.created",
       invitationCreated: "app/invitations.invitation-created",
       attachmentDeleted: "app/attachments.attachment-deleted",
-      s3ObjectsCleanup: "app/s3.objects-cleanup",
+      filesCleanup: "app/files.cleanup",
     },
   },
   emails: {

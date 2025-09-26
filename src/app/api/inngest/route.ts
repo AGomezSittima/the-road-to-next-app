@@ -10,9 +10,9 @@ import {
 import { sendInvitationEmailFunction } from "@/features/invitations/events/event-invitation-created";
 import { createStripeCustomerFunction } from "@/features/organization/events/event-organization-created";
 import {
-  periodicS3ObjectsCleanupFunction,
-  s3ObjectsCleanupFunction,
-} from "@/features/s3/events/event-s3-objects-cleanup";
+  periodicFilesCleanupFunction,
+  filesCleanupFunction,
+} from "@/features/files/events/event-files-cleanup";
 import { inngest } from "@/lib/inngest";
 
 export const { GET, POST, PUT } = serve({
@@ -25,7 +25,7 @@ export const { GET, POST, PUT } = serve({
     sendPasswordResetEmailFunction,
     sendInvitationEmailFunction,
     deleteAttachmentFromS3Function,
-    periodicS3ObjectsCleanupFunction,
-    s3ObjectsCleanupFunction,
+    periodicFilesCleanupFunction,
+    filesCleanupFunction,
   ],
 });

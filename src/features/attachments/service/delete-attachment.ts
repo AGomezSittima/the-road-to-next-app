@@ -25,6 +25,7 @@ export const deleteAttachment = async (id: string, user: User) => {
     where: { id },
   });
 
+  // TODO: Extract to abtraction FileUpload file
   await inngest.send({
     name: appConfig.events.names.attachmentDeleted,
     data: {

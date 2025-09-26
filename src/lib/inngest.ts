@@ -5,7 +5,7 @@ import { PasswordResetEventArgs } from "@/features/auth/events/event-password-re
 import { SignUpEventArgs } from "@/features/auth/events/event-sign-up";
 import { InvitationCreatedEventArgs } from "@/features/invitations/events/event-invitation-created";
 import { OrganizationCreatedEventArgs } from "@/features/organization/events/event-organization-created";
-import { S3ObjectsCleanupEventArgs } from "@/features/s3/events/event-s3-objects-cleanup";
+import { S3ObjectsCleanupEventArgs } from "@/features/files/events/event-files-cleanup";
 import { appConfig } from "@/utils/app-config";
 
 type Events = {
@@ -14,7 +14,7 @@ type Events = {
   [appConfig.events.names.organizationCreated]: OrganizationCreatedEventArgs;
   [appConfig.events.names.invitationCreated]: InvitationCreatedEventArgs;
   [appConfig.events.names.attachmentDeleted]: AttachmentDeletedEventArgs;
-  [appConfig.events.names.s3ObjectsCleanup]: S3ObjectsCleanupEventArgs;
+  [appConfig.events.names.filesCleanup]: S3ObjectsCleanupEventArgs;
 };
 
 export const inngest = new Inngest({

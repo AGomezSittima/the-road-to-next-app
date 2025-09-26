@@ -16,12 +16,13 @@ export type S3ObjectsCleanupEventArgs = {
   };
 };
 
-export const periodicS3ObjectsCleanupFunction = inngest.createFunction(
-  { id: "periodic-s3-objects-cleanup", retries: 5 },
+const PERIODIC_FILES_CLEANUP_FUNCTION_ID = "periodic-files-cleanup";
+export const periodicFilesCleanupFunction = inngest.createFunction(
+  { id: PERIODIC_FILES_CLEANUP_FUNCTION_ID, retries: 5 },
   { cron: "TZ=Europe/Madrid 0 0 * * 0" },
   async ({ step }) => {
     try {
-      const objectLists = await step.run("get-s3-objects", async () => {
+      const objectLists = await step.run("get-file-objects", async () => {
         const result: S3ObjectList[] = [];
 
         const params = { Bucket: process.env.AWS_BUCKET_NAME };
@@ -46,31 +47,32 @@ export const periodicS3ObjectsCleanupFunction = inngest.createFunction(
       });
 
       const events = objectLists.map((objectList) => ({
-        name: appConfig.events.names.s3ObjectsCleanup,
+        name: appConfig.events.names.filesCleanup,
         data: { objects: objectList },
       }));
 
       if (events.length) {
-        await step.sendEvent("send-s3-objects-cleanup-events", events);
+        await step.sendEvent("send-files-cleanup-events", events);
       }
     } catch (error) {
       console.log(error);
-      return { event: "periodic-s3-objects-cleanup", body: false };
+      return { event: PERIODIC_FILES_CLEANUP_FUNCTION_ID, body: false };
     }
 
-    return { event: "periodic-s3-objects-cleanup", body: true };
+    return { event: PERIODIC_FILES_CLEANUP_FUNCTION_ID, body: true };
   },
 );
 
-export const s3ObjectsCleanupFunction = inngest.createFunction(
-  { id: "s3-objects-cleanup", retries: 5 },
+export const filesCleanupFunction = inngest.createFunction(
+  { id: "files-cleanup", retries: 5 },
   {
-    event: appConfig.events.names.s3ObjectsCleanup,
+    event: appConfig.events.names.filesCleanup,
   },
   async ({ event }) => {
     const { objects } = event.data;
 
     try {
+      // TODO: Extract to abtraction FileUpload file
       await s3.send(
         new DeleteObjectsCommand({
           Bucket: process.env.AWS_BUCKET_NAME,
@@ -86,6 +88,7 @@ export const s3ObjectsCleanupFunction = inngest.createFunction(
   },
 );
 
+// TODO: Extract to abtraction FileUpload file
 const listObjectsOutputContentsToS3ObjectList = async (contents: _Object[]) => {
   const objectList: S3ObjectList = { Objects: [] };
 

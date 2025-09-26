@@ -3,15 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import * as accountDataAccess from "@/features/account/data";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { prisma } from "@/lib/prisma";
 import { accountProfilePath } from "@/utils/paths";
 import {
   ActionState,
   fromErrorToActionState,
   toActionState,
 } from "@/utils/to-action-state";
-import { Prisma } from "@prisma/client";
 
 const updateProfileSchema = z
   .object({
@@ -49,23 +48,13 @@ export const updateProfile = async (
       Object.fromEntries(formData),
     );
 
-    // TODO: Extract to DAL
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        username: username || undefined,
-        firstName: firstName || undefined,
-        lastName: lastName || undefined,
-      },
+    await accountDataAccess.updateUserProfile({
+      id: user.id,
+      username,
+      firstName,
+      lastName,
     });
   } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2002"
-    ) {
-      return toActionState("ERROR", "Username is already in use", formData);
-    }
-
     return fromErrorToActionState(error, formData);
   }
 

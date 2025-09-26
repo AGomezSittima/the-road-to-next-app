@@ -1,9 +1,9 @@
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { inngest } from "@/lib/inngest";
-import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 import { User } from "@prisma/client";
 
+import * as attachmentDataAccess from "../data";
 import { AttachmentSubjectDTO } from "../dto/attachment-subject-dto";
 import { getAttachmentById } from "../queries/get-attachment";
 
@@ -20,10 +20,7 @@ export const deleteAttachment = async (id: string, user: User) => {
     throw new Error("Not authorized");
   }
 
-  // TODO: Extract to DAL
-  await prisma.attachment.delete({
-    where: { id },
-  });
+  await attachmentDataAccess.deleteAttachment(id);
 
   // TODO: Extract to abtraction FileUpload file
   await inngest.send({

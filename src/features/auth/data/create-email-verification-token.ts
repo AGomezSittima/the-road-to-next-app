@@ -1,17 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
-import { generateRandomcode } from "@/utils/crypto";
 
-export const generateEmailVerificationCode = async (
+export const createEmailVerificationToken = async (
   userId: string,
   email: string,
+  code: string,
 ) => {
-  await prisma.emailVerificationToken.deleteMany({
-    where: { userId },
-  });
-
-  const code = generateRandomcode();
-
   await prisma.emailVerificationToken.create({
     data: {
       code,
@@ -22,6 +16,4 @@ export const generateEmailVerificationCode = async (
       ),
     },
   });
-
-  return code;
 };

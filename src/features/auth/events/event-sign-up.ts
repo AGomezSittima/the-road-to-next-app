@@ -3,8 +3,8 @@ import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { appConfig } from "@/utils/app-config";
 
-import { sendEmailVerification } from "../emails/send-email-verification";
-import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
+import { getUserByIdOrThrow } from "../queries/get-user";
+import * as authService from "../service";
 
 export type SignUpEventArgs = {
   data: {
@@ -18,24 +18,9 @@ export const sendVerificationEmailFunction = inngest.createFunction(
   async ({ event }) => {
     const { userId } = event.data;
 
-    const user = await prisma.user.findUniqueOrThrow({
-      where: { id: userId },
-    });
+    const user = await getUserByIdOrThrow(userId);
 
-    const verificationCode = await generateEmailVerificationCode(
-      user.id,
-      user.email,
-    );
-
-    const result = await sendEmailVerification(
-      user.username,
-      user.email,
-      verificationCode,
-    );
-
-    if (result.error) {
-      throw new Error(`${result.error.name}: ${result.error.message}`);
-    }
+    const result = authService.sendVerificationEmail(user);
 
     return { event, body: result };
   },
@@ -49,9 +34,7 @@ export const sendWelcomeEmailFunction = inngest.createFunction(
     await step.run("send-email", async () => {
       const { userId } = event.data;
 
-      const user = await prisma.user.findUniqueOrThrow({
-        where: { id: userId },
-      });
+      const user = await getUserByIdOrThrow(userId);
 
       const result = await sendEmailWelcome(user.username, user.email);
 
@@ -70,10 +53,9 @@ export const proccessInvitationsFunction = inngest.createFunction(
   async ({ event }) => {
     const { userId } = event.data;
 
-    const user = await prisma.user.findUniqueOrThrow({
-      where: { id: userId },
-    });
+    const user = await getUserByIdOrThrow(userId);
 
+    // TODO: Extract to DAL
     const invitations = await prisma.invitation.findMany({
       where: { email: user.email, status: "ACCEPTED_WITHOUT_ACCOUNT" },
     });
@@ -82,6 +64,7 @@ export const proccessInvitationsFunction = inngest.createFunction(
       return { event, body: "No invitations to process" };
     }
 
+    // TODO: Extract to DAL
     await prisma.$transaction([
       prisma.invitation.deleteMany({
         where: { email: user.email, status: "ACCEPTED_WITHOUT_ACCOUNT" },

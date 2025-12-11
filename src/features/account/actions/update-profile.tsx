@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import * as accountDataAccess from "@/features/account/data";
+import * as authDataAccess from "@/features/auth/data";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { accountProfilePath } from "@/utils/paths";
 import {
@@ -48,7 +48,7 @@ export const updateProfile = async (
       Object.fromEntries(formData),
     );
 
-    await accountDataAccess.updateUserProfile({
+    await authDataAccess.updateUser({
       id: user.id,
       username,
       firstName,

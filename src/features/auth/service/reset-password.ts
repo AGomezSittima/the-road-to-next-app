@@ -1,20 +1,16 @@
-import { prisma } from "@/lib/prisma";
 import { hashToken } from "@/utils/crypto";
 
+import * as authDataAccess from "../data";
 import { hashPassword } from "../lib/password";
+import { getPasswordResetTokenByTokenHash } from "../queries/get-password-reset-token";
 
-// TODO: Extract prisma calls to DAL
 export const resetPassword = async (tokenId: string, password: string) => {
   const tokenHash = hashToken(tokenId);
 
-  const passwordResetToken = await prisma.passwordResetToken.findUnique({
-    where: { tokenHash },
-  });
+  const passwordResetToken = await getPasswordResetTokenByTokenHash(tokenHash);
 
   if (passwordResetToken) {
-    await prisma.passwordResetToken.delete({
-      where: { tokenHash },
-    });
+    await authDataAccess.deletePasswordResetToken(tokenHash);
   }
 
   if (
@@ -24,15 +20,13 @@ export const resetPassword = async (tokenId: string, password: string) => {
     throw new Error("Expired or invalid verification token");
   }
 
-  await prisma.session.deleteMany({
-    where: { userId: passwordResetToken.userId },
-  });
+  await authDataAccess.clearSessions(passwordResetToken.userId);
 
   const passwordHash = await hashPassword(password);
 
-  await prisma.user.update({
-    where: { id: passwordResetToken.userId },
-    data: { passwordHash },
+  await authDataAccess.updateUser({
+    id: passwordResetToken.userId,
+    passwordHash,
   });
 
   return passwordResetToken;

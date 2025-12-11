@@ -2,7 +2,8 @@ import { appConfig } from "@/utils/app-config";
 import { hashToken } from "@/utils/crypto";
 import type { Session, User } from "@prisma/client";
 
-import { prisma } from "../../../lib/prisma";
+import * as authDataAccess from "../data";
+import { getSession } from "../queries/get-session";
 
 export type SessionValidationResult =
   | { session: Session; user: User }
@@ -23,9 +24,7 @@ export async function createSession(
     expiresAt: calculateSessionExpiryDateFromNow(),
   };
 
-  await prisma.session.create({
-    data: session,
-  });
+  await authDataAccess.createSession(session);
 
   return session;
 }
@@ -35,14 +34,7 @@ export async function validateSessionToken(
 ): Promise<SessionValidationResult> {
   const sessionId = hashToken(token);
 
-  const result = await prisma.session.findUnique({
-    where: {
-      id: sessionId,
-    },
-    include: {
-      user: true,
-    },
-  });
+  const result = await getSession(sessionId);
 
   if (result === null) {
     return { session: null, user: null };
@@ -51,7 +43,7 @@ export async function validateSessionToken(
   const { user, ...session } = result;
 
   if (Date.now() >= session.expiresAt.getTime()) {
-    await prisma.session.delete({ where: { id: sessionId } });
+    await authDataAccess.deleteSession(sessionId);
 
     return { session: null, user: null };
   }
@@ -63,27 +55,16 @@ export async function validateSessionToken(
   if (Date.now() >= refreshDate) {
     session.expiresAt = calculateSessionExpiryDateFromNow();
 
-    await prisma.session.update({
-      where: {
-        id: session.id,
-      },
-      data: {
-        expiresAt: session.expiresAt,
-      },
-    });
+    authDataAccess.updateSession(session.id, session.expiresAt);
   }
 
   return { session, user };
 }
 
 export async function invalidateSession(sessionId: string): Promise<void> {
-  await prisma.session.delete({ where: { id: sessionId } });
+  await authDataAccess.deleteSession(sessionId);
 }
 
 export async function invalidateAllSessions(userId: string): Promise<void> {
-  await prisma.session.deleteMany({
-    where: {
-      userId: userId,
-    },
-  });
+  await authDataAccess.deleteSessions(userId);
 }

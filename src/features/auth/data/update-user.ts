@@ -1,19 +1,23 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-type UpdateUserProfileParams = {
+type UpdateUserParams = {
   id: string;
   username?: string;
   firstName?: string;
   lastName?: string;
+  passwordHash?: string;
+  emailVerified?: boolean;
 };
 
-export const updateUserProfile = async ({
+export const updateUser = async ({
   id,
   username,
   firstName,
   lastName,
-}: UpdateUserProfileParams) => {
+  passwordHash,
+  emailVerified,
+}: UpdateUserParams) => {
   try {
     await prisma.user.update({
       where: { id: id },
@@ -21,6 +25,8 @@ export const updateUserProfile = async ({
         username: username || undefined,
         firstName: firstName || undefined,
         lastName: lastName || undefined,
+        passwordHash: passwordHash || undefined,
+        emailVerified: emailVerified,
       },
     });
   } catch (error) {

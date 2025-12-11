@@ -7,12 +7,12 @@ import {
   sendVerificationEmailFunction,
   sendWelcomeEmailFunction,
 } from "@/features/auth/events/event-sign-up";
+import {
+  filesCleanupFunction,
+  periodicFilesCleanupFunction,
+} from "@/features/files/events/event-files-cleanup";
 import { sendInvitationEmailFunction } from "@/features/invitations/events/event-invitation-created";
 import { createStripeCustomerFunction } from "@/features/organization/events/event-organization-created";
-import {
-  periodicFilesCleanupFunction,
-  filesCleanupFunction,
-} from "@/features/files/events/event-files-cleanup";
 import { inngest } from "@/lib/inngest";
 
 export const { GET, POST, PUT } = serve({

@@ -3,9 +3,9 @@ import { EventSchemas, Inngest } from "inngest";
 import { AttachmentDeletedEventArgs } from "@/features/attachments/events/event-attachment-deleted";
 import { PasswordResetEventArgs } from "@/features/auth/events/event-password-reset";
 import { SignUpEventArgs } from "@/features/auth/events/event-sign-up";
+import { S3ObjectsCleanupEventArgs } from "@/features/files/events/event-files-cleanup";
 import { InvitationCreatedEventArgs } from "@/features/invitations/events/event-invitation-created";
 import { OrganizationCreatedEventArgs } from "@/features/organization/events/event-organization-created";
-import { S3ObjectsCleanupEventArgs } from "@/features/files/events/event-files-cleanup";
 import { appConfig } from "@/utils/app-config";
 
 type Events = {

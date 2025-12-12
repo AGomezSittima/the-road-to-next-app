@@ -69,6 +69,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
           (actionState.payload?.get(FormFields.Content) as string) ??
           ticket?.content
         }
+        className="resize-none"
       />
       <FieldError actionState={actionState} name={FormFields.Content} />
 

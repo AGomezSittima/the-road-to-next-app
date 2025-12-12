@@ -47,6 +47,7 @@ const CommentCreateForm = ({
       <Textarea
         name={FormFields.Content}
         placeholder="What's on your mind ..."
+        className="resize-none"
       />
       <FieldError name={FormFields.Content} actionState={actionState} />
 

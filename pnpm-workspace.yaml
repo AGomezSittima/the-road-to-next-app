@@ -1,1 +1,1 @@
-minimumReleaseAge: 1440 # Only download packages that have been released for at least 24 hours
+minimumReleaseAge: 720 # Only download packages that have been released for at least 12 hours

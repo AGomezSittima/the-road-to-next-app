@@ -29,13 +29,13 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={`${montserrat.variable} antialiased`}>
+      <body className={`${montserrat.variable} antialiased overflow-hidden`}>
         <NuqsAdapter>
           <ThemeProvider>
             <ReactQueryProvider>
               <TooltipProvider>
                 <Header />
-                <div className="flex h-dvh border-collapse overflow-hidden">
+                <div className="flex h-dvh border-collapse">
                   <Sidebar />
                   <main className="flex min-h-screen flex-1 flex-col overflow-y-auto overflow-x-hidden bg-secondary/20 px-8 py-24">
                     {children}

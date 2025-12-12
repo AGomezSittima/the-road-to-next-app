@@ -12,7 +12,7 @@ const users = [
   },
   {
     username: "user",
-    email: process.env.PERSONAL_EMAIL ?? "",
+    email: "user@user.com",
     firstName: "User",
     emailVerified: true,
   },

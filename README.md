@@ -1,4 +1,5 @@
 # TicketBounty
+
 A bug-bounty–style marketplace for reporting issues and rewarding fixes. Built with Next.js, React, TypeScript, Prisma, and Tailwind CSS.
 
 > This project is based on the course [The Road to Next](https://www.road-to-next.com/) and is used to explore Next.js 15 and React 19 features, with additional modifications.
@@ -67,21 +68,19 @@ A high-level folder diagram of the repository:
 
 ## Commands
 
-| Command | Action |
-|---|---|
-| `dev` | Run development server |
-| `build` | Build production assets |
-| `start` | Start production server |
-| `lint` | Run ESLint on `src` |
-| `lint-fix` | Run ESLint with `--fix` on `src` |
-| `type` | Type-check TypeScript |
+| Command       | Action                              |
+| ------------- | ----------------------------------- |
+| `dev`         | Run development server              |
+| `build`       | Build production assets             |
+| `start`       | Start production server             |
+| `lint`        | Run ESLint on `src`                 |
+| `lint-fix`    | Run ESLint with `--fix` on `src`    |
+| `type`        | Type-check TypeScript               |
 | `postinstall` | Run `prisma generate` after install |
-| `prisma-seed` | Run prisma seeding script |
-| `stripe-seed` | Seed Stripe test data |
-| `seed` | Run both seeds |
-| `prettier` | Format code with Prettier |
-| `email` | Run email dev tool |
+| `prisma-seed` | Run prisma seeding script           |
+| `stripe-seed` | Seed Stripe test data               |
+| `seed`        | Run both seeds                      |
+| `prettier`    | Format code with Prettier           |
+| `email`       | Run email dev tool                  |
 
 > If you use `pnpm`, scripts are available via `pnpm <script>`; use `npm run <script>` if you prefer npm.
-
-

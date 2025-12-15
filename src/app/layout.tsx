@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={`${montserrat.variable} antialiased overflow-hidden`}>
+      <body className={`${montserrat.variable} overflow-hidden antialiased`}>
         <NuqsAdapter>
           <ThemeProvider>
             <ReactQueryProvider>

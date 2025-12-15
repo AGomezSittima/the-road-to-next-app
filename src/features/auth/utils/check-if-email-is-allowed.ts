@@ -1,4 +1,6 @@
-export const checkIfEmailIsAllowed = ({shouldThrow}: {shouldThrow?: boolean} = {}) => {
+export const checkIfEmailIsAllowed = ({
+  shouldThrow,
+}: { shouldThrow?: boolean } = {}) => {
   if (process.env.ALLOW_EMAIL !== "true") {
     if (shouldThrow) {
       throw new Error("Email sending is disabled");
@@ -8,4 +10,4 @@ export const checkIfEmailIsAllowed = ({shouldThrow}: {shouldThrow?: boolean} = {
   }
 
   return true;
-}
+};

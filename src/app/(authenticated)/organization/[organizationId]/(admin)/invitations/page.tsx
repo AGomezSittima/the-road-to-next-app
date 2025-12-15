@@ -24,7 +24,9 @@ const InvitationsPage = async ({ params }: InvitationsPageProps) => {
       <Heading
         title="Invitations"
         description="Manage your organization's invitations"
-        breadcrumbs={<OrganizationBreadcrumbs organizationName={organization?.name} />}
+        breadcrumbs={
+          <OrganizationBreadcrumbs organizationName={organization?.name} />
+        }
         actions={<InvitationCreateButton organizationId={organizationId} />}
       />
 

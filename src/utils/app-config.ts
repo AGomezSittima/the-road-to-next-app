@@ -39,9 +39,6 @@ export const appConfig = {
       filesCleanup: "app/files.cleanup",
     },
   },
-  emails: {
-    app: "no-reply@app.agomezsittima.org",
-  },
   crypto: {
     emailVerificationCodeLength: 8,
   },

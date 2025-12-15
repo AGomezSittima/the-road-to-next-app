@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TicketBounty
+A bug-bounty–style marketplace for reporting issues and rewarding fixes. Built with Next.js, React, TypeScript, Prisma, and Tailwind CSS.
 
-## Getting Started
+> This project is based on the course [The Road to Next](https://www.road-to-next.com/) and is used to explore Next.js 15 and React 19 features, with additional modifications.
 
-First, run the development server:
+---
+
+## How to start
+
+- **Prerequisites:** Node.js (22+), `pnpm` recommended (or `npm`).
+- Copy environment variables:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Install dependencies with `pnpm` (or `npm`):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+# or
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Run development server:
 
-## Learn More
+```bash
+pnpm dev
+# or
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+- Open http://localhost:3000 in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
+- Next.js (App Router)
+- React + TypeScript
+- Tailwind CSS
+- Prisma
+- Inngest, Stripe, AWS, Resend
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+A high-level folder diagram of the repository:
+
+```
+.
+├─ src/
+│  ├─ actions/        # server actions, cookies
+│  ├─ app/            # app pages (Next.js App Router)
+│  ├─ components/     # shared UI components (form, ui, pagination, theme)
+│  ├─ emails/         # email templates and components
+│  ├─ features/       # feature-scoped modules (auth, tickets, organization, etc.)
+│  ├─ hooks/          # custom React hooks
+│  ├─ lib/            # third-party clients and helpers (Prisma, Stripe, AWS)
+│  ├─ types/          # shared TypeScript types
+│  └─ utils/          # helper utilities and path helpers
+├─ prisma/
+│  ├─ schema.prisma
+│  └─ seed.ts
+├─ public/            # static assets
+└─ ...
+```
+
+## Commands
+
+| Command | Action |
+|---|---|
+| `dev` | Run development server |
+| `build` | Build production assets |
+| `start` | Start production server |
+| `lint` | Run ESLint on `src` |
+| `lint-fix` | Run ESLint with `--fix` on `src` |
+| `type` | Type-check TypeScript |
+| `postinstall` | Run `prisma generate` after install |
+| `prisma-seed` | Run prisma seeding script |
+| `stripe-seed` | Seed Stripe test data |
+| `seed` | Run both seeds |
+| `prettier` | Format code with Prettier |
+| `email` | Run email dev tool |
+
+> If you use `pnpm`, scripts are available via `pnpm <script>`; use `npm run <script>` if you prefer npm.
+
+

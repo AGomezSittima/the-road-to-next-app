@@ -1,3 +1,4 @@
+import { checkIfEmailIsAllowed } from "@/features/auth/utils/check-if-email-is-allowed";
 import { getMembershipInOrganizationByEmail } from "@/features/membership/queries/get-membership";
 import { getStripeProvisioningByOrganization } from "@/features/stripe/queries/get-stripe-provisioning";
 import { inngest } from "@/lib/inngest";
@@ -10,6 +11,8 @@ export const createInvitation = async (
   organizationId: string,
   email: string,
 ) => {
+  checkIfEmailIsAllowed({ shouldThrow: true });
+
   const { allowedMembers, currentMembers } =
     await getStripeProvisioningByOrganization(organizationId);
 

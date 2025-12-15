@@ -3,6 +3,7 @@ import { inngest } from "@/lib/inngest";
 import { appConfig } from "@/utils/app-config";
 
 import * as authDataAccess from "../data";
+import { checkIfEmailIsAllowed } from "../utils/check-if-email-is-allowed";
 
 export const signUp = async (
   password: string,
@@ -19,10 +20,12 @@ export const signUp = async (
 
     user = await authDataAccess.createUser(data, passwordHash);
 
-    await inngest.send({
-      name: appConfig.events.names.signUp,
-      data: { userId: user.id },
-    });
+    if (checkIfEmailIsAllowed()) {
+      await inngest.send({
+        name: appConfig.events.names.signUp,
+        data: { userId: user.id },
+      });
+    }
   } catch (error) {
     throw error;
   }

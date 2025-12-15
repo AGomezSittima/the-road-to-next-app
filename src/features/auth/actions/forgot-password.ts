@@ -11,6 +11,7 @@ import {
 } from "@/utils/to-action-state";
 
 import { getUserByEmail } from "../queries/get-user";
+import { checkIfEmailIsAllowed } from "../utils/check-if-email-is-allowed";
 
 const forgotPasswordSchema = z.object({
   email: z
@@ -25,6 +26,8 @@ export const forgotPassword = async (
   formData: FormData,
 ) => {
   try {
+    checkIfEmailIsAllowed({ shouldThrow: true });
+
     const { email } = forgotPasswordSchema.parse(Object.fromEntries(formData));
 
     const user = await getUserByEmail(email);

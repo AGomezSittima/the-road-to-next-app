@@ -2,6 +2,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: "development" | "production";
+      ALLOW_EMAIL: "true" | "false";
       FROM_EMAIL: string;
       RESEND_API_KEY: string;
       AWS_BUCKET_NAME: string;

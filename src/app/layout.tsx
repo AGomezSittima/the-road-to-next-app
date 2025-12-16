@@ -20,7 +20,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseUrl()),
-  title: { default: "Ticket Bounty", template: "Ticket Bounty | %s" },
+  title: { default: "Ticket Bounty", template: "%s | Ticket Bounty" },
   description: "A platform to manage and track ticket bounties effectively.",
   applicationName: "Ticket Bounty",
   creator: process.env.AUTHOR_NAME,

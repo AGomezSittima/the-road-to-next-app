@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 
@@ -10,6 +11,10 @@ import { searchParamsCache } from "@/features/ticket/search-params";
 
 type TicketsByOrganizationPageProps = {
   searchParams: Promise<SearchParams>;
+};
+
+export const metadata: Metadata = {
+  title: "Organization Tickets",
 };
 
 const TicketsByOrganizationPage = async ({

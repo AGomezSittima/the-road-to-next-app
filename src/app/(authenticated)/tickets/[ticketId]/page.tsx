@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -15,6 +16,22 @@ type TicketPageProps = {
     ticketId: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+}: TicketPageProps): Promise<Metadata> {
+  const { ticketId } = await params;
+
+  const ticket = await getTicket(ticketId);
+
+  if (!ticket) {
+    return {};
+  }
+
+  return {
+    title: ticket.title,
+  };
+}
 
 const TicketPage = async ({ params }: TicketPageProps) => {
   const { ticketId } = await params;

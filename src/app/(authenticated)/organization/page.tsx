@@ -1,4 +1,5 @@
 import { LucidePlus } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -7,6 +8,10 @@ import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import { OrganizationTable } from "@/features/organization/components/organization-table";
 import { organizationCreatePath } from "@/utils/paths";
+
+export const metadata: Metadata = {
+  title: "Organizations",
+};
 
 const OrganizationsPage = () => {
   return (

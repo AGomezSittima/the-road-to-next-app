@@ -2,6 +2,8 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: "development" | "production";
+      AUTHOR_NAME: string;
+      AUTHOR_URL: string;
       ALLOW_EMAIL: "true" | "false";
       FROM_EMAIL: string;
       RESEND_API_KEY: string;

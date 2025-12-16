@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getBaseUrl } from "@/utils/url";
 
 import { ReactQueryProvider } from "./_providers/react-query/react-query-provider";
 
@@ -18,8 +19,35 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "The Road to Next",
-  description: "My Road to Next application ...",
+  metadataBase: new URL(getBaseUrl()),
+  title: { default: "Ticket Bounty", template: "Ticket Bounty | %s" },
+  description: "A platform to manage and track ticket bounties effectively.",
+  applicationName: "Ticket Bounty",
+  creator: process.env.AUTHOR_NAME,
+  publisher: process.env.AUTHOR_NAME,
+  referrer: "origin-when-cross-origin",
+  authors: [{ name: process.env.AUTHOR_NAME, url: process.env.AUTHOR_URL }],
+  openGraph: {
+    title: "Ticket Bounty",
+    description: "A platform to manage and track ticket bounties effectively.",
+    url: "/",
+    siteName: "Ticket Bounty",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ticket Bounty",
+    description: "A platform to manage and track ticket bounties effectively.",
+  },
+  keywords: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Ticket Bounty",
+    "Bounty Management",
+    "Issue Tracking",
+  ],
 };
 
 export default function RootLayout({

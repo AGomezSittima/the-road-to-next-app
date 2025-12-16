@@ -12,6 +12,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { getBaseUrl } from "@/utils/url";
 
 import { ReactQueryProvider } from "./_providers/react-query/react-query-provider";
+import ogImage from "./opengraph-image.png";
+import twitterImage from "./twitter-image.png";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -34,11 +36,27 @@ export const metadata: Metadata = {
     siteName: "Ticket Bounty",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: ogImage.src,
+        width: ogImage.width,
+        height: ogImage.height,
+        alt: "Ticket Bounty Image",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ticket Bounty",
     description: "A platform to manage and track ticket bounties effectively.",
+    images: [
+      {
+        url: twitterImage.src,
+        width: twitterImage.width,
+        height: twitterImage.height,
+        alt: "Ticket Bounty Image",
+      },
+    ],
   },
   keywords: [
     "Next.js",

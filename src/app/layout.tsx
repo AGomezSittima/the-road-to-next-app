@@ -30,8 +30,10 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
   authors: [{ name: process.env.AUTHOR_NAME, url: process.env.AUTHOR_URL }],
   openGraph: {
-    title: "Ticket Bounty",
-    description: "A platform to manage and track ticket bounties effectively.",
+    title:
+      "Ticket Bounty: A platform to manage and track ticket bounties effectively.",
+    description:
+      "Manage and track ticket bounties with ease using Ticket Bounty. Win rewards for resolving issues and contributing to projects.",
     url: "/",
     siteName: "Ticket Bounty",
     locale: "en_US",
@@ -47,8 +49,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ticket Bounty",
-    description: "A platform to manage and track ticket bounties effectively.",
+    title:
+      "Ticket Bounty: A platform to manage and track ticket bounties effectively.",
+    description:
+      "Manage and track ticket bounties with ease using Ticket Bounty. Win rewards for resolving issues and contributing to projects.",
     images: [
       {
         url: twitterImage.src,

@@ -12,8 +12,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { getBaseUrl } from "@/utils/url";
 
 import { ReactQueryProvider } from "./_providers/react-query/react-query-provider";
-import ogImage from "./opengraph-image.png";
-import twitterImage from "./twitter-image.png";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -30,37 +28,19 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
   authors: [{ name: process.env.AUTHOR_NAME, url: process.env.AUTHOR_URL }],
   openGraph: {
-    title:
-      "Ticket Bounty: A platform to track ticket bounties.",
+    title: "Ticket Bounty: A platform to track ticket bounties.",
     description:
       "Manage and track ticket bounties with ease using Ticket Bounty. Win rewards for resolving issues and contributing to projects.",
     url: "/",
     siteName: "Ticket Bounty",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: ogImage.src,
-        width: ogImage.width,
-        height: ogImage.height,
-        alt: "Ticket Bounty Image",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Ticket Bounty: A platform to track ticket bounties.",
+    title: "Ticket Bounty: A platform to track ticket bounties.",
     description:
       "Manage and track ticket bounties with ease using Ticket Bounty. Win rewards for resolving issues and contributing to projects.",
-    images: [
-      {
-        url: twitterImage.src,
-        width: twitterImage.width,
-        height: twitterImage.height,
-        alt: "Ticket Bounty Image",
-      },
-    ],
   },
   keywords: [
     "Next.js",

@@ -92,3 +92,14 @@ A high-level folder diagram of the repository:
 If you want to try the application without running it locally, visit the live demo: https://ticketbounty.agomezsittima.dev
 
 > Attachments, email sending, and Stripe integration are not configured in the demo environment, so some features are disabled.
+
+### Demo credentials
+
+The demo database includes seeded accounts you can use to sign in:
+
+| Role  | Email | Password |
+|---|---:|:---|
+| Admin | `admin@admin.com` | `secret123` |
+| User  | `user@user.com`  | `secret123` |
+
+These accounts are created by the seed script in `prisma/seed.ts`.

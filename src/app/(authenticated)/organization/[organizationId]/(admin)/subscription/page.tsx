@@ -15,9 +15,9 @@ type SubscriptionPageProps = {
 };
 
 const SubscriptionPage = async ({ params }: SubscriptionPageProps) => {
-  checkIfStripeAllowedOrRedirect();
-
   const { organizationId } = await params;
+
+  checkIfStripeAllowedOrRedirect(organizationId);
 
   const organization = await getOrganizationById(organizationId);
 

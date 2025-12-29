@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/features/auth/actions/sign-out";
+import { checkIfStripeAllowed } from "@/features/stripe/queries/check-if-stripe-allowed";
 import {
   accountPasswordPath,
   accountProfilePath,
@@ -23,6 +24,8 @@ type AccountDropdownProps = {
 };
 
 const AccountDropdown = ({ user }: AccountDropdownProps) => {
+  const isStripeAllowed = checkIfStripeAllowed();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -47,13 +50,17 @@ const AccountDropdown = ({ user }: AccountDropdownProps) => {
             <span>Password</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href={pricingPath()}>
-            <LucideGem className="mr-2 h-4 w-4" />
-            <span>Pricing</span>
-          </Link>
-        </DropdownMenuItem>
+        {isStripeAllowed && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href={pricingPath()}>
+                <LucideGem className="mr-2 h-4 w-4" />
+                <span>Pricing</span>
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <form action={signOut}>

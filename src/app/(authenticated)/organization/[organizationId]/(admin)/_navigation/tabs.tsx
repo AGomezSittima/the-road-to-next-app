@@ -3,6 +3,7 @@
 import { useParams, usePathname } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { checkIfStripeAllowed } from "@/features/stripe/queries/check-if-stripe-allowed";
 import {
   credentialsPath,
   invitationsPath,
@@ -20,6 +21,7 @@ const OrganizationBreadcrumbs = ({
 }: OrganizationBreadcrumbsProps) => {
   const params = useParams<{ organizationId: string }>();
   const pathName = usePathname();
+  const isStripeAllowed = checkIfStripeAllowed();
 
   const title = {
     memberships: "Memberships" as const,
@@ -34,6 +36,27 @@ const OrganizationBreadcrumbs = ({
       | "subscription"
   ];
 
+  const baseOptions = [
+    {
+      title: "Memberships",
+      href: membershipsPath(params.organizationId),
+    },
+    {
+      title: "Invitations",
+      href: invitationsPath(params.organizationId),
+    },
+    {
+      title: "Credentials",
+      href: credentialsPath(params.organizationId),
+    },
+  ];
+  const stripeOptions = [
+    {
+      title: "Subscription",
+      href: subscriptionPath(params.organizationId),
+    },
+  ];
+
   return (
     <Breadcrumbs
       breadcrumbs={[
@@ -43,24 +66,9 @@ const OrganizationBreadcrumbs = ({
           : { title: "", skip: true },
         {
           title,
-          dropdown: [
-            {
-              title: "Memberships",
-              href: membershipsPath(params.organizationId),
-            },
-            {
-              title: "Invitations",
-              href: invitationsPath(params.organizationId),
-            },
-            {
-              title: "Credentials",
-              href: credentialsPath(params.organizationId),
-            },
-            {
-              title: "Subscription",
-              href: subscriptionPath(params.organizationId),
-            },
-          ],
+          dropdown: isStripeAllowed
+            ? [...baseOptions, ...stripeOptions]
+            : [...baseOptions],
         },
       ]}
     />

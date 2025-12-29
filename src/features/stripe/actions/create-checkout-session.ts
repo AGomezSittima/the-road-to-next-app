@@ -20,7 +20,7 @@ export const createCheckoutSession = async ({
   organizationId,
   priceId,
 }: CreateCheckoutSessionArgs) => {
-  if (checkIfStripeSubscriptionAllowed()) {
+  if (!checkIfStripeSubscriptionAllowed()) {
     return toActionState("ERROR", "Stripe is disabled");
   }
 

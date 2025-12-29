@@ -5,7 +5,7 @@ import { membershipsPath, organizationsPath } from "@/utils/paths";
 export const checkIfStripeAllowed = ({
   shouldThrow,
 }: { shouldThrow?: boolean } = {}) => {
-  if (process.env.ALLOW_STRIPE === "false") {
+  if (process.env.NEXT_PUBLIC_ALLOW_STRIPE !== "true") {
     if (shouldThrow) {
       throw new Error("Stripe integration is disabled");
     }
@@ -37,7 +37,7 @@ export const checkIfStripeSubscriptionAllowed = ({
     return false;
   }
 
-  if (process.env.ALLOW_STRIPE_SUBSCRIPTION_MANAGEMENT !== "true") {
+  if (process.env.NEXT_PUBLIC_ALLOW_STRIPE_SUBSCRIPTION_MANAGEMENT !== "true") {
     if (shouldThrow) {
       throw new Error("Stripe subscription management is disabled");
     }

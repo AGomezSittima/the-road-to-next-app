@@ -13,8 +13,8 @@ declare global {
       STRIPE_SECRET_KEY: string;
       STRIPE_WEBHOOK_SECRET: string;
       ALLOW_EMAIL: "true" | "false";
-      ALLOW_STRIPE: "true" | "false";
-      ALLOW_STRIPE_SUBSCRIPTION_MANAGEMENT: "true" | "false";
+      NEXT_PUBLIC_ALLOW_STRIPE: "true" | "false";
+      NEXT_PUBLIC_ALLOW_STRIPE_SUBSCRIPTION_MANAGEMENT: "true" | "false";
     }
   }
 }

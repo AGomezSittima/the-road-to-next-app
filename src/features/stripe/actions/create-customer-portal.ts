@@ -14,7 +14,7 @@ import { checkIfStripeSubscriptionAllowed } from "../queries/check-if-stripe-all
 export const createCustomerPortal = async (
   organizationId: string | null | undefined,
 ) => {
-  if (checkIfStripeSubscriptionAllowed()) {
+  if (!checkIfStripeSubscriptionAllowed()) {
     return toActionState(
       "ERROR",
       "Stripe is disabled",

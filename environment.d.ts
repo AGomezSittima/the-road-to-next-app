@@ -4,7 +4,6 @@ declare global {
       NODE_ENV: "development" | "production";
       AUTHOR_NAME: string;
       AUTHOR_URL: string;
-      ALLOW_EMAIL: "true" | "false";
       FROM_EMAIL: string;
       RESEND_API_KEY: string;
       AWS_BUCKET_NAME: string;
@@ -13,6 +12,8 @@ declare global {
       AWS_SECRET_ACCESS_KEY: string;
       STRIPE_SECRET_KEY: string;
       STRIPE_WEBHOOK_SECRET: string;
+      ALLOW_EMAIL: "true" | "false";
+      ALLOW_STRIPE: "true" | "false";
     }
   }
 }

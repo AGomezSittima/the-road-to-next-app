@@ -12,6 +12,7 @@ import { stripe } from "@/lib/stripe";
 import { cn } from "@/lib/utils";
 import { toCurrencyFromCent } from "@/utils/currency";
 
+import { checkIfStripeAllowed } from "../queries/check-if-stripe-allowed";
 import { getStripeCustomerByOrganization } from "../queries/get-stripe-customer";
 import { isActiveSubscription } from "../utils/is-active-subscription";
 import { CheckoutSessionForm } from "./checkout-session-form";
@@ -28,22 +29,30 @@ const Prices = async ({
   activePriceId,
 }: PricesProps) => {
   const prices = await stripe.prices.list({ active: true, product: productId });
+  const isStripeAllowed = checkIfStripeAllowed();
 
   return (
-    <div className="flex gap-x-2">
-      {prices.data.map((price) => (
-        <CheckoutSessionForm
-          key={price.id}
-          organizationId={organizationId}
-          priceId={price.id}
-          activePriceId={activePriceId}
-        >
-          <span className="text-lg font-bold">
-            {toCurrencyFromCent(price.unit_amount || 0, price.currency)}
-          </span>
-          &nbsp;/&nbsp;<span>{price.recurring?.interval}</span>
-        </CheckoutSessionForm>
-      ))}
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-x-2">
+        {prices.data.map((price) => (
+          <CheckoutSessionForm
+            key={price.id}
+            organizationId={organizationId}
+            priceId={price.id}
+            activePriceId={activePriceId}
+          >
+            <span className="text-lg font-bold">
+              {toCurrencyFromCent(price.unit_amount || 0, price.currency)}
+            </span>
+            &nbsp;/&nbsp;<span>{price.recurring?.interval}</span>
+          </CheckoutSessionForm>
+        ))}
+      </div>
+      {!isStripeAllowed && (
+        <p className="bg-red-500/30 p-2 text-sm text-red-600 text-center rounded-lg">
+          Stripe is not configured.
+        </p>
+      )}
     </div>
   );
 };

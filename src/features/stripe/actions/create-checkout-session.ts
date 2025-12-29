@@ -9,6 +9,8 @@ import { pricingPath, signInPath, subscriptionPath } from "@/utils/paths";
 import { toActionState } from "@/utils/to-action-state";
 import { getBaseUrl } from "@/utils/url";
 
+import { checkIfStripeAllowed } from "../queries/check-if-stripe-allowed";
+
 type CreateCheckoutSessionArgs = {
   organizationId: string | null | undefined;
   priceId: string;
@@ -18,6 +20,10 @@ export const createCheckoutSession = async ({
   organizationId,
   priceId,
 }: CreateCheckoutSessionArgs) => {
+  if (checkIfStripeAllowed()) {
+    return toActionState("ERROR", "Stripe is not allowed in this environment");
+  }
+
   if (!organizationId) {
     redirect(signInPath());
   }

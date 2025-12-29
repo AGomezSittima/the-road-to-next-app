@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { EMPTY_ACTION_STATE } from "@/utils/to-action-state";
 
 import { createCustomerPortal } from "../actions/create-customer-portal";
+import { checkIfStripeAllowed } from "../queries/check-if-stripe-allowed";
 
 type CustomerPortalFormProps = {
   organizationId: string | null | undefined;
@@ -22,9 +23,13 @@ const CustomerPortalForm = ({
     EMPTY_ACTION_STATE,
   );
 
+  const isStripeAllowed = checkIfStripeAllowed();
+
   return (
     <Form action={action} actionState={actionState}>
-      <Button type="submit">{children}</Button>
+      <Button type="submit" disabled={!isStripeAllowed}>
+        {children}
+      </Button>
     </Form>
   );
 };

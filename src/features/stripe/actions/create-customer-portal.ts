@@ -9,9 +9,15 @@ import { signInPath, subscriptionPath } from "@/utils/paths";
 import { toActionState } from "@/utils/to-action-state";
 import { getBaseUrl } from "@/utils/url";
 
+import { checkIfStripeAllowed } from "../queries/check-if-stripe-allowed";
+
 export const createCustomerPortal = async (
   organizationId: string | null | undefined,
 ) => {
+  if (checkIfStripeAllowed()) {
+    return toActionState("ERROR", "Stripe is not allowed in this environment");
+  }
+
   if (!organizationId) {
     redirect(signInPath());
   }

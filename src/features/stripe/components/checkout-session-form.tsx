@@ -9,6 +9,7 @@ import { EMPTY_ACTION_STATE } from "@/utils/to-action-state";
 
 import { createCheckoutSession } from "../actions/create-checkout-session";
 import { createCustomerPortal } from "../actions/create-customer-portal";
+import { checkIfStripeAllowed } from "../queries/check-if-stripe-allowed";
 
 type CheckoutSessionFormProps = {
   organizationId: string | null | undefined;
@@ -33,13 +34,15 @@ const CheckoutSessionForm = ({
     EMPTY_ACTION_STATE,
   );
 
+  const isStripeAllowed = checkIfStripeAllowed();
+
   const isActivePrice = activePriceId === priceId;
 
   return (
     <Form action={action} actionState={actionState}>
       <Button
         type="submit"
-        disabled={isActivePrice}
+        disabled={!isStripeAllowed || isActivePrice}
         className={cn("flex flex-col", { "h-16": !!activePriceId })}
       >
         {!activePriceId ? null : isActivePrice ? (

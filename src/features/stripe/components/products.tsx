@@ -12,7 +12,7 @@ import { stripe } from "@/lib/stripe";
 import { cn } from "@/lib/utils";
 import { toCurrencyFromCent } from "@/utils/currency";
 
-import { checkIfStripeAllowed } from "../queries/check-if-stripe-allowed";
+import { checkIfStripeSubscriptionAllowed } from "../queries/check-if-stripe-allowed";
 import { getStripeCustomerByOrganization } from "../queries/get-stripe-customer";
 import { isActiveSubscription } from "../utils/is-active-subscription";
 import { CheckoutSessionForm } from "./checkout-session-form";
@@ -29,7 +29,7 @@ const Prices = async ({
   activePriceId,
 }: PricesProps) => {
   const prices = await stripe.prices.list({ active: true, product: productId });
-  const isStripeAllowed = checkIfStripeAllowed();
+  const isStripeSubscriptionAllowed = checkIfStripeSubscriptionAllowed();
 
   return (
     <div className="flex flex-col gap-4">
@@ -48,7 +48,7 @@ const Prices = async ({
           </CheckoutSessionForm>
         ))}
       </div>
-      {!isStripeAllowed && (
+      {!isStripeSubscriptionAllowed && (
         <p className="bg-red-500/30 p-2 text-sm text-red-600 text-center rounded-lg">
           Stripe is not configured.
         </p>

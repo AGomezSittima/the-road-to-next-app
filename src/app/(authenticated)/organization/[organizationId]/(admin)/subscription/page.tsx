@@ -6,6 +6,7 @@ import { Spinner } from "@/components/spinner";
 import { getOrganizationById } from "@/features/organization/queries/get-organization";
 import { CustomerPortalForm } from "@/features/stripe/components/customer-portal-form";
 import { Products } from "@/features/stripe/components/products";
+import { checkIfStripeAllowedOrRedirect } from "@/features/stripe/queries/check-if-stripe-allowed";
 
 import { OrganizationBreadcrumbs } from "../_navigation/tabs";
 
@@ -14,6 +15,8 @@ type SubscriptionPageProps = {
 };
 
 const SubscriptionPage = async ({ params }: SubscriptionPageProps) => {
+  checkIfStripeAllowedOrRedirect();
+
   const { organizationId } = await params;
 
   const organization = await getOrganizationById(organizationId);

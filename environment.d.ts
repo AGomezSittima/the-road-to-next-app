@@ -12,7 +12,7 @@ declare global {
       AWS_SECRET_ACCESS_KEY: string;
       STRIPE_SECRET_KEY: string;
       STRIPE_WEBHOOK_SECRET: string;
-      ALLOW_EMAIL: "true" | "false";
+      NEXT_PUBLIC_ALLOW_EMAIL: "true" | "false";
       NEXT_PUBLIC_ALLOW_STRIPE: "true" | "false";
       NEXT_PUBLIC_ALLOW_STRIPE_SUBSCRIPTION_MANAGEMENT: "true" | "false";
     }

@@ -8,6 +8,7 @@ import { Attachment, AttachmentEntity } from "@prisma/client";
 
 import * as attachmentDataAccess from "../data";
 import { AttachmentSubjectDTO } from "../dto/attachment-subject-dto";
+import { checkIfAttachmentsAreAllowed } from "../queries/check-if-attachments-allowed";
 import { attachmentSubjectSchema } from "../schema/attachmentSubject";
 
 type CreateAttachmentsArgs = {
@@ -23,6 +24,10 @@ export const createAttachments = async ({
   entityId,
   files,
 }: CreateAttachmentsArgs) => {
+  if (checkIfAttachmentsAreAllowed()) {
+    return [];
+  }
+
   const createdAttachments: Attachment[] = [];
   const uploadedFilesKeys: string[] = [];
   try {

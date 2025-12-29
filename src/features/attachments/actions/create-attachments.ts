@@ -12,6 +12,7 @@ import {
 } from "@/utils/to-action-state";
 import { AttachmentEntity } from "@prisma/client";
 
+import { checkIfAttachmentsAreAllowed } from "../queries/check-if-attachments-allowed";
 import { filesSchema } from "../schema/files";
 import * as attachmentService from "../service";
 
@@ -30,6 +31,10 @@ export const createAttachments = async (
   formData: FormData,
 ) => {
   const { user } = await getAuthOrRedirect();
+
+  if (!checkIfAttachmentsAreAllowed()) {
+    return toActionState("ERROR", "Attachments are not allowed");
+  }
 
   const subject = await attachmentService.getAttachmentSubject({
     entity,

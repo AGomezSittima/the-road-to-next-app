@@ -5,9 +5,14 @@ import { User } from "@prisma/client";
 
 import * as attachmentDataAccess from "../data";
 import { AttachmentSubjectDTO } from "../dto/attachment-subject-dto";
+import { checkIfAttachmentsAreAllowed } from "../queries/check-if-attachments-allowed";
 import { getAttachmentById } from "../queries/get-attachment";
 
 export const deleteAttachment = async (id: string, user: User) => {
+  if (checkIfAttachmentsAreAllowed()) {
+    return;
+  }
+
   const attachment = await getAttachmentById(id);
 
   const subject = AttachmentSubjectDTO.fromAttachment(attachment);

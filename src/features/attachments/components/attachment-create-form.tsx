@@ -12,6 +12,7 @@ import { AttachmentEntity } from "@prisma/client";
 
 import { createAttachments } from "../actions/create-attachments";
 import { ACCEPTED_FILE_TYPES } from "../constants";
+import { checkIfAttachmentsAreAllowed } from "../queries/check-if-attachments-allowed";
 import { AttachmentsPreview } from "./attachments-preview";
 
 type AttachmentCreateFormProps = {
@@ -71,6 +72,8 @@ const AttachmentCreateForm = ({
     }
   };
 
+  const areAttachmentsAllowed = checkIfAttachmentsAreAllowed();
+
   return (
     <Form action={handleSubmit} actionState={actionState} onSuccess={onSuccess}>
       <Input
@@ -89,7 +92,15 @@ const AttachmentCreateForm = ({
       />
       <FieldError actionState={actionState} name={FormFields.Files} />
 
-      {buttons || <SubmitButton label="Upload" />}
+      {buttons || (
+        <SubmitButton label="Upload" disabled={!areAttachmentsAllowed} />
+      )}
+
+      {!areAttachmentsAllowed && (
+        <p className="text-xs text-muted-foreground">
+          * Attachments are not allowed
+        </p>
+      )}
     </Form>
   );
 

@@ -8,6 +8,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ACCEPTED_FILE_TYPES } from "@/features/attachments/constants";
+import { checkIfAttachmentsAreAllowed } from "@/features/attachments/queries/check-if-attachments-allowed";
 import { ActionState, EMPTY_ACTION_STATE } from "@/utils/to-action-state";
 
 import { createComment } from "../actions/create-comment";
@@ -38,6 +39,8 @@ const CommentCreateForm = ({
     onCreateComment?.(actionState.data);
   };
 
+  const areAttachmentsAllowed = checkIfAttachmentsAreAllowed();
+
   return (
     <Form
       action={formAction}
@@ -57,6 +60,7 @@ const CommentCreateForm = ({
         type="file"
         multiple
         accept={ACCEPTED_FILE_TYPES.join(",")}
+        disabled={!areAttachmentsAllowed}
       />
       <FieldError name={FormFields.Files} actionState={actionState} />
 

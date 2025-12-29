@@ -84,3 +84,11 @@ A high-level folder diagram of the repository:
 | `email`       | Run email dev tool                  |
 
 > If you use `pnpm`, scripts are available via `pnpm <script>`; use `npm run <script>` if you prefer npm.
+
+---
+
+## Demo
+
+If you want to try the application without running it locally, visit the live demo: https://ticketbounty.agomezsittima.dev
+
+> Attachments, email sending, and Stripe integration are not configured in the demo environment, so some features are disabled.
